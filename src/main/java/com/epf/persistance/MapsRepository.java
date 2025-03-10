@@ -1,0 +1,51 @@
+package com.epf.persistance;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public class MapsRepository {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private final RowMapper<Maps> mapRowMapper = (rs, rowNum) ->
+            new Maps(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getInt("width"),
+                    rs.getInt("height")
+            );
+
+    public Maps save(Maps map) {
+        String sql = "INSERT INTO maps (name, width, height) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, map.getName(), map.getWidth(), map.getHeight());
+        return map;
+    }
+
+    public Optional<Maps> findById(Long id) {
+        String sql = "SELECT * FROM maps WHERE id = ?";
+        return jdbcTemplate.query(sql, mapRowMapper, id).stream().findFirst();
+    }
+
+    public List<Maps> findAll() {
+        String sql = "SELECT * FROM maps";
+        return jdbcTemplate.query(sql, mapRowMapper);
+    }
+
+    public void update(Maps map) {
+        String sql = "UPDATE maps SET name = ?, width = ?, height = ? WHERE id = ?";
+        jdbcTemplate.update(sql, map.getName(), map.getWidth(), map.getHeight(), map.getId());
+    }
+
+    public void deleteById(Long id) {
+        String sql = "DELETE FROM maps WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+}
+
