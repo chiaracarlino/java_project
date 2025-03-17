@@ -1,4 +1,4 @@
-package com.epf.persistance;
+package com.epf.persistence.model;
 
 public class Plants {
     private Long id;
@@ -16,6 +16,9 @@ public class Plants {
         this.health = health;
         this.damage = damage;
         this.cost = cost;
+    }
+
+    public Plants(long id, String nom, int vie, int attaque) {
     }
 
     // Getters et Setters

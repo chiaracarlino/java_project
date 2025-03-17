@@ -1,6 +1,6 @@
-package com.epf.persistance;
+package com.epf.persistence.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.epf.persistence.model.Maps;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

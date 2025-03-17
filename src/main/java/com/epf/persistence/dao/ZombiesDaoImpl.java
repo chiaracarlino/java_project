@@ -1,11 +1,9 @@
-package com.epf.persistance.dao;
+package com.epf.persistence.dao;
 
-import com.epf.persistance.Zombies;
-import com.epf.persistance.ZombiesRepository;
+import com.epf.persistence.model.Zombies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

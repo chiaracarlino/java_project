@@ -1,7 +1,8 @@
-package com.epf.services;
+package com.epf.core;
 
-import com.epf.persistance.Maps;
-import com.epf.persistance.dao.MapsDao;
+import com.epf.core.services.MapsServices;
+import com.epf.persistence.model.Maps;
+import com.epf.persistence.dao.MapsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

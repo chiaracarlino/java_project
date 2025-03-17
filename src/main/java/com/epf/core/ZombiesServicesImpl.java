@@ -1,7 +1,8 @@
-package com.epf.services;
+package com.epf.core;
 
-import com.epf.persistance.Zombies;
-import com.epf.persistance.dao.ZombiesDao;
+import com.epf.core.services.ZombiesServices;
+import com.epf.persistence.model.Zombies;
+import com.epf.persistence.dao.ZombiesDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

@@ -1,8 +1,6 @@
-package com.epf.persistance.dao;
-import com.epf.persistance.dao.MapsDao;
+package com.epf.persistence.dao;
 
-import com.epf.persistance.Maps;
-import com.epf.persistance.MapsRepository;
+import com.epf.persistence.model.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

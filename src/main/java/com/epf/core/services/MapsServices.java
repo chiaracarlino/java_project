@@ -1,6 +1,6 @@
-package com.epf.services;
+package com.epf.core.services;
 
-import com.epf.persistance.Maps;
+import com.epf.persistence.model.Maps;
 import java.util.List;
 import java.util.Optional;
 

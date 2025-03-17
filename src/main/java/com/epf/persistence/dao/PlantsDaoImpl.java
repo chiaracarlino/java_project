@@ -1,6 +1,6 @@
-package com.epf.persistance.dao;
+package com.epf.persistence.dao;
 
-import com.epf.persistance.Plants;
+import com.epf.persistence.model.Plants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

@@ -1,6 +1,6 @@
-package com.epf.persistance.dao;
+package com.epf.persistence.dao;
 
-import com.epf.persistance.Maps;
+import com.epf.persistence.model.Maps;
 
 import java.util.List;
 import java.util.Optional;

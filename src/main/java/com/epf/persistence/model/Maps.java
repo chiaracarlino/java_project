@@ -1,4 +1,4 @@
-package com.epf.persistance;
+package com.epf.persistence.model;
 
 public class Maps {
     private Long id;
@@ -14,6 +14,9 @@ public class Maps {
         this.name = name;
         this.width = width;
         this.height = height;
+    }
+
+    public Maps(long id, String nom, int difficulte) {
     }
 
     // Getters et Setters

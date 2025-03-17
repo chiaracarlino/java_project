@@ -1,4 +1,4 @@
-package com.epf.persistance;
+package com.epf.persistence.model;
 
 public class Zombies {
     private Long id;
@@ -15,6 +15,9 @@ public class Zombies {
         this.name = name;
         this.health = health;
         this.mapId = mapId;
+    }
+
+    public Zombies(long id, String nom, int vie, int attaque, long mapId) {
     }
 
     // 🟢 Getters et Setters
@@ -49,5 +52,6 @@ public class Zombies {
     public void setMapId(Long mapId) {
         this.mapId = mapId;
         }
-    }
+
+}
 

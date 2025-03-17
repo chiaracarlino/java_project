@@ -1,6 +1,6 @@
-package com.epf.persistance.dao;
+package com.epf.persistence.dao;
 
-import com.epf.persistance.Plants;
+import com.epf.persistence.model.Plants;
 
 import java.util.List;
 import java.util.Optional;
