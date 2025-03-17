@@ -8,5 +8,8 @@ public interface PlantsServices {
     List<Plants> findAll();
     Optional<Plants> findById(Long id);
     Plants save(Plants plant);
+
+    void update(Plants plant);
+
     void delete(Long id);
 }

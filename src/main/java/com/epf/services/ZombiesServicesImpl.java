@@ -4,7 +4,6 @@ import com.epf.persistance.Zombies;
 import com.epf.persistance.dao.ZombiesDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +18,8 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
-    public List<Zombies> findAll() {
-        return zombiesDao.findAll();
+    public Zombies save(Zombies zombie) {
+        return zombiesDao.save(zombie);
     }
 
     @Override
@@ -29,13 +28,18 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
+    public List<Zombies> findAll() {
+        return zombiesDao.findAll();
+    }
+
+    @Override
     public List<Zombies> findByMapId(Long mapId) {
         return zombiesDao.findByMapId(mapId);
     }
 
     @Override
-    public Zombies save(Zombies zombie) {
-        return zombiesDao.save(zombie);
+    public void update(Zombies zombie) {
+        zombiesDao.update(zombie);
     }
 
     @Override
@@ -43,3 +47,4 @@ public class ZombiesServicesImpl implements ZombiesServices {
         zombiesDao.delete(id);
     }
 }
+

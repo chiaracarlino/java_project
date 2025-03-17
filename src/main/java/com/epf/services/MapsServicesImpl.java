@@ -4,7 +4,6 @@ import com.epf.persistance.Maps;
 import com.epf.persistance.dao.MapsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,13 +13,13 @@ public class MapsServicesImpl implements MapsServices {
     private final MapsDao mapsDao;
 
     @Autowired
-    public MapsServicesImpl(MapsDao mapsDao) {
-        this.mapsDao = mapsDao;
+    public MapsServicesImpl(MapsDao plantsDao) {
+        this.mapsDao = plantsDao;
     }
 
     @Override
-    public List<Maps> findAll() {
-        return mapsDao.findAll();
+    public Maps save(Maps plant) {
+        return mapsDao.save(plant);
     }
 
     @Override
@@ -29,8 +28,13 @@ public class MapsServicesImpl implements MapsServices {
     }
 
     @Override
-    public Maps save(Maps zombie) {
-        return mapsDao.save(zombie);
+    public List<Maps> findAll() {
+        return mapsDao.findAll();
+    }
+
+    @Override
+    public void update(Maps plant) {
+        mapsDao.update(plant);
     }
 
     @Override
@@ -38,3 +42,4 @@ public class MapsServicesImpl implements MapsServices {
         mapsDao.delete(id);
     }
 }
+

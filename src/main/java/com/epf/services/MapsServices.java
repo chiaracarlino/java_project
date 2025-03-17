@@ -8,5 +8,8 @@ public interface MapsServices {
     List<Maps> findAll();
     Optional<Maps> findById(Long id);
     Maps save(Maps map);
+
+    void update(Maps plant);
+
     void delete(Long id);
 }

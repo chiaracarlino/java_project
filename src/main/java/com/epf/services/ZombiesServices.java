@@ -9,6 +9,9 @@ public interface ZombiesServices {
     Optional<Zombies> findById(Long id);
     List<Zombies> findByMapId(Long mapId);
     Zombies save(Zombies zombie);
+
+    void update(Zombies zombie);
+
     void delete(Long id);
 }
 

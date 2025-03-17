@@ -4,7 +4,6 @@ import com.epf.persistance.Plants;
 import com.epf.persistance.dao.PlantsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,13 +13,13 @@ public class PlantsServicesImpl implements PlantsServices {
     private final PlantsDao plantsDao;
 
     @Autowired
-    public PlantsServicesImpl(PlantsDao zombiesDao) {
-        this.plantsDao = zombiesDao;
+    public PlantsServicesImpl(PlantsDao plantsDao) {
+        this.plantsDao = plantsDao;
     }
 
     @Override
-    public List<Plants> findAll() {
-        return plantsDao.findAll();
+    public Plants save(Plants plant) {
+        return plantsDao.save(plant);
     }
 
     @Override
@@ -29,8 +28,13 @@ public class PlantsServicesImpl implements PlantsServices {
     }
 
     @Override
-    public Plants save(Plants zombie) {
-        return plantsDao.save(zombie);
+    public List<Plants> findAll() {
+        return plantsDao.findAll();
+    }
+
+    @Override
+    public void update(Plants plant) {
+        plantsDao.update(plant);
     }
 
     @Override
@@ -38,3 +42,4 @@ public class PlantsServicesImpl implements PlantsServices {
         plantsDao.delete(id);
     }
 }
+
