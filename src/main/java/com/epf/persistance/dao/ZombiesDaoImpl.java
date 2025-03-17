@@ -3,47 +3,69 @@ package com.epf.persistance.dao;
 import com.epf.persistance.Zombies;
 import com.epf.persistance.ZombiesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
-public class ZombiesDaoImpl implements ZombiesDao {
+    @Repository
+    public class ZombiesDaoImpl implements ZombiesDao {
 
-    @Autowired
-    private ZombiesRepository zombieRepository;
+        @Autowired
+        private JdbcTemplate jdbcTemplate;
 
-    @Override
-    public Zombies save(Zombies zombie) {
-        return zombieRepository.save(zombie);
+        private final RowMapper<Zombies> zombieRowMapper = (rs, rowNum) -> {
+            Zombies zombie = new Zombies();
+            zombie.setId(rs.getLong("id"));
+            zombie.setName(rs.getString("name"));
+            zombie.setHealth(rs.getInt("health"));
+            zombie.setMapId(rs.getLong("map_id"));
+            return zombie;
+        };
+
+        @Override
+        public List<Zombies> findAll() {
+            String sql = "SELECT * FROM zombies";
+            return jdbcTemplate.query(sql, zombieRowMapper);
+        }
+
+        @Override
+        public Optional<Zombies> findById(Long id) {
+            String sql = "SELECT * FROM zombies WHERE id = ?";
+            List<Zombies> zombies = jdbcTemplate.query(sql, zombieRowMapper, id);
+            return zombies.stream().findFirst();  // 🔍 Évite NullPointerException
+        }
+
+        @Override
+        public List<Zombies> findByMapId(Long mapId) {
+            String sql = "SELECT * FROM zombies WHERE map_id = ?";
+            return jdbcTemplate.query(sql, zombieRowMapper, mapId);
+        }
+
+        @Override
+        public Zombies save(Zombies zombie) {
+            String sql = "INSERT INTO zombies (name, health, map_id) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, zombie.getName(), zombie.getHealth(), zombie.getMapId());
+
+            // Récupérer l'id du dernier insert
+            String getLastIdSql = "SELECT LAST_INSERT_ID()";
+            Long id = jdbcTemplate.queryForObject(getLastIdSql, Long.class);
+            zombie.setId(id);
+            return zombie;
+        }
+
+        @Override
+        public void update(Zombies zombie) {
+            String sql = "UPDATE zombies SET name = ?, health = ?, map_id = ? WHERE id = ?";
+            jdbcTemplate.update(sql, zombie.getName(), zombie.getHealth(), zombie.getMapId(), zombie.getId());
+        }
+
+        @Override
+        public void delete(Long id) { // ✅ Correction du nom de la méthode
+            String sql = "DELETE FROM zombies WHERE id = ?";
+            jdbcTemplate.update(sql, id);
+        }
     }
-
-    @Override
-    public Optional<Zombies> findById(Long id) {
-        Zombies zombie = zombieRepository.findById(id); // Récupère le zombie
-        return Optional.ofNullable(zombie);             // Enveloppe dans un Optional
-    }
-
-
-    @Override
-    public List<Zombies> findAll() {
-        return zombieRepository.findAll();
-    }
-
-    @Override
-    public List<Zombies> findByMapId(Long mapId) {
-        return zombieRepository.findByMapId(mapId); // 🧠 Récupère les zombies liés à une map
-    }
-
-    @Override
-    public void update(Zombies zombie) {
-        zombieRepository.update(zombie);
-    }
-
-    @Override
-    public void delete(Long id) {
-        zombieRepository.deleteById(id);
-    }
-}
-

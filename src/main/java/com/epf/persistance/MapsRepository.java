@@ -11,8 +11,7 @@ import java.util.Optional;
 @Repository
 public class MapsRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<Maps> mapRowMapper = (rs, rowNum) ->
             new Maps(
@@ -21,6 +20,10 @@ public class MapsRepository {
                     rs.getInt("width"),
                     rs.getInt("height")
             );
+
+    public MapsRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public Maps save(Maps map) {
         String sql = "INSERT INTO maps (name, width, height) VALUES (?, ?, ?)";
