@@ -18,7 +18,8 @@ public class MapsRepository {
                     rs.getLong("id"),
                     rs.getString("name"),
                     rs.getInt("width"),
-                    rs.getInt("height")
+                    rs.getInt("height"),
+                    rs.getInt("difficultyLevel")
             );
 
     public MapsRepository(JdbcTemplate jdbcTemplate) {
@@ -27,7 +28,7 @@ public class MapsRepository {
 
     public Maps save(Maps map) {
         String sql = "INSERT INTO maps (name, width, height) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, map.getName(), map.getWidth(), map.getHeight());
+        jdbcTemplate.update(sql, map.getName(), map.getWidth(), map.getHeight(), map.getDifficultyLevel());
         return map;
     }
 

@@ -5,21 +5,27 @@ public class Maps {
     private String name;
     private int width;
     private int height;
+    private int difficultyLevel;
 
     // Constructeurs
     public Maps() {}
 
-    public Maps(Long id, String name, int width, int height) {
+    public Maps(Long id, String name, int width, int height, int difficultyLevel) {
         this.id = id;
         this.name = name;
         this.width = width;
         this.height = height;
+        this.difficultyLevel = difficultyLevel;
     }
 
-    public Maps(long id, String nom, int difficulte) {
+    public Maps(Long id, String name, int difficultyLevel) {
+        this.id = id;
+        this.name = name;
+        this.difficultyLevel = difficultyLevel;
+        this.width = 0;
+        this.height = 0;
     }
 
-    // Getters et Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -31,4 +37,7 @@ public class Maps {
 
     public int getHeight() { return height; }
     public void setHeight(int height) { this.height = height; }
+
+    public int getDifficultyLevel() { return difficultyLevel; }
+    public void setDifficultyLevel(int difficultyLevel) { this.difficultyLevel = difficultyLevel; }
 }

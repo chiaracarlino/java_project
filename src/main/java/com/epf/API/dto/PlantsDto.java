@@ -18,6 +18,9 @@ public class PlantsDto {
         this.mapId = mapId;
     }
 
+    public PlantsDto(Long id, String name, int health, int damage) {
+    }
+
     public Long getId() {
         return id;
     }
