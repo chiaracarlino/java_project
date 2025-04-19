@@ -1,5 +1,7 @@
 package com.epf.API.controller;
 
+import com.epf.API.dto.MapsDto;
+import com.epf.API.mapper.MapsMapper;
 import com.epf.persistence.model.Maps;
 import com.epf.core.services.MapsServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,38 +23,34 @@ public class MapsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Maps>> getAllMaps() {
-        return ResponseEntity.ok(mapsService.findAll());
+    public ResponseEntity<List<MapsDto>> getAllMaps() {
+        List<MapsDto> dtos = mapsService.findAll().stream()
+                .map(MapsMapper::toDTO)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Maps> getMapById(@PathVariable Long id) {
-        Optional<Maps> map = mapsService.findById(id);
-        return map.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<MapsDto> getMapById(@PathVariable Long id) {
+        return mapsService.findById(id)
+                .map(MapsMapper::toDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Maps> createMap(@RequestBody Maps map) {
-        Maps newMap = mapsService.save(map);
-        return ResponseEntity.ok(newMap);
+    public ResponseEntity<MapsDto> createMap(@RequestBody MapsDto dto) {
+        Maps saved = mapsService.save(MapsMapper.toEntity(dto));
+        return ResponseEntity.ok(MapsMapper.toDTO(saved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Maps> updateMap(@PathVariable Long id, @RequestBody Maps updatedMap) {
-        if (mapsService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        updatedMap.setId(id);
-        mapsService.update(updatedMap);
-        return ResponseEntity.ok(updatedMap);
+    public ResponseEntity<MapsDto> updateMap(@PathVariable Long id, @RequestBody MapsDto dto) {
+        if (mapsService.findById(id).isEmpty()) return ResponseEntity.notFound().build();
+        Maps toUpdate = MapsMapper.toEntity(dto);
+        toUpdate.setId(id);
+        mapsService.update(toUpdate);
+        return ResponseEntity.ok(MapsMapper.toDTO(toUpdate));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMap(@PathVariable Long id) {
-        if (mapsService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        mapsService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
 }

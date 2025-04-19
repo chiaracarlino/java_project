@@ -38,6 +38,9 @@ public class Maps {
     public int getHeight() { return height; }
     public void setHeight(int height) { this.height = height; }
 
-    public int getDifficultyLevel() { return difficultyLevel; }
-    public void setDifficultyLevel(int difficultyLevel) { this.difficultyLevel = difficultyLevel; }
+    private String imagePath;
+
+    public String getImagePath() { return imagePath; }
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+
 }

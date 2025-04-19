@@ -8,16 +8,19 @@ public class MapsMapper {
     public static MapsDto toDTO(Maps map) {
         return new MapsDto(
                 map.getId(),
-                map.getName(),
-                map.getDifficultyLevel()
+                map.getHeight(), // ligne
+                map.getWidth(),  // colonne
+                map.getImagePath()
         );
     }
 
     public static Maps toEntity(MapsDto dto) {
-        return new Maps(
-                dto.getId(),
-                dto.getName(),
-                dto.getDifficultyLevel()
-        );
+        Maps map = new Maps();
+        map.setId(dto.getId_map());
+        map.setHeight(dto.getLigne());
+        map.setWidth(dto.getColonne());
+        map.setImagePath(dto.getChemin_image());
+        return map;
     }
 }
+
