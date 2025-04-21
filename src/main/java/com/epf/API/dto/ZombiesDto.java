@@ -1,64 +1,93 @@
 package com.epf.API.dto;
 
 public class ZombiesDto {
-    private Long id;
-    private String name;
-    private Integer health;
-    private Integer damage;
-    private Long mapId;  // ID de la carte à laquelle appartient ce zombie
+    private Long id_zombie;
+    private String nom;
+    private Integer point_de_vie;
+    private Integer degat_attaque;
+    private Long id_map;
+    private Integer attaque_par_seconde;
+    private Integer vitesse_de_deplacement;
+    private String chemin_image;
 
     public ZombiesDto() {
     }
 
-    public ZombiesDto(Long id, String name, Integer health, Integer damage, Long mapId) {
-        this.id = id;
-        this.name = name;
-        this.health = health;
-        this.damage = damage;
-        this.mapId = mapId;
+    public ZombiesDto(Long id_zombie, String nom, Integer point_de_vie, Integer degat_attaque,
+                      Long id_map, Integer attaque_par_seconde, Integer vitesse_de_deplacement, String chemin_image) {
+        this.id_zombie = id_zombie;
+        this.nom = nom;
+        this.point_de_vie = point_de_vie;
+        this.degat_attaque = degat_attaque;
+        this.id_map = id_map;
+        this.attaque_par_seconde = attaque_par_seconde;
+        this.vitesse_de_deplacement = vitesse_de_deplacement;
+        this.chemin_image = chemin_image;
     }
 
-    public ZombiesDto(Long id, String name, int health, Long mapId) {
+    public Long getId_zombie() {
+        return id_zombie;
     }
 
-    public Long getId() {
-        return id;
+    public void setId_zombie(Long id_zombie) {
+        this.id_zombie = id_zombie;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getNom() {
+        return nom;
     }
 
-    public String getName() {
-        return name;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Integer getPoint_de_vie() {
+        return point_de_vie;
     }
 
-    public Integer getHealth() {
-        return health;
+    public void setPoint_de_vie(Integer point_de_vie) {
+        this.point_de_vie = point_de_vie;
     }
 
-    public void setHealth(Integer health) {
-        this.health = health;
+    public Integer getDegat_attaque() {
+        return degat_attaque;
     }
 
-    public Integer getDamage() {
-        return damage;
+    public void setDegat_attaque(Integer degat_attaque) {
+        this.degat_attaque = degat_attaque;
     }
 
-    public void setDamage(Integer damage) {
-        this.damage = damage;
+    public Long getId_map() {
+        return id_map;
     }
 
-    public Long getMapId() {
-        return mapId;
+    public void setId_map(Long id_map) {
+        this.id_map = id_map;
     }
 
-    public void setMapId(Long mapId) {
-        this.mapId = mapId;
+    public Integer getAttaque_par_seconde() {
+        return attaque_par_seconde;
+    }
+
+    public void setAttaque_par_seconde(Integer attaque_par_seconde) {
+        this.attaque_par_seconde = attaque_par_seconde;
+    }
+
+    public Integer getVitesse_de_deplacement() {
+        return vitesse_de_deplacement;
+    }
+
+    public void setVitesse_de_deplacement(Integer vitesse_de_deplacement) {
+        this.vitesse_de_deplacement = vitesse_de_deplacement;
+    }
+
+    public String getChemin_image() {
+        return chemin_image;
+    }
+
+    public void setChemin_image(String chemin_image) {
+        this.chemin_image = chemin_image;
     }
 }
+
 

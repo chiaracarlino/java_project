@@ -10,18 +10,26 @@ public class ZombiesMapper {
     public ZombiesDto toDto(Zombies zombie) {
         return new ZombiesDto(
                 zombie.getId(),
-                zombie.getName(),
-                zombie.getHealth(),
-                zombie.getMapId()
-        );  /*zombie.getAttaque()*/
+                zombie.getNom(),
+                zombie.getPointDeVie(),
+                zombie.getDegatAttaque(),
+                zombie.getIdMap(),
+                zombie.getAttaqueParSeconde(),
+                zombie.getVitesseDeDeplacement(),
+                zombie.getCheminImage()
+        );
     }
 
     public Zombies toModel(ZombiesDto zombieDto) {
         return new Zombies(
-                zombieDto.getId(),
-                zombieDto.getName(),
-                zombieDto.getHealth(),
-                zombieDto.getMapId()
-        ); /* zombieDto.getAttaque() */
+                zombieDto.getId_zombie(),
+                zombieDto.getNom(),
+                zombieDto.getPoint_de_vie(),
+                zombieDto.getDegat_attaque(),
+                zombieDto.getId_map(),
+                zombieDto.getAttaque_par_seconde(),
+                zombieDto.getVitesse_de_deplacement(),
+                zombieDto.getChemin_image()
+        );
     }
 }

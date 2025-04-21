@@ -2,56 +2,51 @@ package com.epf.persistence.model;
 
 public class Zombies {
     private Long id;
-    private String name;
-    private int health;
-    private Long mapId;
+    private String nom;
+    private int pointDeVie;
+    private int degatAttaque;
+    private Long idMap;
+    private int attaqueParSeconde;
+    private int vitesseDeDeplacement;
+    private String cheminImage;
 
-    // 🟢 Constructeurs
     public Zombies() {
     }
 
-    public Zombies(Long id, String name, int health, Long mapId) {
+    public Zombies(Long id, String nom, int pointDeVie, int degatAttaque, Long idMap,
+                   int attaqueParSeconde, int vitesseDeDeplacement, String cheminImage) {
         this.id = id;
-        this.name = name;
-        this.health = health;
-        this.mapId = mapId;
+        this.nom = nom;
+        this.pointDeVie = pointDeVie;
+        this.degatAttaque = degatAttaque;
+        this.idMap = idMap;
+        this.attaqueParSeconde = attaqueParSeconde;
+        this.vitesseDeDeplacement = vitesseDeDeplacement;
+        this.cheminImage = cheminImage;
     }
 
-    public Zombies(long id, String nom, int vie, int attaque, long mapId) {
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // 🟢 Getters et Setters
-    public Long getId() {
-        return id;
-    }
+    public String getNom() { return nom; }
+    public void setNom(String nom) { this.nom = nom; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public int getPointDeVie() { return pointDeVie; }
+    public void setPointDeVie(int pointDeVie) { this.pointDeVie = pointDeVie; }
 
-    public String getName() {
-        return name;
-    }
+    public int getDegatAttaque() { return degatAttaque; }
+    public void setDegatAttaque(int degatAttaque) { this.degatAttaque = degatAttaque; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public Long getIdMap() { return idMap; }
+    public void setIdMap(Long idMap) { this.idMap = idMap; }
 
-    public int getHealth() {
-        return health;
-    }
+    public int getAttaqueParSeconde() { return attaqueParSeconde; }
+    public void setAttaqueParSeconde(int attaqueParSeconde) { this.attaqueParSeconde = attaqueParSeconde; }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
+    public int getVitesseDeDeplacement() { return vitesseDeDeplacement; }
+    public void setVitesseDeDeplacement(int vitesseDeDeplacement) { this.vitesseDeDeplacement = vitesseDeDeplacement; }
 
-    public Long getMapId() {
-        return mapId;
-    }
-
-    public void setMapId(Long mapId) {
-        this.mapId = mapId;
-        }
-
+    public String getCheminImage() { return cheminImage; }
+    public void setCheminImage(String cheminImage) { this.cheminImage = cheminImage; }
 }
 
