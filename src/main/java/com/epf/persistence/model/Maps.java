@@ -1,46 +1,51 @@
 package com.epf.persistence.model;
 
 public class Maps {
-    private Long id;
-    private String name;
-    private int width;
-    private int height;
-    private int difficultyLevel;
+    private Long idMap;
+    private int ligne;
+    private int colonne;
+    private String cheminImage;
 
-    // Constructeurs
-    public Maps() {}
-
-    public Maps(Long id, String name, int width, int height, int difficultyLevel) {
-        this.id = id;
-        this.name = name;
-        this.width = width;
-        this.height = height;
-        this.difficultyLevel = difficultyLevel;
+    public Maps() {
     }
 
-    public Maps(Long id, String name, int difficultyLevel) {
-        this.id = id;
-        this.name = name;
-        this.difficultyLevel = difficultyLevel;
-        this.width = 0;
-        this.height = 0;
+    public Maps(Long idMap, int ligne, int colonne, String cheminImage) {
+        this.idMap = idMap;
+        this.ligne = ligne;
+        this.colonne = colonne;
+        this.cheminImage = cheminImage;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getIdMap() {
+        return idMap;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setIdMap(Long idMap) {
+        this.idMap = idMap;
+    }
 
-    public int getWidth() { return width; }
-    public void setWidth(int width) { this.width = width; }
+    public int getLigne() {
+        return ligne;
+    }
 
-    public int getHeight() { return height; }
-    public void setHeight(int height) { this.height = height; }
+    public void setLigne(int ligne) {
+        this.ligne = ligne;
+    }
 
-    private String imagePath;
+    public int getColonne() {
+        return colonne;
+    }
 
-    public String getImagePath() { return imagePath; }
-    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+    public void setColonne(int colonne) {
+        this.colonne = colonne;
+    }
 
+    public String getCheminImage() {
+        return cheminImage;
+    }
+
+    public void setCheminImage(String cheminImage) {
+        this.cheminImage = cheminImage;
+    }
 }
+

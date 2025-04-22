@@ -15,11 +15,10 @@ public class MapsRepository {
 
     private final RowMapper<Maps> mapRowMapper = (rs, rowNum) ->
             new Maps(
-                    rs.getLong("id"),
-                    rs.getString("name"),
-                    rs.getInt("width"),
-                    rs.getInt("height"),
-                    rs.getInt("difficultyLevel")
+                    rs.getLong("id_map"),
+                    rs.getInt("ligne"),
+                    rs.getInt("colonne"),
+                    rs.getString("chemin_image")
             );
 
     public MapsRepository(JdbcTemplate jdbcTemplate) {
@@ -27,13 +26,13 @@ public class MapsRepository {
     }
 
     public Maps save(Maps map) {
-        String sql = "INSERT INTO maps (name, width, height) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, map.getName(), map.getWidth(), map.getHeight(), map.getDifficultyLevel());
+        String sql = "INSERT INTO maps (ligne, colonne, chemin_image) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, map.getLigne(), map.getColonne(), map.getCheminImage());
         return map;
     }
 
     public Optional<Maps> findById(Long id) {
-        String sql = "SELECT * FROM maps WHERE id = ?";
+        String sql = "SELECT * FROM maps WHERE id_map = ?";
         return jdbcTemplate.query(sql, mapRowMapper, id).stream().findFirst();
     }
 
@@ -43,13 +42,12 @@ public class MapsRepository {
     }
 
     public void update(Maps map) {
-        String sql = "UPDATE maps SET name = ?, width = ?, height = ? WHERE id = ?";
-        jdbcTemplate.update(sql, map.getName(), map.getWidth(), map.getHeight(), map.getId());
+        String sql = "UPDATE maps SET ligne = ?, colonne = ?, chemin_image = ? WHERE id_map = ?";
+        jdbcTemplate.update(sql, map.getLigne(), map.getColonne(), map.getCheminImage(), map.getIdMap());
     }
 
     public void deleteById(Long id) {
-        String sql = "DELETE FROM maps WHERE id = ?";
+        String sql = "DELETE FROM maps WHERE id_map = ?";
         jdbcTemplate.update(sql, id);
     }
 }
-
