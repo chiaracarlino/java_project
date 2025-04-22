@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlantsDao {
-    Plants save(Plants plant);
-    Optional<Plants> findById(Long id);
     List<Plants> findAll();
+    Optional<Plants> findById(Long id);
+    Plants save(Plants plant);
     void update(Plants plant);
     void delete(Long id);
 }
+
 

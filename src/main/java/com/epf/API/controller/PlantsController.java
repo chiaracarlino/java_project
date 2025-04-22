@@ -1,7 +1,7 @@
 package com.epf.API.controller;
 
 import com.epf.persistence.model.Plants;
-import com.epf.core.services.PlantsServices;
+import com.epf.core.services.PlantsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/plants")
+@RequestMapping("/plantes")
 public class PlantsController {
 
-    private final PlantsServices plantsService;
+    private final PlantsService plantsService;
 
     @Autowired
-    public PlantsController(PlantsServices plantsService) {
+    public PlantsController(PlantsService plantsService) {
         this.plantsService = plantsService;
     }
 
@@ -33,8 +33,7 @@ public class PlantsController {
 
     @PostMapping
     public ResponseEntity<Plants> createPlant(@RequestBody Plants plant) {
-        Plants newPlant = plantsService.save(plant);
-        return ResponseEntity.ok(newPlant);
+        return ResponseEntity.ok(plantsService.save(plant));
     }
 
     @PutMapping("/{id}")
@@ -42,7 +41,7 @@ public class PlantsController {
         if (plantsService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        updatedPlant.setId(id);
+        updatedPlant.setIdPlante(id);
         plantsService.update(updatedPlant);
         return ResponseEntity.ok(updatedPlant);
     }
@@ -56,3 +55,4 @@ public class PlantsController {
         return ResponseEntity.noContent().build();
     }
 }
+

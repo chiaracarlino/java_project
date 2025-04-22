@@ -1,63 +1,100 @@
 package com.epf.API.dto;
 
 public class PlantsDto {
-    private Long id;
-    private String name;
-    private Integer health;
-    private Integer damage;
-    private Long mapId;  // ID de la carte à laquelle appartient cette plante
+    private Long idPlante;
+    private String nom;
+    private int pointDeVie;
+    private int attaqueParSeconde;
+    private int degatAttaque;
+    private int cout;
+    private int soleilParSeconde;
+    private String effet;
+    private String cheminImage;
 
-    public PlantsDto() {
+    public PlantsDto() {}
+
+    public PlantsDto(Long idPlante, String nom, int pointDeVie, int attaqueParSeconde, int degatAttaque,
+                     int cout, int soleilParSeconde, String effet, String cheminImage) {
+        this.idPlante = idPlante;
+        this.nom = nom;
+        this.pointDeVie = pointDeVie;
+        this.attaqueParSeconde = attaqueParSeconde;
+        this.degatAttaque = degatAttaque;
+        this.cout = cout;
+        this.soleilParSeconde = soleilParSeconde;
+        this.effet = effet;
+        this.cheminImage = cheminImage;
     }
 
-    public PlantsDto(Long id, String name, Integer health, Integer damage, Long mapId) {
-        this.id = id;
-        this.name = name;
-        this.health = health;
-        this.damage = damage;
-        this.mapId = mapId;
+    public Long getIdPlante() {
+        return idPlante;
     }
 
-    public PlantsDto(Long id, String name, int health, int damage) {
+    public void setIdPlante(Long idPlante) {
+        this.idPlante = idPlante;
     }
 
-    public Long getId() {
-        return id;
+    public String getNom() {
+        return nom;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public String getName() {
-        return name;
+    public int getPointDeVie() {
+        return pointDeVie;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPointDeVie(int pointDeVie) {
+        this.pointDeVie = pointDeVie;
     }
 
-    public Integer getHealth() {
-        return health;
+    public int getAttaqueParSeconde() {
+        return attaqueParSeconde;
     }
 
-    public void setHealth(Integer health) {
-        this.health = health;
+    public void setAttaqueParSeconde(int attaqueParSeconde) {
+        this.attaqueParSeconde = attaqueParSeconde;
     }
 
-    public Integer getDamage() {
-        return damage;
+    public int getDegatAttaque() {
+        return degatAttaque;
     }
 
-    public void setDamage(Integer damage) {
-        this.damage = damage;
+    public void setDegatAttaque(int degatAttaque) {
+        this.degatAttaque = degatAttaque;
     }
 
-    public Long getMapId() {
-        return mapId;
+    public int getCout() {
+        return cout;
     }
 
-    public void setMapId(Long mapId) {
-        this.mapId = mapId;
+    public void setCout(int cout) {
+        this.cout = cout;
+    }
+
+    public int getSoleilParSeconde() {
+        return soleilParSeconde;
+    }
+
+    public void setSoleilParSeconde(int soleilParSeconde) {
+        this.soleilParSeconde = soleilParSeconde;
+    }
+
+    public String getEffet() {
+        return effet;
+    }
+
+    public void setEffet(String effet) {
+        this.effet = effet;
+    }
+
+    public String getCheminImage() {
+        return cheminImage;
+    }
+
+    public void setCheminImage(String cheminImage) {
+        this.cheminImage = cheminImage;
     }
 }

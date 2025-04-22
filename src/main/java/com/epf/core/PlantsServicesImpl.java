@@ -1,10 +1,11 @@
 package com.epf.core;
 
-import com.epf.core.services.PlantsServices;
-import com.epf.persistence.model.Plants;
+import com.epf.core.services.PlantsService;
 import com.epf.persistence.dao.PlantsDao;
+import com.epf.persistence.model.Plants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +20,8 @@ public class PlantsServicesImpl implements PlantsServices {
     }
 
     @Override
-    public Plants save(Plants plant) {
-        return plantsDao.save(plant);
+    public List<Plants> findAll() {
+        return plantsDao.findAll();
     }
 
     @Override
@@ -29,8 +30,8 @@ public class PlantsServicesImpl implements PlantsServices {
     }
 
     @Override
-    public List<Plants> findAll() {
-        return plantsDao.findAll();
+    public Plants save(Plants plant) {
+        return plantsDao.save(plant);
     }
 
     @Override
@@ -43,4 +44,5 @@ public class PlantsServicesImpl implements PlantsServices {
         plantsDao.delete(id);
     }
 }
+
 

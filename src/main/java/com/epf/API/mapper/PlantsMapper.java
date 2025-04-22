@@ -9,19 +9,30 @@ public class PlantsMapper {
 
     public PlantsDto toDto(Plants plant) {
         return new PlantsDto(
-                plant.getId(),
-                plant.getName(),
-                plant.getHealth(),
-                plant.getDamage()
-        );  /*zombie.getAttaque()*/
+                plant.getIdPlante(),
+                plant.getNom(),
+                plant.getPointDeVie(),
+                plant.getAttaqueParSeconde(),
+                plant.getDegatAttaque(),
+                plant.getCout(),
+                plant.getSoleilParSeconde(),
+                plant.getEffet(),
+                plant.getCheminImage()
+        );
     }
 
-    public Plants toModel(PlantsDto plantsDto) {
+    public Plants toModel(PlantsDto dto) {
         return new Plants(
-                plantsDto.getId(),
-                plantsDto.getName(),
-                plantsDto.getHealth(),
-                plantsDto.getDamage()
-        ); /* zombieDto.getAttaque() */
+                dto.getIdPlante(),
+                dto.getNom(),
+                dto.getPointDeVie(),
+                dto.getAttaqueParSeconde(),
+                dto.getDegatAttaque(),
+                dto.getCout(),
+                dto.getSoleilParSeconde(),
+                dto.getEffet(),
+                dto.getCheminImage()
+        );
     }
 }
+
