@@ -1,7 +1,7 @@
 package com.epf.API.controller;
 
+import com.epf.core.services.PlantsServices;
 import com.epf.persistence.model.Plants;
-import com.epf.core.services.PlantsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.Optional;
 @RequestMapping("/plantes")
 public class PlantsController {
 
-    private final PlantsService plantsService;
+    private final PlantsServices plantsService;
 
     @Autowired
-    public PlantsController(PlantsService plantsService) {
+    public PlantsController(PlantsServices plantsService) {
         this.plantsService = plantsService;
     }
 

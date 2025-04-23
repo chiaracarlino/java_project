@@ -12,14 +12,15 @@ import java.util.Optional;
 @Repository
 public class MapsDaoImpl implements MapsDao {
 
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private final RowMapper<Maps> mapRowMapper = (rs, rowNum) -> {
         Maps map = new Maps();
-        map.setId(rs.getLong("id"));
-        map.setName(rs.getString("name"));
+        map.setIdMap(rs.getLong("id_map"));
+        map.setLigne(rs.getInt("ligne"));
+        map.setColonne(rs.getInt("colonne"));
+        map.setCheminImage(rs.getString("chemin_image"));
         return map;
     };
 
@@ -30,32 +31,34 @@ public class MapsDaoImpl implements MapsDao {
     }
 
     @Override
-    public void update(Maps map) {
-
-    }
-
-    @Override
     public Optional<Maps> findById(Long id) {
-        String sql = "SELECT * FROM maps WHERE id = ?";
+        String sql = "SELECT * FROM maps WHERE id_map = ?";
         List<Maps> maps = jdbcTemplate.query(sql, mapRowMapper, id);
         return maps.stream().findFirst();
     }
 
     @Override
     public Maps save(Maps map) {
-        String sql = "INSERT INTO maps (name) VALUES (?)";
-        jdbcTemplate.update(sql, map.getName());
+        String sql = "INSERT INTO maps (ligne, colonne, chemin_image) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, map.getLigne(), map.getColonne(), map.getCheminImage());
 
-        // Récupérer l'id du dernier insert
+        // Récupération de l'ID généré automatiquement
         String getLastIdSql = "SELECT LAST_INSERT_ID()";
         Long id = jdbcTemplate.queryForObject(getLastIdSql, Long.class);
-        map.setId(id);
+        map.setIdMap(id);
         return map;
     }
 
     @Override
+    public void update(Maps map) {
+        String sql = "UPDATE maps SET ligne = ?, colonne = ?, chemin_image = ? WHERE id_map = ?";
+        jdbcTemplate.update(sql, map.getLigne(), map.getColonne(), map.getCheminImage(), map.getIdMap());
+    }
+
+    @Override
     public void delete(Long id) {
-        String sql = "DELETE FROM maps WHERE id = ?";
+        String sql = "DELETE FROM maps WHERE id_map = ?";
         jdbcTemplate.update(sql, id);
     }
 }
+

@@ -1,8 +1,8 @@
 package com.epf.core;
 
-import com.epf.core.services.PlantsService;
-import com.epf.persistence.dao.PlantsDao;
+import com.epf.core.services.PlantsServices;
 import com.epf.persistence.model.Plants;
+import com.epf.persistence.repository.PlantsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,37 +12,38 @@ import java.util.Optional;
 @Service
 public class PlantsServicesImpl implements PlantsServices {
 
-    private final PlantsDao plantsDao;
+    private final PlantsRepository plantsRepository;
 
     @Autowired
-    public PlantsServicesImpl(PlantsDao plantsDao) {
-        this.plantsDao = plantsDao;
+    public PlantsServicesImpl(PlantsRepository plantsRepository) {
+        this.plantsRepository = plantsRepository;
     }
 
     @Override
     public List<Plants> findAll() {
-        return plantsDao.findAll();
+        return plantsRepository.findAll();
     }
 
     @Override
     public Optional<Plants> findById(Long id) {
-        return plantsDao.findById(id);
+        return plantsRepository.findById(id);
     }
 
     @Override
     public Plants save(Plants plant) {
-        return plantsDao.save(plant);
+        return plantsRepository.save(plant);
     }
 
     @Override
     public void update(Plants plant) {
-        plantsDao.update(plant);
+        plantsRepository.update(plant);
     }
 
     @Override
     public void delete(Long id) {
-        plantsDao.delete(id);
+        plantsRepository.deleteById(id);
     }
 }
+
 
 

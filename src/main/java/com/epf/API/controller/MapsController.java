@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/maps")
@@ -48,9 +47,8 @@ public class MapsController {
     public ResponseEntity<MapsDto> updateMap(@PathVariable Long id, @RequestBody MapsDto dto) {
         if (mapsService.findById(id).isEmpty()) return ResponseEntity.notFound().build();
         Maps toUpdate = MapsMapper.toEntity(dto);
-        toUpdate.setId(id);
+        toUpdate.setIdMap(id); // ⚠️ Changement ici
         mapsService.update(toUpdate);
         return ResponseEntity.ok(MapsMapper.toDTO(toUpdate));
     }
-
 }

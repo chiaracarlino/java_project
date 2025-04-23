@@ -1,4 +1,12 @@
-C:\EPF\projet_pvz\src\test\java\TesteurPersistance\testDBconfig.java
-C:\EPF\projet_pvz\src\test\java\TesteurPersistance\testmaps.java
-C:\EPF\projet_pvz\src\test\java\TesteurPersistance\testplants.java
-C:\EPF\projet_pvz\src\test\java\TesteurPersistance\testzombies.java
+C:\EPF\projet_pvz\src\test\java\API\controller\MapsControllerTest.java
+C:\EPF\projet_pvz\src\test\java\API\controller\PlantsControllerTest.java
+C:\EPF\projet_pvz\src\test\java\API\controller\ZombiesControllerTest.java
+C:\EPF\projet_pvz\src\test\java\API\dto\MapsDtoTest.java
+C:\EPF\projet_pvz\src\test\java\API\dto\PlantsDtoTest.java
+C:\EPF\projet_pvz\src\test\java\API\dto\ZombiesDtoTest.java
+C:\EPF\projet_pvz\src\test\java\core\services\MapsServicesTest.java
+C:\EPF\projet_pvz\src\test\java\core\services\PlantsServicesTest.java
+C:\EPF\projet_pvz\src\test\java\core\services\ZombiesServicesTest.java
+C:\EPF\projet_pvz\src\test\java\persistence\dao\MapsDaoTest.java
+C:\EPF\projet_pvz\src\test\java\persistence\dao\PlantsDaoTest.java
+C:\EPF\projet_pvz\src\test\java\persistence\dao\ZombiesDaoTest.java

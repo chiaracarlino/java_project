@@ -46,7 +46,7 @@ public class MapsRepository {
         jdbcTemplate.update(sql, map.getLigne(), map.getColonne(), map.getCheminImage(), map.getIdMap());
     }
 
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         String sql = "DELETE FROM maps WHERE id_map = ?";
         jdbcTemplate.update(sql, id);
     }

@@ -5,7 +5,7 @@ import com.epf.persistence.model.Plants;
 import java.util.List;
 import java.util.Optional;
 
-public interface PlantsService {
+public interface PlantsServices {
     List<Plants> findAll();
     Optional<Plants> findById(Long id);
     Plants save(Plants plant);

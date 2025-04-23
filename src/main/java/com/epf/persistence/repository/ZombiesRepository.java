@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ZombiesRepository {
@@ -14,26 +15,35 @@ public class ZombiesRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // Mapper pour convertir le résultat SQL en objet Zombie
-    private RowMapper<Zombies> zombieRowMapper = (rs, rowNum) -> {
-        Zombies zombie = new Zombies();
-        zombie.setId(rs.getLong("id"));
-        zombie.setName(rs.getString("name"));
-        zombie.setHealth(rs.getInt("health"));
-        zombie.setMapId(rs.getLong("map_id"));
-        return zombie;
-    };
+    private final RowMapper<Zombies> zombieRowMapper = (rs, rowNum) -> new Zombies(
+            rs.getLong("id"),
+            rs.getString("nom"),
+            rs.getInt("point_de_vie"),
+            rs.getInt("degat_attaque"),
+            rs.getLong("id_map"),
+            rs.getInt("attaque_par_seconde"),
+            rs.getInt("vitesse_de_deplacement"),
+            rs.getString("chemin_image")
+    );
 
-    // 🔥 Récupérer les zombies d'une carte via map_id
-    public List<Zombies> findByMapId(Long mapId) {
-        String sql = "SELECT * FROM zombies WHERE map_id = ?";
-        return jdbcTemplate.query(sql, zombieRowMapper, mapId);
+    public List<Zombies> findByMapId(Long idMap) {
+        String sql = "SELECT * FROM zombies WHERE id_map = ?";
+        return jdbcTemplate.query(sql, zombieRowMapper, idMap);
     }
 
-    // Autres méthodes CRUD
+    // 💾 Enregistrer un zombie
     public Zombies save(Zombies zombie) {
-        String sql = "INSERT INTO zombies (name, health, map_id) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, zombie.getName(), zombie.getHealth(), zombie.getMapId());
+        String sql = "INSERT INTO zombies (nom, point_de_vie, degat_attaque, id_map, attaque_par_seconde, vitesse_de_deplacement, chemin_image) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                zombie.getNom(),
+                zombie.getPointDeVie(),
+                zombie.getDegatAttaque(),
+                zombie.getIdMap(),
+                zombie.getAttaqueParSeconde(),
+                zombie.getVitesseDeDeplacement(),
+                zombie.getCheminImage()
+        );
         return zombie;
     }
 
@@ -42,19 +52,30 @@ public class ZombiesRepository {
         return jdbcTemplate.query(sql, zombieRowMapper);
     }
 
-    public Zombies findById(Long id) {
+    public Optional<Zombies> findById(Long id) {
         String sql = "SELECT * FROM zombies WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, zombieRowMapper, id);
+        return jdbcTemplate.query(sql, zombieRowMapper, id).stream().findFirst();
     }
 
     public void update(Zombies zombie) {
-        String sql = "UPDATE zombies SET name = ?, health = ?, map_id = ? WHERE id = ?";
-        jdbcTemplate.update(sql, zombie.getName(), zombie.getHealth(), zombie.getMapId(), zombie.getId());
+        String sql = "UPDATE zombies SET nom = ?, point_de_vie = ?, degat_attaque = ?, id_map = ?, " +
+                "attaque_par_seconde = ?, vitesse_de_deplacement = ?, chemin_image = ? WHERE id = ?";
+        jdbcTemplate.update(sql,
+                zombie.getNom(),
+                zombie.getPointDeVie(),
+                zombie.getDegatAttaque(),
+                zombie.getIdMap(),
+                zombie.getAttaqueParSeconde(),
+                zombie.getVitesseDeDeplacement(),
+                zombie.getCheminImage(),
+                zombie.getId()
+        );
     }
 
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         String sql = "DELETE FROM zombies WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 }
+
 

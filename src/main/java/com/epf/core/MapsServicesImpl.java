@@ -14,13 +14,13 @@ public class MapsServicesImpl implements MapsServices {
     private final MapsDao mapsDao;
 
     @Autowired
-    public MapsServicesImpl(MapsDao plantsDao) {
-        this.mapsDao = plantsDao;
+    public MapsServicesImpl(MapsDao mapsDao) {
+        this.mapsDao = mapsDao;
     }
 
     @Override
-    public Maps save(Maps plant) {
-        return mapsDao.save(plant);
+    public Maps save(Maps maps) {
+        return mapsDao.save(maps);
     }
 
     @Override
@@ -34,8 +34,8 @@ public class MapsServicesImpl implements MapsServices {
     }
 
     @Override
-    public void update(Maps plant) {
-        mapsDao.update(plant);
+    public void update(Maps maps) {
+        mapsDao.update(maps);
     }
 
     @Override

@@ -7,20 +7,21 @@ public class MapsMapper {
 
     public static MapsDto toDTO(Maps map) {
         return new MapsDto(
-                map.getId(),
-                map.getHeight(), // ligne
-                map.getWidth(),  // colonne
-                map.getImagePath()
+                map.getIdMap(),        // id
+                map.getLigne(),        // height
+                map.getColonne(),      // width
+                map.getCheminImage()   // image path
         );
     }
 
     public static Maps toEntity(MapsDto dto) {
         Maps map = new Maps();
-        map.setId(dto.getId_map());
-        map.setHeight(dto.getLigne());
-        map.setWidth(dto.getColonne());
-        map.setImagePath(dto.getChemin_image());
+        map.setIdMap(dto.getId_map());
+        map.setLigne(dto.getLigne());
+        map.setColonne(dto.getColonne());
+        map.setCheminImage(dto.getChemin_image());
         return map;
     }
 }
+
 

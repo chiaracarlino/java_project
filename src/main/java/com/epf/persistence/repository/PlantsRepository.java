@@ -15,39 +15,56 @@ public class PlantsRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // RowMapper qui mappe les résultats de la base de données à un objet Plants
     private final RowMapper<Plants> plantRowMapper = (rs, rowNum) ->
             new Plants(
-                    rs.getLong("id"),
-                    rs.getString("name"),
-                    rs.getInt("health"),
-                    rs.getInt("damage"),
-                    rs.getInt("cost")
+                    rs.getLong("idPlante"),
+                    rs.getString("nom"),
+                    rs.getInt("pointDeVie"),
+                    rs.getInt("attaqueParSeconde"),
+                    rs.getInt("degatAttaque"),
+                    rs.getInt("cout"),
+                    rs.getInt("soleilParSeconde"),
+                    rs.getString("effet"),
+                    rs.getString("cheminImage")
             );
 
+    // Méthode pour sauvegarder une plante
     public Plants save(Plants plant) {
-        String sql = "INSERT INTO plants (name, health, damage, cost) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, plant.getName(), plant.getHealth(), plant.getDamage(), plant.getCost());
+        String sql = "INSERT INTO plants (nom, pointDeVie, attaqueParSeconde, degatAttaque, cout, soleilParSeconde, effet, cheminImage) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, plant.getNom(), plant.getPointDeVie(), plant.getAttaqueParSeconde(),
+                plant.getDegatAttaque(), plant.getCout(), plant.getSoleilParSeconde(),
+                plant.getEffet(), plant.getCheminImage());
         return plant;
     }
 
+    // Méthode pour rechercher une plante par son ID
     public Optional<Plants> findById(Long id) {
-        String sql = "SELECT * FROM plants WHERE id = ?";
+        String sql = "SELECT * FROM plants WHERE idPlante = ?";
         return jdbcTemplate.query(sql, plantRowMapper, id).stream().findFirst();
     }
 
+    // Méthode pour trouver toutes les plantes
     public List<Plants> findAll() {
         String sql = "SELECT * FROM plants";
         return jdbcTemplate.query(sql, plantRowMapper);
     }
 
+    // Méthode pour mettre à jour une plante
     public void update(Plants plant) {
-        String sql = "UPDATE plants SET name = ?, health = ?, damage = ?, cost = ? WHERE id = ?";
-        jdbcTemplate.update(sql, plant.getName(), plant.getHealth(), plant.getDamage(), plant.getCost(), plant.getId());
+        String sql = "UPDATE plants SET nom = ?, pointDeVie = ?, attaqueParSeconde = ?, degatAttaque = ?, " +
+                "cout = ?, soleilParSeconde = ?, effet = ?, cheminImage = ? WHERE idPlante = ?";
+        jdbcTemplate.update(sql, plant.getNom(), plant.getPointDeVie(), plant.getAttaqueParSeconde(),
+                plant.getDegatAttaque(), plant.getCout(), plant.getSoleilParSeconde(),
+                plant.getEffet(), plant.getCheminImage(), plant.getIdPlante());
     }
 
+    // Méthode pour supprimer une plante par son ID
     public void deleteById(Long id) {
-        String sql = "DELETE FROM plants WHERE id = ?";
+        String sql = "DELETE FROM plants WHERE idPlante = ?";
         jdbcTemplate.update(sql, id);
     }
 }
+
 

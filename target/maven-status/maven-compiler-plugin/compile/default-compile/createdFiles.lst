@@ -20,6 +20,7 @@ com\epf\persistence\model\Plants.class
 com\epf\persistence\dao\ZombiesDao.class
 com\epf\persistence\mapper\MapsMapper.class
 com\epf\API\dto\ZombiesDto.class
+com\epf\config\WebConfig.class
 com\epf\core\ZombiesServicesImpl.class
 com\epf\API\dto\MapsDto.class
 com\epf\core\MapsServicesImpl.class

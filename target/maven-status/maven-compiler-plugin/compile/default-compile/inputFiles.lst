@@ -8,6 +8,7 @@ C:\EPF\projet_pvz\src\main\java\com\epf\API\mapper\MapsMapper.java
 C:\EPF\projet_pvz\src\main\java\com\epf\API\mapper\PlantsMapper.java
 C:\EPF\projet_pvz\src\main\java\com\epf\API\mapper\ZombiesMapper.java
 C:\EPF\projet_pvz\src\main\java\com\epf\config\DBConfig.java
+C:\EPF\projet_pvz\src\main\java\com\epf\config\WebConfig.java
 C:\EPF\projet_pvz\src\main\java\com\epf\core\MapsServicesImpl.java
 C:\EPF\projet_pvz\src\main\java\com\epf\core\PlantsServicesImpl.java
 C:\EPF\projet_pvz\src\main\java\com\epf\core\services\MapsServices.java
