@@ -1,11 +1,11 @@
 package com.epf.API.dto;
 
 public class ZombiesDto {
-    private Long id_zombie;
+    private int id_zombie;
     private String nom;
     private Integer point_de_vie;
     private Integer degat_attaque;
-    private Long id_map;
+    private int id_map;
     private Integer attaque_par_seconde;
     private Integer vitesse_de_deplacement;
     private String chemin_image;
@@ -13,8 +13,8 @@ public class ZombiesDto {
     public ZombiesDto() {
     }
 
-    public ZombiesDto(Long id_zombie, String nom, Integer point_de_vie, Integer degat_attaque,
-                      Long id_map, Integer attaque_par_seconde, Integer vitesse_de_deplacement, String chemin_image) {
+    public ZombiesDto(int id_zombie, String nom, Integer point_de_vie, Integer degat_attaque,
+                      int id_map, Integer attaque_par_seconde, Integer vitesse_de_deplacement, String chemin_image) {
         this.id_zombie = id_zombie;
         this.nom = nom;
         this.point_de_vie = point_de_vie;
@@ -25,11 +25,11 @@ public class ZombiesDto {
         this.chemin_image = chemin_image;
     }
 
-    public Long getId_zombie() {
+    public int getId_zombie() {
         return id_zombie;
     }
 
-    public void setId_zombie(Long id_zombie) {
+    public void setId_zombie(int id_zombie) {
         this.id_zombie = id_zombie;
     }
 
@@ -57,11 +57,11 @@ public class ZombiesDto {
         this.degat_attaque = degat_attaque;
     }
 
-    public Long getId_map() {
+    public int getId_map() {
         return id_map;
     }
 
-    public void setId_map(Long id_map) {
+    public void setId_map(int id_map) {
         this.id_map = id_map;
     }
 

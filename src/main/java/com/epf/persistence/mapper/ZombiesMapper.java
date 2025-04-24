@@ -11,7 +11,7 @@ public class ZombiesMapper implements RowMapper<Zombies> {
     @Override
     public Zombies mapRow(ResultSet rs, int rowNum) throws SQLException {
         Zombies zombie = new Zombies();
-        zombie.setId(rs.getLong("id"));
+        zombie.setId(rs.getInt("id"));
         zombie.setNom(rs.getString("nom"));
         zombie.setPointDeVie(rs.getInt("point_de_vie"));
         zombie.setAttaqueParSeconde(rs.getInt("attaque_par_seconde"));
@@ -19,7 +19,7 @@ public class ZombiesMapper implements RowMapper<Zombies> {
         zombie.setVitesseDeDeplacement(rs.getInt("vitesse_de_deplacement"));
         zombie.setCheminImage(rs.getString("chemin_image"));
 
-        Long idMap = rs.getObject("id_map") != null ? rs.getLong("id_map") : null;
+        int idMap = rs.getObject("id_map") != null ? rs.getInt("id_map") : null;
         zombie.setIdMap(idMap);
 
         return zombie;

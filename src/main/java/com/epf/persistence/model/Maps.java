@@ -1,7 +1,7 @@
 package com.epf.persistence.model;
 
 public class Maps {
-    private Long idMap;
+    private int idMap;
     private int ligne;
     private int colonne;
     private String cheminImage;
@@ -9,19 +9,19 @@ public class Maps {
     public Maps() {
     }
 
-    public Maps(Long idMap, int ligne, int colonne, String cheminImage) {
+    public Maps(int idMap, int ligne, int colonne, String cheminImage) {
         this.idMap = idMap;
         this.ligne = ligne;
         this.colonne = colonne;
         this.cheminImage = cheminImage;
     }
 
-    public Long getIdMap() {
+    public int getIdMap() {
         return idMap;
     }
 
-    public void setIdMap(Long idMap) {
-        this.idMap = idMap;
+    public void setIdMap(int id) {
+        this.idMap = id;
     }
 
     public int getLigne() {

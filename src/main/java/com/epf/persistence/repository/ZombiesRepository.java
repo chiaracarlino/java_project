@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -16,25 +15,19 @@ public class ZombiesRepository {
     private JdbcTemplate jdbcTemplate;
 
     private final RowMapper<Zombies> zombieRowMapper = (rs, rowNum) -> new Zombies(
-            rs.getLong("id"),
+            rs.getInt("id_zombie"),
             rs.getString("nom"),
             rs.getInt("point_de_vie"),
             rs.getInt("degat_attaque"),
-            rs.getLong("id_map"),
+            rs.getInt("id_map"),
             rs.getInt("attaque_par_seconde"),
             rs.getInt("vitesse_de_deplacement"),
             rs.getString("chemin_image")
     );
 
-    public List<Zombies> findByMapId(Long idMap) {
-        String sql = "SELECT * FROM zombies WHERE id_map = ?";
-        return jdbcTemplate.query(sql, zombieRowMapper, idMap);
-    }
-
-    // 💾 Enregistrer un zombie
     public Zombies save(Zombies zombie) {
-        String sql = "INSERT INTO zombies (nom, point_de_vie, degat_attaque, id_map, attaque_par_seconde, vitesse_de_deplacement, chemin_image) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO zombie (nom, point_de_vie, degat_attaque, id_map, " +
+                "attaque_par_seconde, vitesse_de_deplacement, chemin_image) VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 zombie.getNom(),
                 zombie.getPointDeVie(),
@@ -48,18 +41,19 @@ public class ZombiesRepository {
     }
 
     public List<Zombies> findAll() {
-        String sql = "SELECT * FROM zombies";
+        String sql = "SELECT * FROM zombie";
         return jdbcTemplate.query(sql, zombieRowMapper);
     }
 
-    public Optional<Zombies> findById(Long id) {
-        String sql = "SELECT * FROM zombies WHERE id = ?";
+    public Optional<Zombies> findById(int id) {
+        String sql = "SELECT * FROM zombie WHERE id_zombie = ?";
         return jdbcTemplate.query(sql, zombieRowMapper, id).stream().findFirst();
     }
 
     public void update(Zombies zombie) {
-        String sql = "UPDATE zombies SET nom = ?, point_de_vie = ?, degat_attaque = ?, id_map = ?, " +
-                "attaque_par_seconde = ?, vitesse_de_deplacement = ?, chemin_image = ? WHERE id = ?";
+        String sql = "UPDATE zombie SET nom = ?, point_de_vie = ?, degat_attaque = ?, " +
+                "id_map = ?, attaque_par_seconde = ?, vitesse_de_deplacement = ?, chemin_image = ? " +
+                "WHERE id_zombie = ?";
         jdbcTemplate.update(sql,
                 zombie.getNom(),
                 zombie.getPointDeVie(),
@@ -72,9 +66,14 @@ public class ZombiesRepository {
         );
     }
 
-    public void delete(Long id) {
-        String sql = "DELETE FROM zombies WHERE id = ?";
+    public void delete(int id) {
+        String sql = "DELETE FROM zombie WHERE id_zombie = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    public List<Zombies> findByMapId(int idMap) {
+        String sql = "SELECT * FROM zombie WHERE id_map = ?";
+        return jdbcTemplate.query(sql, zombieRowMapper, idMap);
     }
 }
 

@@ -24,7 +24,7 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
-    public Optional<Zombies> findById(Long id) {
+    public Optional<Zombies> findById(int id) {
         return zombiesDao.findById(id);
     }
 
@@ -34,7 +34,7 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
-    public List<Zombies> findByMapId(Long mapId) {
+    public List<Zombies> findByMapId(int mapId) {
         return zombiesDao.findByMapId(mapId);
     }
 
@@ -44,7 +44,7 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(int id) {
         zombiesDao.delete(id);
     }
 }

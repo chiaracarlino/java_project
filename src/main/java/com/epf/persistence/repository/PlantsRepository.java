@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,54 +14,65 @@ public class PlantsRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // RowMapper qui mappe les résultats de la base de données à un objet Plants
     private final RowMapper<Plants> plantRowMapper = (rs, rowNum) ->
             new Plants(
-                    rs.getLong("idPlante"),
+                    rs.getInt("id_plante"),
                     rs.getString("nom"),
-                    rs.getInt("pointDeVie"),
-                    rs.getInt("attaqueParSeconde"),
-                    rs.getInt("degatAttaque"),
+                    rs.getInt("point_de_vie"),
+                    rs.getInt("attaque_par_seconde"),
+                    rs.getInt("degat_attaque"),
                     rs.getInt("cout"),
-                    rs.getInt("soleilParSeconde"),
+                    rs.getInt("soleil_par_seconde"),
                     rs.getString("effet"),
-                    rs.getString("cheminImage")
+                    rs.getString("chemin_image")
             );
 
-    // Méthode pour sauvegarder une plante
     public Plants save(Plants plant) {
-        String sql = "INSERT INTO plants (nom, pointDeVie, attaqueParSeconde, degatAttaque, cout, soleilParSeconde, effet, cheminImage) " +
+        String sql = "INSERT INTO plante (nom, point_de_vie, attaque_par_seconde, " +
+                "degat_attaque, cout, soleil_par_seconde, effet, chemin_image) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, plant.getNom(), plant.getPointDeVie(), plant.getAttaqueParSeconde(),
-                plant.getDegatAttaque(), plant.getCout(), plant.getSoleilParSeconde(),
-                plant.getEffet(), plant.getCheminImage());
+        jdbcTemplate.update(sql,
+                plant.getNom(),
+                plant.getPointDeVie(),
+                plant.getAttaqueParSeconde(),
+                plant.getDegatAttaque(),
+                plant.getCout(),
+                plant.getSoleilParSeconde(),
+                plant.getEffet(),
+                plant.getCheminImage()
+        );
         return plant;
     }
 
-    // Méthode pour rechercher une plante par son ID
-    public Optional<Plants> findById(Long id) {
-        String sql = "SELECT * FROM plants WHERE idPlante = ?";
+    public Optional<Plants> findById(int id) {
+        String sql = "SELECT * FROM plante WHERE id_plante = ?";
         return jdbcTemplate.query(sql, plantRowMapper, id).stream().findFirst();
     }
 
-    // Méthode pour trouver toutes les plantes
     public List<Plants> findAll() {
-        String sql = "SELECT * FROM plants";
+        String sql = "SELECT * FROM plante";
         return jdbcTemplate.query(sql, plantRowMapper);
     }
 
-    // Méthode pour mettre à jour une plante
     public void update(Plants plant) {
-        String sql = "UPDATE plants SET nom = ?, pointDeVie = ?, attaqueParSeconde = ?, degatAttaque = ?, " +
-                "cout = ?, soleilParSeconde = ?, effet = ?, cheminImage = ? WHERE idPlante = ?";
-        jdbcTemplate.update(sql, plant.getNom(), plant.getPointDeVie(), plant.getAttaqueParSeconde(),
-                plant.getDegatAttaque(), plant.getCout(), plant.getSoleilParSeconde(),
-                plant.getEffet(), plant.getCheminImage(), plant.getIdPlante());
+        String sql = "UPDATE plante SET nom = ?, point_de_vie = ?, attaque_par_seconde = ?, " +
+                "degat_attaque = ?, cout = ?, soleil_par_seconde = ?, effet = ?, " +
+                "chemin_image = ? WHERE id_plante = ?";
+        jdbcTemplate.update(sql,
+                plant.getNom(),
+                plant.getPointDeVie(),
+                plant.getAttaqueParSeconde(),
+                plant.getDegatAttaque(),
+                plant.getCout(),
+                plant.getSoleilParSeconde(),
+                plant.getEffet(),
+                plant.getCheminImage(),
+                plant.getIdPlante()
+        );
     }
 
-    // Méthode pour supprimer une plante par son ID
-    public void deleteById(Long id) {
-        String sql = "DELETE FROM plants WHERE idPlante = ?";
+    public void deleteById(int id) {
+        String sql = "DELETE FROM plante WHERE id_plante = ?";
         jdbcTemplate.update(sql, id);
     }
 }

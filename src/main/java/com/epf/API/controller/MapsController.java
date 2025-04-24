@@ -30,7 +30,7 @@ public class MapsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MapsDto> getMapById(@PathVariable Long id) {
+    public ResponseEntity<MapsDto> getMapById(@PathVariable("id")  int id) {
         return mapsService.findById(id)
                 .map(MapsMapper::toDTO)
                 .map(ResponseEntity::ok)
@@ -44,7 +44,7 @@ public class MapsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MapsDto> updateMap(@PathVariable Long id, @RequestBody MapsDto dto) {
+    public ResponseEntity<MapsDto> updateMap(@PathVariable("id")  int id, @RequestBody MapsDto dto) {
         if (mapsService.findById(id).isEmpty()) return ResponseEntity.notFound().build();
         Maps toUpdate = MapsMapper.toEntity(dto);
         toUpdate.setIdMap(id); // ⚠️ Changement ici

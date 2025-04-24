@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface MapsDao {
     Maps save(Maps map);
-    Optional<Maps> findById(Long id);
+    Optional<Maps> findById(int id);
     List<Maps> findAll();
     void update(Maps map);
-    void delete(Long id);
+    void delete(int id);
 }
 

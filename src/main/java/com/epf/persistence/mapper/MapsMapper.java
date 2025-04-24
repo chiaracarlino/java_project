@@ -10,7 +10,7 @@ public class MapsMapper implements RowMapper<Maps> {
     @Override
     public Maps mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Maps(
-                rs.getLong("id_map"),
+                rs.getInt("id_map"),
                 rs.getInt("ligne"),
                 rs.getInt("colonne"),
                 rs.getString("chemin_image")

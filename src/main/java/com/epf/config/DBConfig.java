@@ -14,8 +14,8 @@ public class DBConfig {
     public DataSource initDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/pvz");
-        dataSource.setUsername("root");
-        dataSource.setPassword("password");
+        dataSource.setUsername("epf");
+        dataSource.setPassword("mot_de_passe");
         return dataSource;
     }
 

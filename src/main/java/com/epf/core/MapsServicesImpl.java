@@ -24,7 +24,7 @@ public class MapsServicesImpl implements MapsServices {
     }
 
     @Override
-    public Optional<Maps> findById(Long id) {
+    public Optional<Maps> findById(int id) {
         return mapsDao.findById(id);
     }
 
@@ -39,7 +39,7 @@ public class MapsServicesImpl implements MapsServices {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(int id) {
         mapsDao.delete(id);
     }
 }

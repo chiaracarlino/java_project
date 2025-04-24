@@ -15,7 +15,7 @@ public class MapsRepository {
 
     private final RowMapper<Maps> mapRowMapper = (rs, rowNum) ->
             new Maps(
-                    rs.getLong("id_map"),
+                    rs.getInt("id_map"),
                     rs.getInt("ligne"),
                     rs.getInt("colonne"),
                     rs.getString("chemin_image")
@@ -26,27 +26,27 @@ public class MapsRepository {
     }
 
     public Maps save(Maps map) {
-        String sql = "INSERT INTO maps (ligne, colonne, chemin_image) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO map (ligne, colonne, chemin_image) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, map.getLigne(), map.getColonne(), map.getCheminImage());
         return map;
     }
 
-    public Optional<Maps> findById(Long id) {
-        String sql = "SELECT * FROM maps WHERE id_map = ?";
+    public Optional<Maps> findById(int id) {
+        String sql = "SELECT * FROM map WHERE id_map = ?";
         return jdbcTemplate.query(sql, mapRowMapper, id).stream().findFirst();
     }
 
     public List<Maps> findAll() {
-        String sql = "SELECT * FROM maps";
+        String sql = "SELECT * FROM map";
         return jdbcTemplate.query(sql, mapRowMapper);
     }
 
     public void update(Maps map) {
-        String sql = "UPDATE maps SET ligne = ?, colonne = ?, chemin_image = ? WHERE id_map = ?";
+        String sql = "UPDATE map SET ligne = ?, colonne = ?, chemin_image = ? WHERE id_map = ?";
         jdbcTemplate.update(sql, map.getLigne(), map.getColonne(), map.getCheminImage(), map.getIdMap());
     }
 
-    public void delete(Long id) {
+    public void delete(int id) {
         String sql = "DELETE FROM maps WHERE id_map = ?";
         jdbcTemplate.update(sql, id);
     }

@@ -6,12 +6,12 @@ import java.util.Optional;
 
 public interface ZombiesServices {
     List<Zombies> findAll();
-    Optional<Zombies> findById(Long id);
-    List<Zombies> findByMapId(Long mapId);
+    Optional<Zombies> findById(int id);
+    List<Zombies> findByMapId(int mapId);
     Zombies save(Zombies zombie);
 
     void update(Zombies zombie);
 
-    void delete(Long id);
+    void delete(int id);
 }
 

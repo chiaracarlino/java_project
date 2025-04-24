@@ -7,10 +7,10 @@ import java.util.Optional;
 
 public interface ZombiesDao {
     Zombies save(Zombies zombie);
-    Optional<Zombies> findById(Long id);
+    Optional<Zombies> findById(int id);
     List<Zombies> findAll();
-    List<Zombies> findByMapId(Long mapId); // 🔥 Zombies d'une map
+    List<Zombies> findByMapId(int mapId); // 🔥 Zombies d'une map
     void update(Zombies zombie);
-    void delete(Long id);
+    void delete(int id);
 }
 

@@ -20,20 +20,20 @@ public class ZombiesDaoImpl implements ZombiesDao {
     // Mapper pour convertir le résultat SQL en objet Zombie
     private RowMapper<Zombies> zombieRowMapper = (rs, rowNum) -> {
         Zombies zombie = new Zombies();
-        zombie.setId(rs.getLong("id"));
-        zombie.setNom(rs.getString("name"));
-        zombie.setPointDeVie(rs.getInt("health"));
+        zombie.setId(rs.getInt("id_zombie"));
+        zombie.setNom(rs.getString("nom"));
+        zombie.setPointDeVie(rs.getInt("point_de_vie"));
         zombie.setDegatAttaque(rs.getInt("degat_attaque"));
         zombie.setAttaqueParSeconde(rs.getInt("attaque_par_seconde"));
         zombie.setVitesseDeDeplacement(rs.getInt("vitesse_de_deplacement"));
         zombie.setCheminImage(rs.getString("chemin_image"));
-        zombie.setIdMap(rs.getLong("map_id"));
+        zombie.setIdMap(rs.getInt("id_map"));
         return zombie;
     };
 
     @Override
     public Zombies save(Zombies zombie) {
-        String sql = "INSERT INTO zombies (name, health, degat_attaque, attaque_par_seconde, vitesse_de_deplacement, chemin_image, map_id) " +
+        String sql = "INSERT INTO zombie (nom, point_de_vie, degat_attaque, attaque_par_seconde, vitesse_de_deplacement, chemin_image, id_map) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, zombie.getNom(), zombie.getPointDeVie(), zombie.getDegatAttaque(),
                 zombie.getAttaqueParSeconde(), zombie.getVitesseDeDeplacement(), zombie.getCheminImage(),
@@ -42,8 +42,8 @@ public class ZombiesDaoImpl implements ZombiesDao {
     }
 
     @Override
-    public Optional<Zombies> findById(Long id) {
-        String sql = "SELECT * FROM zombies WHERE id = ?";
+    public Optional<Zombies> findById(int id) {
+        String sql = "SELECT * FROM zombie WHERE id_zombie = ?";
         try {
             Zombies zombie = jdbcTemplate.queryForObject(sql, new ZombiesMapper(), id);
             return Optional.ofNullable(zombie);
@@ -55,28 +55,28 @@ public class ZombiesDaoImpl implements ZombiesDao {
 
     @Override
     public List<Zombies> findAll() {
-        String sql = "SELECT * FROM zombies";
+        String sql = "SELECT * FROM zombie";
         return jdbcTemplate.query(sql, zombieRowMapper);
     }
 
     @Override
     public void update(Zombies zombie) {
-        String sql = "UPDATE zombies SET name = ?, health = ?, degat_attaque = ?, attaque_par_seconde = ?, " +
-                "vitesse_de_deplacement = ?, chemin_image = ?, map_id = ? WHERE id = ?";
+        String sql = "UPDATE zombie SET nom = ?, point_de_vie = ?, degat_attaque = ?, attaque_par_seconde = ?, " +
+                "vitesse_de_deplacement = ?, chemin_image = ?, id_map = ? WHERE id_zombie = ?";
         jdbcTemplate.update(sql, zombie.getNom(), zombie.getPointDeVie(), zombie.getDegatAttaque(),
                 zombie.getAttaqueParSeconde(), zombie.getVitesseDeDeplacement(), zombie.getCheminImage(),
                 zombie.getIdMap(), zombie.getId());
     }
 
     @Override
-    public void delete(Long id) {
-        String sql = "DELETE FROM zombies WHERE id = ?";
+    public void delete(int id) {
+        String sql = "DELETE FROM zombie WHERE id_zombie = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public List<Zombies> findByMapId(Long mapId) {
-        String sql = "SELECT * FROM zombies WHERE map_id = ?";
+    public List<Zombies> findByMapId(int mapId) {
+        String sql = "SELECT * FROM zombie WHERE id_map = ?";
         return jdbcTemplate.query(sql, zombieRowMapper, mapId);
     }
 }

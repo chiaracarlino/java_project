@@ -1,7 +1,7 @@
 package com.epf.API.dto;
 
 public class PlantsDto {
-    private Long idPlante;
+    private int idPlante;
     private String nom;
     private int pointDeVie;
     private int attaqueParSeconde;
@@ -13,7 +13,7 @@ public class PlantsDto {
 
     public PlantsDto() {}
 
-    public PlantsDto(Long idPlante, String nom, int pointDeVie, int attaqueParSeconde, int degatAttaque,
+    public PlantsDto(int idPlante, String nom, int pointDeVie, int attaqueParSeconde, int degatAttaque,
                      int cout, int soleilParSeconde, String effet, String cheminImage) {
         this.idPlante = idPlante;
         this.nom = nom;
@@ -26,11 +26,11 @@ public class PlantsDto {
         this.cheminImage = cheminImage;
     }
 
-    public Long getIdPlante() {
+    public int getIdPlante() {
         return idPlante;
     }
 
-    public void setIdPlante(Long idPlante) {
+    public void setIdPlante(int idPlante) {
         this.idPlante = idPlante;
     }
 

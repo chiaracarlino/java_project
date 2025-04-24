@@ -7,32 +7,36 @@ import org.springframework.stereotype.Component;
 @Component
 public class PlantsMapper {
 
-    public PlantsDto toDto(Plants plant) {
-        return new PlantsDto(
-                plant.getIdPlante(),
-                plant.getNom(),
-                plant.getPointDeVie(),
-                plant.getAttaqueParSeconde(),
-                plant.getDegatAttaque(),
-                plant.getCout(),
-                plant.getSoleilParSeconde(),
-                plant.getEffet(),
-                plant.getCheminImage()
-        );
+    public PlantsDto toDTO(Plants plant) {
+        if (plant == null) return null;
+        
+        PlantsDto dto = new PlantsDto();
+        dto.setIdPlante(plant.getIdPlante());
+        dto.setNom(plant.getNom());
+        dto.setPointDeVie(plant.getPointDeVie());
+        dto.setAttaqueParSeconde(plant.getAttaqueParSeconde());
+        dto.setDegatAttaque(plant.getDegatAttaque());
+        dto.setCout(plant.getCout());
+        dto.setSoleilParSeconde(plant.getSoleilParSeconde());
+        dto.setEffet(plant.getEffet());
+        dto.setCheminImage(plant.getCheminImage());
+        return dto;
     }
 
-    public Plants toModel(PlantsDto dto) {
-        return new Plants(
-                dto.getIdPlante(),
-                dto.getNom(),
-                dto.getPointDeVie(),
-                dto.getAttaqueParSeconde(),
-                dto.getDegatAttaque(),
-                dto.getCout(),
-                dto.getSoleilParSeconde(),
-                dto.getEffet(),
-                dto.getCheminImage()
-        );
+    public static Plants toEntity(PlantsDto dto) {
+        if (dto == null) return null;
+        
+        Plants plant = new Plants();
+        plant.setIdPlante(dto.getIdPlante());
+        plant.setNom(dto.getNom());
+        plant.setPointDeVie(dto.getPointDeVie());
+        plant.setAttaqueParSeconde(dto.getAttaqueParSeconde());
+        plant.setDegatAttaque(dto.getDegatAttaque());
+        plant.setCout(dto.getCout());
+        plant.setSoleilParSeconde(dto.getSoleilParSeconde());
+        plant.setEffet(dto.getEffet());
+        plant.setCheminImage(dto.getCheminImage());
+        return plant;
     }
 }
 

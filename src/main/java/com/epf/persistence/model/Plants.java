@@ -1,7 +1,7 @@
 package com.epf.persistence.model;
 
 public class Plants {
-    private Long idPlante;
+    private int idPlante;
     private String nom;
     private int pointDeVie;
     private int attaqueParSeconde;
@@ -16,7 +16,7 @@ public class Plants {
     }
 
     // Constructeur complet
-    public Plants(Long idPlante, String nom, int pointDeVie, int attaqueParSeconde,
+    public Plants(int idPlante, String nom, int pointDeVie, int attaqueParSeconde,
                   int degatAttaque, int cout, int soleilParSeconde, String effet, String cheminImage) {
         this.idPlante = idPlante;
         this.nom = nom;
@@ -30,11 +30,11 @@ public class Plants {
     }
 
     // Getters et Setters
-    public Long getIdPlante() {
+    public int getIdPlante() {
         return idPlante;
     }
 
-    public void setIdPlante(Long idPlante) {
+    public void setIdPlante(int idPlante) {
         this.idPlante = idPlante;
     }
 

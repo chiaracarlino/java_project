@@ -25,7 +25,7 @@ public class PlantsServicesImpl implements PlantsServices {
     }
 
     @Override
-    public Optional<Plants> findById(Long id) {
+    public Optional<Plants> findById(int id) {
         return plantsRepository.findById(id);
     }
 
@@ -40,7 +40,7 @@ public class PlantsServicesImpl implements PlantsServices {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(int id) {
         plantsRepository.deleteById(id);
     }
 }

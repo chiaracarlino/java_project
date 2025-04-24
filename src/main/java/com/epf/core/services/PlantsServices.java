@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface PlantsServices {
     List<Plants> findAll();
-    Optional<Plants> findById(Long id);
+    Optional<Plants> findById(int id);
     Plants save(Plants plant);
     void update(Plants plant);
-    void delete(Long id);
+    void delete(int id);
 }
 

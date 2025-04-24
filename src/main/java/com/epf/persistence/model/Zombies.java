@@ -1,11 +1,11 @@
 package com.epf.persistence.model;
 
 public class Zombies {
-    private Long id;
+    private int id;
     private String nom;
     private int pointDeVie;
     private int degatAttaque;
-    private Long idMap;
+    private int idMap;
     private int attaqueParSeconde;
     private int vitesseDeDeplacement;
     private String cheminImage;
@@ -13,7 +13,7 @@ public class Zombies {
     public Zombies() {
     }
 
-    public Zombies(Long id, String nom, int pointDeVie, int degatAttaque, Long idMap,
+    public Zombies(int id, String nom, int pointDeVie, int degatAttaque, int idMap,
                    int attaqueParSeconde, int vitesseDeDeplacement, String cheminImage) {
         this.id = id;
         this.nom = nom;
@@ -25,8 +25,8 @@ public class Zombies {
         this.cheminImage = cheminImage;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
@@ -37,8 +37,8 @@ public class Zombies {
     public int getDegatAttaque() { return degatAttaque; }
     public void setDegatAttaque(int degatAttaque) { this.degatAttaque = degatAttaque; }
 
-    public Long getIdMap() { return idMap; }
-    public void setIdMap(Long idMap) { this.idMap = idMap; }
+    public int getIdMap() { return idMap; }
+    public void setIdMap(int idMap) { this.idMap = idMap; }
 
     public int getAttaqueParSeconde() { return attaqueParSeconde; }
     public void setAttaqueParSeconde(int attaqueParSeconde) { this.attaqueParSeconde = attaqueParSeconde; }
