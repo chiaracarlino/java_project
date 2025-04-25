@@ -31,17 +31,29 @@ public class PlantsServicesImpl implements PlantsServices {
 
     @Override
     public Plants save(Plants plant) {
+        if (plant == null) {
+            throw new IllegalArgumentException("Plant cannot be null");
+        }
         return plantsRepository.save(plant);
     }
 
     @Override
     public void update(Plants plant) {
+        if (plant == null) {
+            throw new IllegalArgumentException("Plant cannot be null");
+        }
+        if (findById(plant.getIdPlante()).isEmpty()) {
+            throw new IllegalArgumentException("Plant with id " + plant.getIdPlante() + " not found");
+        }
         plantsRepository.update(plant);
     }
 
     @Override
     public void delete(int id) {
-        plantsRepository.deleteById(id);
+        if (findById(id).isEmpty()) {
+            throw new IllegalArgumentException("Plant with id " + id + " not found");
+        }
+        plantsRepository.delete(id);
     }
 }
 

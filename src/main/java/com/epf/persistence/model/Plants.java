@@ -1,13 +1,15 @@
 package com.epf.persistence.model;
 
+import java.math.BigDecimal;
+
 public class Plants {
     private int idPlante;
     private String nom;
     private int pointDeVie;
-    private int attaqueParSeconde;
+    private BigDecimal attaqueParSeconde;  // Changed from int
     private int degatAttaque;
     private int cout;
-    private int soleilParSeconde;
+    private BigDecimal soleilParSeconde;   // Changed from int
     private String effet;
     private String cheminImage;
 
@@ -16,8 +18,8 @@ public class Plants {
     }
 
     // Constructeur complet
-    public Plants(int idPlante, String nom, int pointDeVie, int attaqueParSeconde,
-                  int degatAttaque, int cout, int soleilParSeconde, String effet, String cheminImage) {
+    public Plants(int idPlante, String nom, int pointDeVie, BigDecimal attaqueParSeconde,
+                  int degatAttaque, int cout, BigDecimal soleilParSeconde, String effet, String cheminImage) {
         this.idPlante = idPlante;
         this.nom = nom;
         this.pointDeVie = pointDeVie;
@@ -29,7 +31,6 @@ public class Plants {
         this.cheminImage = cheminImage;
     }
 
-    // Getters et Setters
     public int getIdPlante() {
         return idPlante;
     }
@@ -54,11 +55,11 @@ public class Plants {
         this.pointDeVie = pointDeVie;
     }
 
-    public int getAttaqueParSeconde() {
+    public BigDecimal getAttaqueParSeconde() {
         return attaqueParSeconde;
     }
 
-    public void setAttaqueParSeconde(int attaqueParSeconde) {
+    public void setAttaqueParSeconde(BigDecimal attaqueParSeconde) {
         this.attaqueParSeconde = attaqueParSeconde;
     }
 
@@ -78,11 +79,11 @@ public class Plants {
         this.cout = cout;
     }
 
-    public int getSoleilParSeconde() {
+    public BigDecimal getSoleilParSeconde() {
         return soleilParSeconde;
     }
 
-    public void setSoleilParSeconde(int soleilParSeconde) {
+    public void setSoleilParSeconde(BigDecimal soleilParSeconde) {
         this.soleilParSeconde = soleilParSeconde;
     }
 

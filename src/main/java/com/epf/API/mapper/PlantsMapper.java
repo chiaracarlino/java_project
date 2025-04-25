@@ -4,6 +4,7 @@ import com.epf.API.dto.PlantsDto;
 import com.epf.persistence.model.Plants;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class PlantsMapper {
 
@@ -11,31 +12,31 @@ public class PlantsMapper {
         if (plant == null) return null;
         
         PlantsDto dto = new PlantsDto();
-        dto.setIdPlante(plant.getIdPlante());
+        dto.setId_plante(plant.getIdPlante());
         dto.setNom(plant.getNom());
-        dto.setPointDeVie(plant.getPointDeVie());
-        dto.setAttaqueParSeconde(plant.getAttaqueParSeconde());
-        dto.setDegatAttaque(plant.getDegatAttaque());
+        dto.setPoint_de_vie(plant.getPointDeVie());
+        dto.setAttaque_par_seconde(plant.getAttaqueParSeconde());  // No conversion needed
+        dto.setDegat_attaque(plant.getDegatAttaque());
         dto.setCout(plant.getCout());
-        dto.setSoleilParSeconde(plant.getSoleilParSeconde());
+        dto.setSoleil_par_seconde(plant.getSoleilParSeconde());    // No conversion needed
         dto.setEffet(plant.getEffet());
-        dto.setCheminImage(plant.getCheminImage());
+        dto.setChemin_image(plant.getCheminImage());
         return dto;
     }
 
-    public static Plants toEntity(PlantsDto dto) {
+    public Plants toEntity(PlantsDto dto) {
         if (dto == null) return null;
         
         Plants plant = new Plants();
-        plant.setIdPlante(dto.getIdPlante());
+        plant.setIdPlante(dto.getId_plante());
         plant.setNom(dto.getNom());
-        plant.setPointDeVie(dto.getPointDeVie());
-        plant.setAttaqueParSeconde(dto.getAttaqueParSeconde());
-        plant.setDegatAttaque(dto.getDegatAttaque());
+        plant.setPointDeVie(dto.getPoint_de_vie());
+        plant.setAttaqueParSeconde(dto.getAttaque_par_seconde());  // No conversion needed
+        plant.setDegatAttaque(dto.getDegat_attaque());
         plant.setCout(dto.getCout());
-        plant.setSoleilParSeconde(dto.getSoleilParSeconde());
+        plant.setSoleilParSeconde(dto.getSoleil_par_seconde());    // No conversion needed
         plant.setEffet(dto.getEffet());
-        plant.setCheminImage(dto.getCheminImage());
+        plant.setCheminImage(dto.getChemin_image());
         return plant;
     }
 }

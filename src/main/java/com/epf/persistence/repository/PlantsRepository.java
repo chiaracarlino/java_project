@@ -19,10 +19,10 @@ public class PlantsRepository {
                     rs.getInt("id_plante"),
                     rs.getString("nom"),
                     rs.getInt("point_de_vie"),
-                    rs.getInt("attaque_par_seconde"),
+                    rs.getBigDecimal("attaque_par_seconde"),  // Changed from getInt
                     rs.getInt("degat_attaque"),
                     rs.getInt("cout"),
-                    rs.getInt("soleil_par_seconde"),
+                    rs.getBigDecimal("soleil_par_seconde"),   // Changed from getInt
                     rs.getString("effet"),
                     rs.getString("chemin_image")
             );
@@ -71,7 +71,7 @@ public class PlantsRepository {
         );
     }
 
-    public void deleteById(int id) {
+    public void delete(int id) {
         String sql = "DELETE FROM plante WHERE id_plante = ?";
         jdbcTemplate.update(sql, id);
     }
