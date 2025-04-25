@@ -1,7 +1,0 @@
-persistence\dao\ZombiesDaoTest.class
-core\services\PlantsServicesTest.class
-core\services\ZombiesServicesTest.class
-API\dto\ZombiesDtoTest.class
-API\dto\PlantsDtoTest.class
-API\controller\PlantsControllerTest.class
-API\controller\ZombiesControllerTest.class
