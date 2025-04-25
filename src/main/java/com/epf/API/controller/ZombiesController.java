@@ -36,32 +36,25 @@ public class ZombiesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ZombiesDto> getZombieById(@PathVariable("id") int id) {
-        Optional<Zombies> zombie = zombiesService.findById(id);
-        return zombie.map(z -> ResponseEntity.ok(zombiesMapper.toDto(z)))
-                    .orElseGet(() -> ResponseEntity.notFound().build());
+        return zombiesService.findById(id)
+                .map(zombie -> ResponseEntity.ok(zombiesMapper.toDto(zombie)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<ZombiesDto> createZombie(@RequestBody ZombiesDto zombieDto) {
-        Zombies zombie = zombiesMapper.toModel(zombieDto);
-        Zombies savedZombie = zombiesService.save(zombie);
-        return ResponseEntity.ok(zombiesMapper.toDto(savedZombie));
+        Zombies saved = zombiesService.save(zombiesMapper.toModel(zombieDto));
+        return ResponseEntity.ok(zombiesMapper.toDto(saved));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ZombiesDto> updateZombie(@PathVariable("id") int id, @RequestBody ZombiesDto zombieDto) {
-        try {
-            if (zombiesService.findById(id).isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-            zombieDto.setId_zombie(id);
-            Zombies zombie = zombiesMapper.toModel(zombieDto);
-            zombiesService.update(zombie);
-            return ResponseEntity.ok(zombiesMapper.toDto(zombie));
-        } catch (Exception e) {
-            System.err.println("Error updating zombie: " + e.getMessage());
-            return ResponseEntity.internalServerError().build();
+        if (zombiesService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+        zombieDto.setId_zombie(id);
+        zombiesService.update(zombiesMapper.toModel(zombieDto));
+        return ResponseEntity.ok(zombieDto);
     }
 
     @DeleteMapping("/{id}")
