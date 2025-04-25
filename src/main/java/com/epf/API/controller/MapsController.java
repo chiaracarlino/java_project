@@ -47,8 +47,17 @@ public class MapsController {
     public ResponseEntity<MapsDto> updateMap(@PathVariable("id")  int id, @RequestBody MapsDto dto) {
         if (mapsService.findById(id).isEmpty()) return ResponseEntity.notFound().build();
         Maps toUpdate = MapsMapper.toEntity(dto);
-        toUpdate.setIdMap(id); // ⚠️ Changement ici
+        toUpdate.setIdMap(id); 
         mapsService.update(toUpdate);
         return ResponseEntity.ok(MapsMapper.toDTO(toUpdate));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMap(@PathVariable("id") int id) {
+        if (mapsService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        mapsService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -47,7 +47,10 @@ public class MapsRepository {
     }
 
     public void delete(int id) {
-        String sql = "DELETE FROM maps WHERE id_map = ?";
-        jdbcTemplate.update(sql, id);
+        String deleteZombiesSql = "DELETE FROM zombie WHERE id_map = ?";
+        jdbcTemplate.update(deleteZombiesSql, id);
+
+        String deleteMapSql = "DELETE FROM map WHERE id_map = ?";
+        jdbcTemplate.update(deleteMapSql, id);
     }
 }
