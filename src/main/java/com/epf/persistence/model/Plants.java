@@ -1,15 +1,13 @@
 package com.epf.persistence.model;
 
-import java.math.BigDecimal;
-
 public class Plants {
     private int idPlante;
     private String nom;
     private int pointDeVie;
-    private BigDecimal attaqueParSeconde;  
+    private Double attaqueParSeconde;  
     private int degatAttaque;
     private int cout;
-    private BigDecimal soleilParSeconde;   
+    private Double soleilParSeconde;   
     private String effet;
     private String cheminImage;
 
@@ -18,8 +16,8 @@ public class Plants {
     }
 
     // Constructeur complet
-    public Plants(int idPlante, String nom, int pointDeVie, BigDecimal attaqueParSeconde,
-                  int degatAttaque, int cout, BigDecimal soleilParSeconde, String effet, String cheminImage) {
+    public Plants(int idPlante, String nom, int pointDeVie, Double attaqueParSeconde,
+                  int degatAttaque, int cout, Double soleilParSeconde, String effet, String cheminImage) {
         this.idPlante = idPlante;
         this.nom = nom;
         this.pointDeVie = pointDeVie;
@@ -55,11 +53,11 @@ public class Plants {
         this.pointDeVie = pointDeVie;
     }
 
-    public BigDecimal getAttaqueParSeconde() {
+    public Double getAttaqueParSeconde() {
         return attaqueParSeconde;
     }
 
-    public void setAttaqueParSeconde(BigDecimal attaqueParSeconde) {
+    public void setAttaqueParSeconde(Double attaqueParSeconde) {
         this.attaqueParSeconde = attaqueParSeconde;
     }
 
@@ -79,11 +77,11 @@ public class Plants {
         this.cout = cout;
     }
 
-    public BigDecimal getSoleilParSeconde() {
+    public Double getSoleilParSeconde() {
         return soleilParSeconde;
     }
 
-    public void setSoleilParSeconde(BigDecimal soleilParSeconde) {
+    public void setSoleilParSeconde(Double soleilParSeconde) {
         this.soleilParSeconde = soleilParSeconde;
     }
 

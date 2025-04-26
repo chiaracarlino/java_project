@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/zombies")
-@CrossOrigin(origins = "*")
 public class ZombiesController {
 
     private final ZombiesServices zombiesService;
