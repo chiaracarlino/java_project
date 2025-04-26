@@ -33,22 +33,20 @@ public class PlantsController {
 
     @PostMapping
     public ResponseEntity<Plants> createPlant(@RequestBody Plants plant) {
-        // Set default values if null
-        if (plant.getAttaqueParSeconde() == null) {
-            plant.setAttaqueParSeconde(0.0);
-        }
-        if (plant.getSoleilParSeconde() == null) {
-            plant.setSoleilParSeconde(0.0);
-        }
-        if (plant.getEffet() == null) {
-            plant.setEffet("");
-        }
-        if (plant.getCheminImage() == null) {
-            plant.setCheminImage("");
+        if (plant == null || plant.getNom() == null || plant.getNom().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
         }
         
-        Plants savedPlant = plantsService.save(plant);
-        return ResponseEntity.ok(savedPlant);
+        if (plant.getPointDeVie() <= 0 || plant.getDegatAttaque() < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            Plants savedPlant = plantsService.save(plant);
+            return ResponseEntity.ok(savedPlant);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/{id}")

@@ -9,31 +9,27 @@ public class ZombiesMapper {
 
     public ZombiesDto toDto(Zombies zombie) {
         return new ZombiesDto(
-                zombie.getId(),
-                zombie.getNom(),
-                zombie.getPointDeVie(),
-                zombie.getDegatAttaque(),
-                zombie.getIdMap(),
-                zombie.getAttaqueParSeconde() != null ? 
-                    zombie.getAttaqueParSeconde() : 0.0,
-                zombie.getVitesseDeDeplacement() != null ? 
-                    zombie.getVitesseDeDeplacement() : 0.0,
-                zombie.getCheminImage()
+            zombie.getIdZombie(),
+            zombie.getNom(),
+            zombie.getPointDeVie(),
+            zombie.getDegatAttaque(),
+            zombie.getIdMap(),
+            zombie.getAttaqueParSeconde(),
+            zombie.getVitesseDeDeplacement(),
+            zombie.getCheminImage()
         );
     }
 
-    public Zombies toModel(ZombiesDto zombieDto) {
-        return new Zombies(
-                zombieDto.getId_zombie(),
-                zombieDto.getNom(),
-                zombieDto.getPoint_de_vie(),
-                zombieDto.getDegat_attaque(),
-                zombieDto.getId_map(),
-                zombieDto.getAttaque_par_seconde() != null ? 
-                    zombieDto.getAttaque_par_seconde() : 0.0,
-                zombieDto.getVitesse_de_deplacement() != null ? 
-                    zombieDto.getVitesse_de_deplacement() : 0.0,
-                zombieDto.getChemin_image()
-        );
+    public Zombies toEntity(ZombiesDto dto) {
+        Zombies zombie = new Zombies();
+        zombie.setIdZombie(dto.getId_zombie());
+        zombie.setNom(dto.getNom());
+        zombie.setPointDeVie(dto.getPoint_de_vie());
+        zombie.setDegatAttaque(dto.getDegat_attaque());
+        zombie.setIdMap(dto.getId_map());
+        zombie.setAttaqueParSeconde(dto.getAttaque_par_seconde());
+        zombie.setVitesseDeDeplacement(dto.getVitesse_de_deplacement());
+        zombie.setCheminImage(dto.getChemin_image());
+        return zombie;
     }
 }
