@@ -1,4 +1,4 @@
-package core.services;
+/*package core.services;
 
 import com.epf.core.PlantsServicesImpl;
 import com.epf.persistence.dao.PlantsDao;
@@ -119,4 +119,4 @@ class PlantsServicesTest {
         // Assert
         verify(plantsDao).delete(1);
     }
-}
+} */

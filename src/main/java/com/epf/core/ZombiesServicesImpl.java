@@ -19,8 +19,8 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
-    public Zombies save(Zombies zombie) {
-        return zombiesDao.save(zombie);
+    public Zombies createZombie(Zombies zombie) {
+        return zombiesDao.createZombie(zombie);
     }
 
     @Override
@@ -39,13 +39,14 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
-    public void update(Zombies zombie) {
-        zombiesDao.update(zombie);
+    public Zombies updateZombie(Zombies zombie) {
+        zombiesDao.updateZombie(zombie);
+        return zombie;
     }
 
     @Override
-    public void delete(int id) {
-        zombiesDao.delete(id);
+    public void deleteZombie(int id) {
+        zombiesDao.deleteZombie(id);
     }
 }
 

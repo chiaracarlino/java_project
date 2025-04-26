@@ -7,10 +7,10 @@ public class MapsMapper {
 
     public static MapsDto toDTO(Maps map) {
         return new MapsDto(
-                map.getIdMap(),        // id
-                map.getLigne(),        // height
-                map.getColonne(),      // width
-                map.getCheminImage()   // image path
+                map.getIdMap(),    
+                map.getLigne(),       
+                map.getColonne(),      
+                map.getCheminImage()   
         );
     }
 

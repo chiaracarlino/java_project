@@ -6,10 +6,10 @@ public class Plants {
     private int idPlante;
     private String nom;
     private int pointDeVie;
-    private BigDecimal attaqueParSeconde;  // Changed from int
+    private BigDecimal attaqueParSeconde;  
     private int degatAttaque;
     private int cout;
-    private BigDecimal soleilParSeconde;   // Changed from int
+    private BigDecimal soleilParSeconde;   
     private String effet;
     private String cheminImage;
 

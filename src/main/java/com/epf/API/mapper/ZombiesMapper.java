@@ -14,8 +14,10 @@ public class ZombiesMapper {
                 zombie.getPointDeVie(),
                 zombie.getDegatAttaque(),
                 zombie.getIdMap(),
-                zombie.getAttaqueParSeconde(),
-                zombie.getVitesseDeDeplacement(),
+                zombie.getAttaqueParSeconde() != null ? 
+                    zombie.getAttaqueParSeconde() : 0.0,
+                zombie.getVitesseDeDeplacement() != null ? 
+                    zombie.getVitesseDeDeplacement() : 0.0,
                 zombie.getCheminImage()
         );
     }
@@ -27,8 +29,10 @@ public class ZombiesMapper {
                 zombieDto.getPoint_de_vie(),
                 zombieDto.getDegat_attaque(),
                 zombieDto.getId_map(),
-                zombieDto.getAttaque_par_seconde(),
-                zombieDto.getVitesse_de_deplacement(),
+                zombieDto.getAttaque_par_seconde() != null ? 
+                    zombieDto.getAttaque_par_seconde() : 0.0,
+                zombieDto.getVitesse_de_deplacement() != null ? 
+                    zombieDto.getVitesse_de_deplacement() : 0.0,
                 zombieDto.getChemin_image()
         );
     }

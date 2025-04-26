@@ -20,8 +20,8 @@ public class ZombiesRepository {
             rs.getInt("point_de_vie"),
             rs.getInt("degat_attaque"),
             rs.getInt("id_map"),
-            rs.getInt("attaque_par_seconde"),
-            rs.getInt("vitesse_de_deplacement"),
+            rs.getDouble("attaque_par_seconde"),
+            rs.getDouble("vitesse_de_deplacement"),
             rs.getString("chemin_image")
     );
 

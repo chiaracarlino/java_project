@@ -8,10 +8,8 @@ public interface ZombiesServices {
     List<Zombies> findAll();
     Optional<Zombies> findById(int id);
     List<Zombies> findByMapId(int mapId);
-    Zombies save(Zombies zombie);
-
-    void update(Zombies zombie);
-
-    void delete(int id);
+    Zombies createZombie(Zombies zombie);
+    Zombies updateZombie(Zombies zombie);
+    void deleteZombie(int id);
 }
 

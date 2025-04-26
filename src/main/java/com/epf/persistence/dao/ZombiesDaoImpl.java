@@ -24,21 +24,21 @@ public class ZombiesDaoImpl implements ZombiesDao {
         zombie.setNom(rs.getString("nom"));
         zombie.setPointDeVie(rs.getInt("point_de_vie"));
         zombie.setDegatAttaque(rs.getInt("degat_attaque"));
-        zombie.setAttaqueParSeconde(rs.getInt("attaque_par_seconde"));
-        zombie.setVitesseDeDeplacement(rs.getInt("vitesse_de_deplacement"));
+        zombie.setAttaqueParSeconde(rs.getDouble("attaque_par_seconde"));
+        zombie.setVitesseDeDeplacement(rs.getDouble("vitesse_de_deplacement"));
         zombie.setCheminImage(rs.getString("chemin_image"));
         zombie.setIdMap(rs.getInt("id_map"));
         return zombie;
     };
 
     @Override
-    public Zombies save(Zombies zombie) {
+    public Zombies createZombie(Zombies zombie) {
         String sql = "INSERT INTO zombie (nom, point_de_vie, degat_attaque, attaque_par_seconde, vitesse_de_deplacement, chemin_image, id_map) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, zombie.getNom(), zombie.getPointDeVie(), zombie.getDegatAttaque(),
                 zombie.getAttaqueParSeconde(), zombie.getVitesseDeDeplacement(), zombie.getCheminImage(),
                 zombie.getIdMap());
-        return zombie; // Retourne le zombie après l'avoir sauvegardé
+        return zombie; 
     }
 
     @Override
@@ -60,16 +60,17 @@ public class ZombiesDaoImpl implements ZombiesDao {
     }
 
     @Override
-    public void update(Zombies zombie) {
+    public Zombies updateZombie(Zombies zombie) {
         String sql = "UPDATE zombie SET nom = ?, point_de_vie = ?, degat_attaque = ?, attaque_par_seconde = ?, " +
                 "vitesse_de_deplacement = ?, chemin_image = ?, id_map = ? WHERE id_zombie = ?";
         jdbcTemplate.update(sql, zombie.getNom(), zombie.getPointDeVie(), zombie.getDegatAttaque(),
                 zombie.getAttaqueParSeconde(), zombie.getVitesseDeDeplacement(), zombie.getCheminImage(),
                 zombie.getIdMap(), zombie.getId());
+        return zombie;
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteZombie(int id) {
         String sql = "DELETE FROM zombie WHERE id_zombie = ?";
         jdbcTemplate.update(sql, id);
     }
