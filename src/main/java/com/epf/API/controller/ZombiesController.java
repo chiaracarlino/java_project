@@ -48,15 +48,13 @@ public class ZombiesController {
     @PostMapping
     public ResponseEntity<ZombiesDto> createZombie(@RequestBody ZombiesDto zombieDto) {
         try {
-            Zombies zombie = zombiesMapper.toModel(zombieDto);
-            Zombies saved = zombiesService.createZombie(zombie);
+            Zombies saved = zombiesService.createZombie(zombiesMapper.toModel(zombieDto));
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(zombiesMapper.toDto(saved));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<ZombiesDto> updateZombie(@PathVariable("id") int id, @RequestBody ZombiesDto zombieDto) {
         try {
@@ -87,60 +85,3 @@ public class ZombiesController {
         }
     }
 }
-
-
-/* @RestController
-@RequestMapping("/zombies")
-public class ZombiesController {
-
-    private final ZombiesServices zombiesService;
-    private final ZombiesMapper zombiesMapper;
-
-    @Autowired
-    public ZombiesController(ZombiesServices zombiesService, ZombiesMapper zombiesMapper) {
-        this.zombiesService = zombiesService;
-        this.zombiesMapper = zombiesMapper;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<ZombiesDto>> getAllZombies() {
-        List<Zombies> zombies = zombiesService.findAll();
-        List<ZombiesDto> zombiesDtoList = zombies.stream()
-                .map(zombiesMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(zombiesDtoList);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ZombiesDto> getZombieById(@PathVariable("id") int id) {
-        return zombiesService.findById(id)
-                .map(zombie -> ResponseEntity.ok(zombiesMapper.toDto(zombie)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<ZombiesDto> createZombie(@RequestBody ZombiesDto zombieDto) {
-        Zombies saved = zombiesService.save(zombiesMapper.toModel(zombieDto));
-        return ResponseEntity.ok(zombiesMapper.toDto(saved));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ZombiesDto> updateZombie(@PathVariable("id") int id, @RequestBody ZombiesDto zombieDto) {
-        if (zombiesService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        zombieDto.setId_zombie(id);
-        zombiesService.update(zombiesMapper.toModel(zombieDto));
-        return ResponseEntity.ok(zombieDto);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteZombie(@PathVariable("id") int id) {
-        if (zombiesService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        zombiesService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-}
-*/

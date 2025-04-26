@@ -1,10 +1,13 @@
 package com.epf.persistence.model;
 
+import java.util.List;
+
 public class Maps {
     private int idMap;
     private int ligne;
     private int colonne;
     private String cheminImage;
+    private List<Zombies> zombies;
 
     public Maps() {
     }
@@ -46,6 +49,14 @@ public class Maps {
 
     public void setCheminImage(String cheminImage) {
         this.cheminImage = cheminImage;
+    }
+
+    public List<Zombies> getZombies() { 
+        return zombies;
+    }
+
+    public void setZombies(List<Zombies> zombies) { 
+        this.zombies = zombies;
     }
 }
 

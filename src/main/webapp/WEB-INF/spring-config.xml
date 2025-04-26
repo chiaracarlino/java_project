@@ -13,6 +13,18 @@
 
     <context:component-scan base-package="com.epf" />
 
+    <mvc:annotation-driven />
+
+    <mvc:cors>
+        <mvc:mapping path="/**"
+            allowed-origins="http://localhost:5173"
+            allowed-methods="GET, POST, PUT, DELETE, OPTIONS"
+            allowed-headers="*"
+            exposed-headers="*"
+            allow-credentials="true"
+            max-age="3600"/>
+    </mvc:cors>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/pvz"/>

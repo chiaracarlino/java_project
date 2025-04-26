@@ -4,18 +4,16 @@ public class Plants {
     private int idPlante;
     private String nom;
     private int pointDeVie;
-    private Double attaqueParSeconde;  
+    private Double attaqueParSeconde;
     private int degatAttaque;
     private int cout;
-    private Double soleilParSeconde;   
+    private Double soleilParSeconde;
     private String effet;
     private String cheminImage;
 
-    // Constructeur vide
     public Plants() {
     }
 
-    // Constructeur complet
     public Plants(int idPlante, String nom, int pointDeVie, Double attaqueParSeconde,
                   int degatAttaque, int cout, Double soleilParSeconde, String effet, String cheminImage) {
         this.idPlante = idPlante;
@@ -29,75 +27,30 @@ public class Plants {
         this.cheminImage = cheminImage;
     }
 
-    public int getIdPlante() {
-        return idPlante;
-    }
+    public int getIdPlante() { return idPlante; }
+    public void setIdPlante(int idPlante) { this.idPlante = idPlante; }
 
-    public void setIdPlante(int idPlante) {
-        this.idPlante = idPlante;
-    }
+    public String getNom() { return nom; }
+    public void setNom(String nom) { this.nom = nom; }
 
-    public String getNom() {
-        return nom;
-    }
+    public int getPointDeVie() { return pointDeVie; }
+    public void setPointDeVie(int pointDeVie) { this.pointDeVie = pointDeVie; }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+    public Double getAttaqueParSeconde() { return attaqueParSeconde; }
+    public void setAttaqueParSeconde(Double attaqueParSeconde) { this.attaqueParSeconde = attaqueParSeconde; }
 
-    public int getPointDeVie() {
-        return pointDeVie;
-    }
+    public int getDegatAttaque() { return degatAttaque; }
+    public void setDegatAttaque(int degatAttaque) { this.degatAttaque = degatAttaque; }
 
-    public void setPointDeVie(int pointDeVie) {
-        this.pointDeVie = pointDeVie;
-    }
+    public int getCout() { return cout; }
+    public void setCout(int cout) { this.cout = cout; }
 
-    public Double getAttaqueParSeconde() {
-        return attaqueParSeconde;
-    }
+    public Double getSoleilParSeconde() { return soleilParSeconde; }
+    public void setSoleilParSeconde(Double soleilParSeconde) { this.soleilParSeconde = soleilParSeconde; }
 
-    public void setAttaqueParSeconde(Double attaqueParSeconde) {
-        this.attaqueParSeconde = attaqueParSeconde;
-    }
+    public String getEffet() { return effet; }
+    public void setEffet(String effet) { this.effet = effet; }
 
-    public int getDegatAttaque() {
-        return degatAttaque;
-    }
-
-    public void setDegatAttaque(int degatAttaque) {
-        this.degatAttaque = degatAttaque;
-    }
-
-    public int getCout() {
-        return cout;
-    }
-
-    public void setCout(int cout) {
-        this.cout = cout;
-    }
-
-    public Double getSoleilParSeconde() {
-        return soleilParSeconde;
-    }
-
-    public void setSoleilParSeconde(Double soleilParSeconde) {
-        this.soleilParSeconde = soleilParSeconde;
-    }
-
-    public String getEffet() {
-        return effet;
-    }
-
-    public void setEffet(String effet) {
-        this.effet = effet;
-    }
-
-    public String getCheminImage() {
-        return cheminImage;
-    }
-
-    public void setCheminImage(String cheminImage) {
-        this.cheminImage = cheminImage;
-    }
+    public String getCheminImage() { return cheminImage; }
+    public void setCheminImage(String cheminImage) { this.cheminImage = cheminImage; }
 }

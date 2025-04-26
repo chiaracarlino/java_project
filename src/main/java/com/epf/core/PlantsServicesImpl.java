@@ -34,7 +34,7 @@ public class PlantsServicesImpl implements PlantsServices {
         if (plant == null) {
             throw new IllegalArgumentException("Plant cannot be null");
         }
-        return plantsRepository.save(plant);
+        return plantsRepository.createPlant(plant);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PlantsServicesImpl implements PlantsServices {
         if (findById(plant.getIdPlante()).isEmpty()) {
             throw new IllegalArgumentException("Plant with id " + plant.getIdPlante() + " not found");
         }
-        plantsRepository.update(plant);
+        plantsRepository.updatePlant(plant);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class PlantsServicesImpl implements PlantsServices {
         if (findById(id).isEmpty()) {
             throw new IllegalArgumentException("Plant with id " + id + " not found");
         }
-        plantsRepository.delete(id);
+        plantsRepository.deletePlant(id);
     }
 }
 
