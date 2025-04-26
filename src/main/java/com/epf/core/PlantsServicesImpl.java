@@ -31,10 +31,29 @@ public class PlantsServicesImpl implements PlantsServices {
 
     @Override
     public Plants save(Plants plant) {
-        if (plant == null) {
-            throw new IllegalArgumentException("Plant cannot be null");
+        // Validate required fields
+        if (plant.getNom() == null || plant.getNom().trim().isEmpty()) {
+            throw new IllegalArgumentException("Le nom de la plante est obligatoire");
         }
-        return plantsRepository.createPlant(plant);
+        if (plant.getPointDeVie() <= 0) {
+            throw new IllegalArgumentException("Les points de vie doivent être positifs");
+        }
+        if (plant.getDegatAttaque() < 0) {
+            throw new IllegalArgumentException("Les dégâts d'attaque ne peuvent pas être négatifs");
+        }
+        if (plant.getCout() < 0) {
+            throw new IllegalArgumentException("Le coût ne peut pas être négatif");
+        }
+
+        // Handle optional fields with default values
+        if (plant.getAttaqueParSeconde() == null) {
+            plant.setAttaqueParSeconde(0.0);
+        }
+        if (plant.getSoleilParSeconde() == null) {
+            plant.setSoleilParSeconde(0.0);
+        }
+
+        return plantsRepository.save(plant);
     }
 
     @Override
@@ -45,7 +64,7 @@ public class PlantsServicesImpl implements PlantsServices {
         if (findById(plant.getIdPlante()).isEmpty()) {
             throw new IllegalArgumentException("Plant with id " + plant.getIdPlante() + " not found");
         }
-        plantsRepository.updatePlant(plant);
+        plantsRepository.update(plant);
     }
 
     @Override
@@ -53,7 +72,7 @@ public class PlantsServicesImpl implements PlantsServices {
         if (findById(id).isEmpty()) {
             throw new IllegalArgumentException("Plant with id " + id + " not found");
         }
-        plantsRepository.deletePlant(id);
+        plantsRepository.delete(id);
     }
 }
 

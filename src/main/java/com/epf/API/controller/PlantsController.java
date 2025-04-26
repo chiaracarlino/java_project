@@ -33,7 +33,22 @@ public class PlantsController {
 
     @PostMapping
     public ResponseEntity<Plants> createPlant(@RequestBody Plants plant) {
-        return ResponseEntity.ok(plantsService.save(plant));
+        // Set default values if null
+        if (plant.getAttaqueParSeconde() == null) {
+            plant.setAttaqueParSeconde(0.0);
+        }
+        if (plant.getSoleilParSeconde() == null) {
+            plant.setSoleilParSeconde(0.0);
+        }
+        if (plant.getEffet() == null) {
+            plant.setEffet("");
+        }
+        if (plant.getCheminImage() == null) {
+            plant.setCheminImage("");
+        }
+        
+        Plants savedPlant = plantsService.save(plant);
+        return ResponseEntity.ok(savedPlant);
     }
 
     @PutMapping("/{id}")

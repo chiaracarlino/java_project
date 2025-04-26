@@ -57,6 +57,9 @@ public class Zombies {
     public Maps getMap() { return map; }
     public void setMap(Maps map) { this.map = map; }
 
+    public int getIdZombie() { return id; }
+    public void setIdZombie(int idZombie) { this.id = idZombie; }
+
     @Override
     public String toString() {
         return "Zombies{" +
