@@ -4,58 +4,38 @@ Ce projet est une API REST Java EE pour gérer un jeu inspiré de Plants vs. Zom
 
 ## Technologies utilisées
 
-Java 21
-Jakarta EE (Java EE)
-Maven
-JUnit
-Mockito
-MySQL
-Serveur d'application compatible Jakarta EE (comme Tomcat, WildFly, etc.)
+- Java 21
+- Jakarta EE (Java EE)
+- Maven
+- JUnit
+- Mockito
+- MySQL
+- Serveur Tomcat
 
 ## Structure du projet
 
 java_project-main/
 
 ├── src/
-
 │   ├── main/
-
 │   │   ├── java/
-
 │   │   │   └── com/
-
 │   │   │       └── epf/
-
 │   │   │           ├── API/
-
 │   │   │           │   ├── controller/
-
 │   │   │           │   ├── dto/
-
 │   │   │           │   └── mapper/
-
 │   │   │           ├── core/
-
 │   │   │           │   └── services/
-
 │   │   │           └── persistence/
-
 │   │   │               ├── dao/
-
 │   │   │               ├── model/
-
 │   │   │               └── repository/
-
 │   │   └── webapp/
-
 │   │       └── WEB-INF/
-
 │   │           └── web.xml
-
 │   └── test/
-
 │       └── java/
-
 └── pom.xml
 
 ## Configuration Maven (pom.xml)
@@ -63,17 +43,11 @@ java_project-main/
 Le projet est configuré pour générer un fichier WAR (Web Archive) qui peut être déployé sur un serveur d'application:
 ```
 <project>
-
     <packaging>war</packaging>
-
     <properties>
-
         <maven.compiler.source>21</maven.compiler.source>
-
         <maven.compiler.target>21</maven.compiler.target>
-
     </properties>
-
 </project>
 ```
 
@@ -96,7 +70,7 @@ Pour exécuter les tests unitaires :
 ```
 mvn test
 ```
-Documentation API
+## Documentation API
 
 ### Maps API
 
@@ -138,12 +112,12 @@ Documentation API
 
 ## Architecture
 
-Controllers : Gèrent les requêtes HTTP et la logique de routage
-DTOs : Objets de transfert de données pour l'API
-Mappers : Convertissent entre les DTOs et les entités
-Services : Contiennent la logique métier
-DAOs : Gèrent l'accès aux données
-Models : Représentent les entités métier
+- Controllers : Gèrent les requêtes HTTP et la logique de routage
+- DTOs : Objets de transfert de données pour l'API
+- Mappers : Convertissent entre les DTOs et les entités
+- Services : Contiennent la logique métier
+- DAOs : Gèrent l'accès aux données
+- Models : Représentent les entités métier
 
 
 Chiara Carlino
