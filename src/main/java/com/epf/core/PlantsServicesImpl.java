@@ -31,7 +31,6 @@ public class PlantsServicesImpl implements PlantsServices {
 
     @Override
     public Plants save(Plants plant) {
-        // Validate required fields
         if (plant.getNom() == null || plant.getNom().trim().isEmpty()) {
             throw new IllegalArgumentException("Le nom de la plante est obligatoire");
         }
@@ -44,8 +43,6 @@ public class PlantsServicesImpl implements PlantsServices {
         if (plant.getCout() < 0) {
             throw new IllegalArgumentException("Le coût ne peut pas être négatif");
         }
-
-        // Handle optional fields with default values
         if (plant.getAttaqueParSeconde() == null) {
             plant.setAttaqueParSeconde(0.0);
         }
@@ -65,7 +62,6 @@ public class PlantsServicesImpl implements PlantsServices {
             throw new IllegalArgumentException("Plant with id " + plant.getIdPlante() + " not found");
         }
 
-        // Validate required fields
         if (plant.getNom() == null || plant.getNom().trim().isEmpty()) {
             throw new IllegalArgumentException("Le nom de la plante est obligatoire");
         }
@@ -78,8 +74,6 @@ public class PlantsServicesImpl implements PlantsServices {
         if (plant.getCout() < 0) {
             throw new IllegalArgumentException("Le coût ne peut pas être négatif");
         }
-
-        // Handle optional fields with default values
         if (plant.getAttaqueParSeconde() == null) {
             plant.setAttaqueParSeconde(0.0);
         }
@@ -95,7 +89,6 @@ public class PlantsServicesImpl implements PlantsServices {
         
         plantsRepository.update(plant);
         
-        // Return the updated plant from database to ensure we have the latest state
         return findById(plant.getIdPlante())
             .orElseThrow(() -> new RuntimeException("Failed to retrieve updated plant"));
     }

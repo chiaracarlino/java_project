@@ -20,14 +20,14 @@ public class ZombiesRepository implements ZombiesDao {
     private final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<Zombies> zombieRowMapper = (rs, rowNum) -> new Zombies(
-        rs.getInt("id_zombie"),          // id parameter
-        rs.getString("nom"),             // nom parameter
-        rs.getInt("point_de_vie"),       // pointDeVie parameter
-        rs.getInt("degat_attaque"),      // degatAttaque parameter
-        rs.getObject("id_map", Integer.class), // idMap parameter (nullable)
-        rs.getDouble("attaque_par_seconde"),    // attaqueParSeconde parameter
-        rs.getDouble("vitesse_de_deplacement"), // vitesseDeDeplacement parameter
-        rs.getString("chemin_image")     // cheminImage parameter
+        rs.getInt("id_zombie"),         
+        rs.getString("nom"),             
+        rs.getInt("point_de_vie"),       
+        rs.getInt("degat_attaque"),      
+        rs.getObject("id_map", Integer.class), 
+        rs.getDouble("attaque_par_seconde"),   
+        rs.getDouble("vitesse_de_deplacement"), 
+        rs.getString("chemin_image")    
     );
 
     @Autowired

@@ -28,7 +28,6 @@ public class PlantsMapper {
         if (dto == null) return null;
         
         Plants plant = new Plants();
-        // Ne pas setter l'ID - il sera géré par le controller
         plant.setNom(dto.getNom());
         plant.setPointDeVie(dto.getPoint_de_vie());
         plant.setAttaqueParSeconde(dto.getAttaque_par_seconde());

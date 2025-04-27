@@ -43,7 +43,6 @@ public class ZombiesController {
 
     @PostMapping
     public ResponseEntity<ZombiesDto> createZombie(@RequestBody ZombiesDto zombieDto) {
-        // Manual validation
         if (!isValidZombieDto(zombieDto)) {
             return ResponseEntity.badRequest().build();
         }
@@ -65,28 +64,24 @@ public class ZombiesController {
         System.out.println("DEBUG - Updating zombie id=" + id + " with data: " + zombieDto);
 
         try {
-            // 1. Vérifier si le zombie existe
             Optional<Zombies> existingZombie = zombiesService.findById(id);
             Zombies currentZombie;
             if (existingZombie.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(null); // Return 404 if the zombie does not exist
+                        .body(null); 
             } else {
                 currentZombie = existingZombie.get();
             }
 
-            // Créer un nouveau zombie avec conservation des valeurs existantes
             Zombies zombie = new Zombies();
             zombie.setIdZombie(id);
             
-            // Mettre à jour seulement les champs non-null du DTO
             zombie.setNom(zombieDto.getNom() != null ? zombieDto.getNom() : currentZombie.getNom());
             zombie.setPointDeVie(zombieDto.getPoint_de_vie() != null ? zombieDto.getPoint_de_vie() : currentZombie.getPointDeVie());
             zombie.setDegatAttaque(zombieDto.getDegat_attaque() != null ? zombieDto.getDegat_attaque() : currentZombie.getDegatAttaque());
             zombie.setIdMap(zombieDto.getId_map() != null ? zombieDto.getId_map() : currentZombie.getIdMap());
             zombie.setCheminImage(zombieDto.getChemin_image() != null ? zombieDto.getChemin_image() : currentZombie.getCheminImage());
             
-            // Conserver les valeurs avancées du zombie existant
             zombie.setAttaqueParSeconde(currentZombie.getAttaqueParSeconde());
             zombie.setVitesseDeDeplacement(currentZombie.getVitesseDeDeplacement());
 
@@ -104,7 +99,6 @@ public class ZombiesController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteZombie(@PathVariable("id") int id) {
         try {
-            // Vérifier si le zombie existe
             if (zombiesService.findById(id).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Zombie non trouvé avec l'id: " + id);

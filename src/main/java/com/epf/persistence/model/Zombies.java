@@ -3,13 +3,13 @@ package com.epf.persistence.model;
 public class Zombies {
     private Integer id;
     private String nom;
-    private Integer pointDeVie;           // NOT NULL int unsigned
-    private Integer degatAttaque;         // NOT NULL int unsigned
-    private Integer idMap;            // NULL allowed
-    private Double attaqueParSeconde;    // decimal(5,2)
-    private Double vitesseDeDeplacement; // decimal(5,2)
-    private String cheminImage;       // varchar(255) NULL allowed
-    private Maps map;                 // Added Map relationship
+    private Integer pointDeVie;         
+    private Integer degatAttaque;         
+    private Integer idMap;          
+    private Double attaqueParSeconde;    
+    private Double vitesseDeDeplacement; 
+    private String cheminImage;       
+    private Maps map;                 
 
     public Zombies() {
     }

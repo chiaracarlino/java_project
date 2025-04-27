@@ -47,13 +47,11 @@ public class PlantsController {
         System.out.println("DEBUG - Received plant DTO: " + plantDto);
 
         try {
-            // Validation plus permissive pour correspondre au frontend
             if (plantDto == null) {
                 System.out.println("DEBUG - Plant DTO is null");
                 return ResponseEntity.badRequest().build();
             }
 
-            // Set default values in DTO level before conversion
             if (plantDto.getNom() == null) plantDto.setNom("");
             if (plantDto.getPoint_de_vie() == null) plantDto.setPoint_de_vie(100);
             if (plantDto.getDegat_attaque() == null) plantDto.setDegat_attaque(0);
@@ -81,12 +79,10 @@ public class PlantsController {
         System.out.println("DEBUG - Updating plant id=" + id + " with data: " + plantDto);
 
         try {
-            // 1. Vérifier si la plante existe
             Optional<Plants> existingPlant = plantsService.findById(id);
             Plants currentPlant;
             
             if (existingPlant.isEmpty()) {
-                // 2. Si non trouvée, rechercher par nom
                 List<Plants> plants = plantsService.findAll();
                 Optional<Plants> plantByName = plants.stream()
                     .filter(p -> p.getNom().equals(plantDto.getNom()))
@@ -104,18 +100,15 @@ public class PlantsController {
                 currentPlant = existingPlant.get();
             }
 
-            // Mise à jour avec conservation des valeurs existantes
             Plants plant = new Plants();
-            plant.setIdPlante(id); // Utiliser l'ID du path
+            plant.setIdPlante(id); 
             
-            // Conserver les valeurs existantes si nulles
             plant.setNom(plantDto.getNom() != null ? plantDto.getNom() : currentPlant.getNom());
             plant.setPointDeVie(plantDto.getPoint_de_vie() != null ? plantDto.getPoint_de_vie() : currentPlant.getPointDeVie());
             plant.setDegatAttaque(plantDto.getDegat_attaque() != null ? plantDto.getDegat_attaque() : currentPlant.getDegatAttaque());
             plant.setCout(plantDto.getCout() != null ? plantDto.getCout() : currentPlant.getCout());
             plant.setCheminImage(plantDto.getChemin_image() != null ? plantDto.getChemin_image() : currentPlant.getCheminImage());
             
-            // Conserver les valeurs avancées
             plant.setAttaqueParSeconde(currentPlant.getAttaqueParSeconde());
             plant.setSoleilParSeconde(currentPlant.getSoleilParSeconde());
             plant.setEffet(currentPlant.getEffet());
@@ -138,10 +131,6 @@ public class PlantsController {
         }
         plantsService.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private boolean isValidPlantDto(PlantsDto plantDto) {
-        return plantDto != null; // Simplified validation since frontend handles type checking
     }
 
     private void setDefaultValues(Plants plant) {

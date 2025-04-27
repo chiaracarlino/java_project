@@ -45,7 +45,7 @@ public class PlantsRepository implements PlantsDao {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, plant.getNom());
             ps.setInt(2, plant.getPointDeVie());
-            // Handle null values
+  
             if (plant.getAttaqueParSeconde() == null) {
                 ps.setNull(3, java.sql.Types.DOUBLE);
             } else {

@@ -57,12 +57,10 @@ public class MapsController {
         System.out.println("DEBUG - Updating map id=" + id + " with data: " + mapDto);
 
         try {
-            // 1. Vérifier si la map existe
             Optional<Maps> existingMap = mapsService.findById(id);
             Maps currentMap;
             
             if (existingMap.isEmpty()) {
-                // 2. Si non trouvée, rechercher par nom/caractéristiques uniques
                 List<Maps> maps = mapsService.findAll();
                 Optional<Maps> mapByProperties = maps.stream()
                     .filter(m -> m.getLigne() == mapDto.getLigne() 
@@ -80,12 +78,9 @@ public class MapsController {
             } else {
                 currentMap = existingMap.get();
             }
-
-            // Mise à jour avec le nouvel ID
             Maps map = MapsMapper.toEntity(mapDto);
             map.setIdMap(id);
             
-            // Conserver les valeurs existantes si nulles
             if (mapDto.getLigne() == null) map.setLigne(currentMap.getLigne());
             if (mapDto.getColonne() == null) map.setColonne(currentMap.getColonne());
             if (mapDto.getChemin_image() == null) map.setCheminImage(currentMap.getCheminImage());
@@ -104,20 +99,17 @@ public class MapsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMap(@PathVariable("id") int id) {
         try {
-            // Vérifier si la map existe
             if (mapsService.findById(id).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Map non trouvée avec l'id: " + id);
             }
 
             try {
-                // Récupérer et supprimer les zombies associés
                 List<Zombies> zombiesAssocies = zombiesService.findByMapId(id);
                 for (Zombies zombie : zombiesAssocies) {
                     zombiesService.deleteZombie(zombie.getIdZombie());
                 }
 
-                // Supprimer la map
                 mapsService.delete(id);
                 return ResponseEntity.ok("Map et zombies associés supprimés avec succès!");
             } catch (Exception e) {
