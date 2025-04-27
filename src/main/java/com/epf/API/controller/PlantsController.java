@@ -33,18 +33,48 @@ public class PlantsController {
 
     @PostMapping
     public ResponseEntity<Plants> createPlant(@RequestBody Plants plant) {
-        if (plant == null || plant.getNom() == null || plant.getNom().trim().isEmpty()) {
+        System.out.println("Received plant data: " + plant);
+
+        if (plant == null) {
+            System.out.println("Plant object is null");
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (plant.getNom() == null || plant.getNom().trim().isEmpty()) {
+            System.out.println("Plant name is null or empty");
             return ResponseEntity.badRequest().build();
         }
         
-        if (plant.getPointDeVie() <= 0 || plant.getDegatAttaque() < 0) {
+        if (plant.getPointDeVie() <= 0) {
+            System.out.println("Invalid point_de_vie: " + plant.getPointDeVie());
             return ResponseEntity.badRequest().build();
+        }
+
+        if (plant.getDegatAttaque() < 0) {
+            System.out.println("Invalid degat_attaque: " + plant.getDegatAttaque());
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (plant.getAttaqueParSeconde() == null) {
+            plant.setAttaqueParSeconde(0.0);
+        }
+        if (plant.getSoleilParSeconde() == null) {
+            plant.setSoleilParSeconde(0.0);
+        }
+        if (plant.getCheminImage() == null) {
+            plant.setCheminImage("");
+        }
+
+        if (plant.getEffet() == null) {
+            plant.setEffet("");
         }
 
         try {
             Plants savedPlant = plantsService.save(plant);
+            System.out.println("Plant saved successfully: " + savedPlant);
             return ResponseEntity.ok(savedPlant);
         } catch (IllegalArgumentException e) {
+            System.out.println("Error saving plant: " + e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

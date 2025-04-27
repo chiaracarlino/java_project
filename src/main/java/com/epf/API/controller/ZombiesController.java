@@ -57,15 +57,10 @@ public class ZombiesController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ZombiesDto> updateZombie(
-        @PathVariable("id") int id,
+        @PathVariable("id") int id, 
         @RequestBody ZombiesDto zombieDto) {
         
-        if (zombieDto == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        // Validate point_de_vie 
-        if (zombieDto.getPoint_de_vie() <= 0) {
+        if (!isValidZombieDto(zombieDto)) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -75,10 +70,11 @@ public class ZombiesController {
             }
             
             Zombies zombie = zombiesMapper.toEntity(zombieDto);
-            zombie.setIdZombie(id);
+            zombie.setIdZombie(id); // Important: set the ID from path
             Zombies updatedZombie = zombiesService.updateZombie(zombie);
             return ResponseEntity.ok(zombiesMapper.toDto(updatedZombie));
         } catch (IllegalArgumentException e) {
+            System.out.println("Error updating zombie: " + e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -92,7 +88,6 @@ public class ZombiesController {
         return ResponseEntity.noContent().build();
     }
 
-    // Helper method for validation
     private boolean isValidZombieDto(ZombiesDto zombieDto) {
         if (zombieDto == null) return false;
         if (zombieDto.getNom() == null || zombieDto.getNom().trim().isEmpty()) return false;
