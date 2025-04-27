@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/maps")
@@ -49,12 +50,55 @@ public class MapsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MapsDto> updateMap(@PathVariable("id")  int id, @RequestBody MapsDto dto) {
-        if (mapsService.findById(id).isEmpty()) return ResponseEntity.notFound().build();
-        Maps toUpdate = MapsMapper.toEntity(dto);
-        toUpdate.setIdMap(id); 
-        mapsService.update(toUpdate);
-        return ResponseEntity.ok(MapsMapper.toDTO(toUpdate));
+    public ResponseEntity<MapsDto> updateMap(
+            @PathVariable("id") int id,
+            @RequestBody MapsDto mapDto) {
+        
+        System.out.println("DEBUG - Updating map id=" + id + " with data: " + mapDto);
+
+        try {
+            // 1. Vérifier si la map existe
+            Optional<Maps> existingMap = mapsService.findById(id);
+            Maps currentMap;
+            
+            if (existingMap.isEmpty()) {
+                // 2. Si non trouvée, rechercher par nom/caractéristiques uniques
+                List<Maps> maps = mapsService.findAll();
+                Optional<Maps> mapByProperties = maps.stream()
+                    .filter(m -> m.getLigne() == mapDto.getLigne() 
+                        && m.getColonne() == mapDto.getColonne())
+                    .findFirst();
+                
+                if (mapByProperties.isPresent()) {
+                    currentMap = mapByProperties.get();
+                    id = currentMap.getIdMap();
+                    System.out.println("DEBUG - Found map by properties with new id: " + id);
+                } else {
+                    System.out.println("DEBUG - Map not found by id or properties");
+                    return ResponseEntity.notFound().build();
+                }
+            } else {
+                currentMap = existingMap.get();
+            }
+
+            // Mise à jour avec le nouvel ID
+            Maps map = MapsMapper.toEntity(mapDto);
+            map.setIdMap(id);
+            
+            // Conserver les valeurs existantes si nulles
+            if (mapDto.getLigne() == null) map.setLigne(currentMap.getLigne());
+            if (mapDto.getColonne() == null) map.setColonne(currentMap.getColonne());
+            if (mapDto.getChemin_image() == null) map.setCheminImage(currentMap.getCheminImage());
+
+            System.out.println("DEBUG - Updating map with final data: " + map);
+            
+            Maps updatedMap = mapsService.update(map);
+            return ResponseEntity.ok(MapsMapper.toDTO(updatedMap));
+        } catch (Exception e) {
+            System.out.println("DEBUG - Error updating map: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/{id}")

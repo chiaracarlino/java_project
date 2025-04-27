@@ -34,8 +34,16 @@ public class MapsServicesImpl implements MapsServices {
     }
 
     @Override
-    public void update(Maps maps) {
+    public Maps update(Maps maps) {
+        if (maps == null) {
+            throw new IllegalArgumentException("Map cannot be null");
+        }
+        if (findById(maps.getIdMap()).isEmpty()) {
+            throw new IllegalArgumentException("Map with id " + maps.getIdMap() + " not found");
+        }
         mapsDao.update(maps);
+        
+        return findById(maps.getIdMap()).orElseThrow(() -> new IllegalArgumentException("Map with id " + maps.getIdMap() + " not found after update"));
     }
 
     @Override

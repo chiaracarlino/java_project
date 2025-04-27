@@ -3,43 +3,43 @@ package com.epf.persistence.model;
 import java.util.List;
 
 public class Maps {
-    private int idMap;
-    private int ligne;
-    private int colonne;
+    private Integer idMap;
+    private Integer ligne;
+    private Integer colonne;
     private String cheminImage;
     private List<Zombies> zombies;
 
     public Maps() {
     }
 
-    public Maps(int idMap, int ligne, int colonne, String cheminImage) {
+    public Maps(Integer idMap, Integer ligne, Integer colonne, String cheminImage) {
         this.idMap = idMap;
         this.ligne = ligne;
         this.colonne = colonne;
         this.cheminImage = cheminImage;
     }
 
-    public int getIdMap() {
+    public Integer getIdMap() {
         return idMap;
     }
 
-    public void setIdMap(int id) {
+    public void setIdMap(Integer id) {
         this.idMap = id;
     }
 
-    public int getLigne() {
+    public Integer getLigne() {
         return ligne;
     }
 
-    public void setLigne(int ligne) {
+    public void setLigne(Integer ligne) {
         this.ligne = ligne;
     }
 
-    public int getColonne() {
+    public Integer getColonne() {
         return colonne;
     }
 
-    public void setColonne(int colonne) {
+    public void setColonne(Integer colonne) {
         this.colonne = colonne;
     }
 

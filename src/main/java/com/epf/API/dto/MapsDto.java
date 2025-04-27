@@ -1,28 +1,28 @@
 package com.epf.API.dto;
 
 public class MapsDto {
-    private int id_map;
-    private int ligne;
-    private int colonne;
+    private Integer id_map;
+    private Integer ligne;
+    private Integer colonne;
     private String chemin_image;
 
     public MapsDto() {}
 
-    public MapsDto(int id_map, int ligne, int colonne, String chemin_image) {
+    public MapsDto(Integer id_map, Integer ligne, Integer colonne, String chemin_image) {
         this.id_map = id_map;
         this.ligne = ligne;
         this.colonne = colonne;
         this.chemin_image = chemin_image;
     }
 
-    public int getId_map() { return id_map; }
-    public void setId_map(int id_map) { this.id_map = id_map; }
+    public Integer getId_map() { return id_map; }
+    public void setId_map(Integer id_map) { this.id_map = id_map; }
 
-    public int getLigne() { return ligne; }
-    public void setLigne(int ligne) { this.ligne = ligne; }
+    public Integer getLigne() { return ligne; }
+    public void setLigne(Integer ligne) { this.ligne = ligne; }
 
-    public int getColonne() { return colonne; }
-    public void setColonne(int colonne) { this.colonne = colonne; }
+    public Integer getColonne() { return colonne; }
+    public void setColonne(Integer colonne) { this.colonne = colonne; }
 
     public String getChemin_image() { return chemin_image; }
     public void setChemin_image(String chemin_image) { this.chemin_image = chemin_image; }

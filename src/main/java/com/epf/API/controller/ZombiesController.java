@@ -65,16 +65,32 @@ public class ZombiesController {
         System.out.println("DEBUG - Updating zombie id=" + id + " with data: " + zombieDto);
 
         try {
-            // Vérifier si le zombie existe
+            // 1. Vérifier si le zombie existe
             Optional<Zombies> existingZombie = zombiesService.findById(id);
+            Zombies currentZombie;
             if (existingZombie.isEmpty()) {
-                System.out.println("DEBUG - Zombie not found with id: " + id);
-                return ResponseEntity.notFound().build();
+                // 2. Si non trouvé, rechercher par nom pour gérer la réinitialisation de la BDD
+                List<Zombies> zombies = zombiesService.findAll();
+                Optional<Zombies> zombieByName = zombies.stream()
+                    .filter(z -> z.getNom().equals(zombieDto.getNom()))
+                    .findFirst();
+                
+                if (zombieByName.isPresent()) {
+                    // Utiliser le nouvel ID si trouvé par nom
+                    currentZombie = zombieByName.get();
+                    id = currentZombie.getIdZombie();
+                    System.out.println("DEBUG - Found zombie by name with new id: " + id);
+                } else {
+                    System.out.println("DEBUG - Zombie not found by id or name");
+                    return ResponseEntity.notFound().build();
+                }
+            } else {
+                currentZombie = existingZombie.get();
             }
 
-            // Mise à jour partielle : conserver les valeurs existantes si non fournies
-            Zombies currentZombie = existingZombie.get();
+            // Mise à jour avec le nouvel ID si nécessaire
             Zombies zombie = zombiesMapper.toEntity(zombieDto);
+            zombie.setIdZombie(id);
             
             // Conserver les valeurs existantes si les nouvelles sont null
             if (zombieDto.getNom() == null) zombie.setNom(currentZombie.getNom());
@@ -83,22 +99,15 @@ public class ZombiesController {
             if (zombieDto.getId_map() == null) zombie.setIdMap(currentZombie.getIdMap());
             if (zombieDto.getChemin_image() == null) zombie.setCheminImage(currentZombie.getCheminImage());
 
-            zombie.setIdZombie(id); // Toujours conserver l'ID
+            // Log pour debug
+            System.out.println("DEBUG - Updating zombie with final data: " + zombie);
             
-            // Validation basique
-            if (zombie.getPointDeVie() <= 0) {
-                return ResponseEntity.badRequest().build();
-            }
-            if (zombie.getDegatAttaque() < 0) {
-                return ResponseEntity.badRequest().build();
-            }
-
             Zombies updatedZombie = zombiesService.updateZombie(zombie);
             return ResponseEntity.ok(zombiesMapper.toDto(updatedZombie));
         } catch (Exception e) {
             System.out.println("DEBUG - Error updating zombie: " + e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

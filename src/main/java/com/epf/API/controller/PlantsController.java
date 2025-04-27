@@ -5,10 +5,12 @@ import com.epf.persistence.model.Plants;
 import com.epf.API.dto.PlantsDto;
 import com.epf.API.mapper.PlantsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -75,20 +77,53 @@ public class PlantsController {
     public ResponseEntity<PlantsDto> updatePlant(
             @PathVariable("id") int id,
             @RequestBody PlantsDto plantDto) {
-        if (!isValidPlantDto(plantDto)) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (plantsService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Plants plant = plantsMapper.toEntity(plantDto);
-        plant.setIdPlante(id);
-        setDefaultValues(plant);
         
-        Plants updatedPlant = plantsService.update(plant);
-        return ResponseEntity.ok(plantsMapper.toDTO(updatedPlant));
+        System.out.println("DEBUG - Updating plant id=" + id + " with data: " + plantDto);
+
+        try {
+            // 1. Vérifier si la plante existe
+            Optional<Plants> existingPlant = plantsService.findById(id);
+            Plants currentPlant;
+            
+            if (existingPlant.isEmpty()) {
+                // 2. Si non trouvée, rechercher par nom
+                List<Plants> plants = plantsService.findAll();
+                Optional<Plants> plantByName = plants.stream()
+                    .filter(p -> p.getNom().equals(plantDto.getNom()))
+                    .findFirst();
+                
+                if (plantByName.isPresent()) {
+                    currentPlant = plantByName.get();
+                    id = currentPlant.getIdPlante();
+                    System.out.println("DEBUG - Found plant by name with new id: " + id);
+                } else {
+                    System.out.println("DEBUG - Plant not found by id or name");
+                    return ResponseEntity.notFound().build();
+                }
+            } else {
+                currentPlant = existingPlant.get();
+            }
+
+            // Mise à jour avec le nouvel ID
+            Plants plant = plantsMapper.toEntity(plantDto);
+            plant.setIdPlante(id);
+            
+            // Conserver les valeurs existantes si nulles
+            if (plantDto.getNom() == null) plant.setNom(currentPlant.getNom());
+            if (plantDto.getPoint_de_vie() == null) plant.setPointDeVie(currentPlant.getPointDeVie());
+            if (plantDto.getDegat_attaque() == null) plant.setDegatAttaque(currentPlant.getDegatAttaque());
+            if (plantDto.getCout() == null) plant.setCout(currentPlant.getCout());
+            if (plantDto.getChemin_image() == null) plant.setCheminImage(currentPlant.getCheminImage());
+
+            System.out.println("DEBUG - Updating plant with final data: " + plant);
+            
+            Plants updatedPlant = plantsService.update(plant);
+            return ResponseEntity.ok(plantsMapper.toDTO(updatedPlant));
+        } catch (Exception e) {
+            System.out.println("DEBUG - Error updating plant: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/{id}")
