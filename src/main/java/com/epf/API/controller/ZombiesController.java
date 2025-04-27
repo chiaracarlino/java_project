@@ -5,6 +5,7 @@ import com.epf.core.services.ZombiesServices;
 import com.epf.API.mapper.ZombiesMapper;
 import com.epf.API.dto.ZombiesDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,35 +58,53 @@ public class ZombiesController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ZombiesDto> updateZombie(
-        @PathVariable("id") int id, 
+        @PathVariable(name = "id", required = true) int id,
         @RequestBody ZombiesDto zombieDto) {
         
-        if (!isValidZombieDto(zombieDto)) {
-            return ResponseEntity.badRequest().build();
-        }
+        System.out.println("DEBUG - Updating zombie id=" + id + " with data: " + zombieDto);
 
         try {
+            // Vérifier si le zombie existe
             if (zombiesService.findById(id).isEmpty()) {
+                System.out.println("DEBUG - Zombie not found with id: " + id);
                 return ResponseEntity.notFound().build();
             }
-            
+
+            // Mise à jour des données
             Zombies zombie = zombiesMapper.toEntity(zombieDto);
-            zombie.setIdZombie(id); // Important: set the ID from path
+            zombie.setIdZombie(id);
+            
             Zombies updatedZombie = zombiesService.updateZombie(zombie);
             return ResponseEntity.ok(zombiesMapper.toDto(updatedZombie));
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error updating zombie: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("DEBUG - Error updating zombie: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteZombie(@PathVariable int id) {
-        if (zombiesService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<String> deleteZombie(@PathVariable("id") int id) {
+        try {
+            // Vérifier si le zombie existe
+            if (zombiesService.findById(id).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Zombie non trouvé avec l'id: " + id);
+            }
+
+            try {
+                zombiesService.deleteZombie(id);
+                return ResponseEntity.ok("Zombie supprimé avec succès!");
+            } catch (Exception e) {
+                System.out.println("Error deleting zombie: " + e.getMessage());
+                return ResponseEntity.status(500)
+                    .body("Erreur lors de la suppression : " + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("Error finding zombie: " + e.getMessage());
+            return ResponseEntity.status(500)
+                .body("Erreur lors de la recherche du zombie : " + e.getMessage());
         }
-        zombiesService.deleteZombie(id);
-        return ResponseEntity.noContent().build();
     }
 
     private boolean isValidZombieDto(ZombiesDto zombieDto) {
