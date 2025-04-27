@@ -9,7 +9,7 @@ public interface PlantsServices {
     List<Plants> findAll();
     Optional<Plants> findById(int id);
     Plants save(Plants plant);
-    void update(Plants plant);
+    Plants update(Plants plant);
     void delete(int id);
 }
 

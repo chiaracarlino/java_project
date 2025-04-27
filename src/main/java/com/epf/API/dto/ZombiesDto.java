@@ -1,10 +1,10 @@
 package com.epf.API.dto;
 
 public class ZombiesDto {
-    private int id_zombie;
+    private Integer id_zombie;
     private String nom;
-    private int point_de_vie;        
-    private int degat_attaque;         
+    private Integer point_de_vie;        
+    private Integer degat_attaque;         
     private Integer id_map;           
     private Double attaque_par_seconde;    
     private Double vitesse_de_deplacement; 
@@ -13,7 +13,7 @@ public class ZombiesDto {
     public ZombiesDto() {
     }
 
-    public ZombiesDto(int id_zombie, String nom, int point_de_vie, int degat_attaque,
+    public ZombiesDto(Integer id_zombie, String nom, Integer point_de_vie, Integer degat_attaque,
                       Integer id_map, Double attaque_par_seconde, 
                       Double vitesse_de_deplacement, String chemin_image) {
         this.id_zombie = id_zombie;
@@ -26,11 +26,11 @@ public class ZombiesDto {
         this.chemin_image = chemin_image;
     }
 
-    public int getId_zombie() {
+    public Integer getId_zombie() {
         return id_zombie;
     }
 
-    public void setId_zombie(int id_zombie) {
+    public void setId_zombie(Integer id_zombie) {
         this.id_zombie = id_zombie;
     }
 
@@ -42,19 +42,19 @@ public class ZombiesDto {
         this.nom = nom;
     }
 
-    public int getPoint_de_vie() {
+    public Integer getPoint_de_vie() {
         return point_de_vie;
     }
 
-    public void setPoint_de_vie(int point_de_vie) {
+    public void setPoint_de_vie(Integer point_de_vie) {
         this.point_de_vie = point_de_vie;
     }
 
-    public int getDegat_attaque() {
+    public Integer getDegat_attaque() {
         return degat_attaque;
     }
 
-    public void setDegat_attaque(int degat_attaque) {
+    public void setDegat_attaque(Integer degat_attaque) {
         this.degat_attaque = degat_attaque;
     }
 

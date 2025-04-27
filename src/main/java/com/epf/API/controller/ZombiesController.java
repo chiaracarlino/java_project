@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -65,15 +66,33 @@ public class ZombiesController {
 
         try {
             // Vérifier si le zombie existe
-            if (zombiesService.findById(id).isEmpty()) {
+            Optional<Zombies> existingZombie = zombiesService.findById(id);
+            if (existingZombie.isEmpty()) {
                 System.out.println("DEBUG - Zombie not found with id: " + id);
                 return ResponseEntity.notFound().build();
             }
 
-            // Mise à jour des données
+            // Mise à jour partielle : conserver les valeurs existantes si non fournies
+            Zombies currentZombie = existingZombie.get();
             Zombies zombie = zombiesMapper.toEntity(zombieDto);
-            zombie.setIdZombie(id);
             
+            // Conserver les valeurs existantes si les nouvelles sont null
+            if (zombieDto.getNom() == null) zombie.setNom(currentZombie.getNom());
+            if (zombieDto.getPoint_de_vie() == null) zombie.setPointDeVie(currentZombie.getPointDeVie());
+            if (zombieDto.getDegat_attaque() == null) zombie.setDegatAttaque(currentZombie.getDegatAttaque());
+            if (zombieDto.getId_map() == null) zombie.setIdMap(currentZombie.getIdMap());
+            if (zombieDto.getChemin_image() == null) zombie.setCheminImage(currentZombie.getCheminImage());
+
+            zombie.setIdZombie(id); // Toujours conserver l'ID
+            
+            // Validation basique
+            if (zombie.getPointDeVie() <= 0) {
+                return ResponseEntity.badRequest().build();
+            }
+            if (zombie.getDegatAttaque() < 0) {
+                return ResponseEntity.badRequest().build();
+            }
+
             Zombies updatedZombie = zombiesService.updateZombie(zombie);
             return ResponseEntity.ok(zombiesMapper.toDto(updatedZombie));
         } catch (Exception e) {

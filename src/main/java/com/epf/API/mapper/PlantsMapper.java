@@ -35,7 +35,7 @@ public class PlantsMapper {
         plant.setDegatAttaque(dto.getDegat_attaque());
         plant.setCout(dto.getCout());
         plant.setSoleilParSeconde(dto.getSoleil_par_seconde());    // No conversion needed
-       // plant.setEffet(dto.getEffet());
+        plant.setEffet(dto.getEffet());
         plant.setCheminImage(dto.getChemin_image());
         return plant;
     }

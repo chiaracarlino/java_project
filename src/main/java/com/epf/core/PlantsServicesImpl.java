@@ -57,14 +57,24 @@ public class PlantsServicesImpl implements PlantsServices {
     }
 
     @Override
-    public void update(Plants plant) {
+    public Plants update(Plants plant) {
         if (plant == null) {
             throw new IllegalArgumentException("Plant cannot be null");
         }
         if (findById(plant.getIdPlante()).isEmpty()) {
             throw new IllegalArgumentException("Plant with id " + plant.getIdPlante() + " not found");
         }
+        
+        // Handle optional fields with default values
+        if (plant.getAttaqueParSeconde() == null) {
+            plant.setAttaqueParSeconde(0.0);
+        }
+        if (plant.getSoleilParSeconde() == null) {
+            plant.setSoleilParSeconde(0.0);
+        }
+        
         plantsRepository.update(plant);
+        return plant; // Return the updated plant
     }
 
     @Override
