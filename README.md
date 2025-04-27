@@ -14,8 +14,8 @@ Ce projet est une API REST Java EE pour gérer un jeu inspiré de Plants vs. Zom
 
 ## Structure du projet
 
+```
 java_project-main/
-
 ├── src/
 │   ├── main/
 │   │   ├── java/
@@ -37,6 +37,7 @@ java_project-main/
 │   └── test/
 │       └── java/
 └── pom.xml
+```
 
 ## Configuration Maven (pom.xml)
 
