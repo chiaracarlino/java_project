@@ -9,8 +9,7 @@ public class Maps {
     private String cheminImage;
     private List<Zombies> zombies;
 
-    public Maps() {
-    }
+    public Maps() {}
 
     public Maps(Integer idMap, Integer ligne, Integer colonne, String cheminImage) {
         this.idMap = idMap;
@@ -19,44 +18,19 @@ public class Maps {
         this.cheminImage = cheminImage;
     }
 
-    public Integer getIdMap() {
-        return idMap;
-    }
+    public Integer getIdMap() { return idMap; }
+    public void setIdMap(Integer id) { this.idMap = id; }
 
-    public void setIdMap(Integer id) {
-        this.idMap = id;
-    }
+    public Integer getLigne() { return ligne; }
+    public void setLigne(Integer ligne) { this.ligne = ligne; }
 
-    public Integer getLigne() {
-        return ligne;
-    }
+    public Integer getColonne() { return colonne; }
+    public void setColonne(Integer colonne) { this.colonne = colonne; }
 
-    public void setLigne(Integer ligne) {
-        this.ligne = ligne;
-    }
+    public String getCheminImage() { return cheminImage; }
+    public void setCheminImage(String cheminImage) { this.cheminImage = cheminImage; }
 
-    public Integer getColonne() {
-        return colonne;
-    }
-
-    public void setColonne(Integer colonne) {
-        this.colonne = colonne;
-    }
-
-    public String getCheminImage() {
-        return cheminImage;
-    }
-
-    public void setCheminImage(String cheminImage) {
-        this.cheminImage = cheminImage;
-    }
-
-    public List<Zombies> getZombies() { 
-        return zombies;
-    }
-
-    public void setZombies(List<Zombies> zombies) { 
-        this.zombies = zombies;
-    }
+    public List<Zombies> getZombies() { return zombies; }
+    public void setZombies(List<Zombies> zombies) { this.zombies = zombies; }
 }
 

@@ -49,7 +49,7 @@ public class ZombiesController {
 
         try {
             Zombies zombie = zombiesMapper.toEntity(zombieDto);
-            Zombies createdZombie = zombiesService.createZombie(zombie);
+            Zombies createdZombie = zombiesService.save(zombie);
             return ResponseEntity.ok(zombiesMapper.toDto(createdZombie));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -87,7 +87,7 @@ public class ZombiesController {
 
             System.out.println("DEBUG - Updating zombie with final data: " + zombie);
             
-            Zombies updatedZombie = zombiesService.updateZombie(zombie);
+            Zombies updatedZombie = zombiesService.update(zombie);
             return ResponseEntity.ok(zombiesMapper.toDto(updatedZombie));
         } catch (Exception e) {
             System.out.println("DEBUG - Error updating zombie: " + e.getMessage());
@@ -105,7 +105,7 @@ public class ZombiesController {
             }
 
             try {
-                zombiesService.deleteZombie(id);
+                zombiesService.delete(id);
                 return ResponseEntity.ok("Zombie supprimé avec succès!");
             } catch (Exception e) {
                 System.out.println("Error deleting zombie: " + e.getMessage());

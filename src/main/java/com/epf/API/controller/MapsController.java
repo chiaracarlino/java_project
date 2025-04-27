@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/maps")
@@ -31,12 +32,12 @@ public class MapsController {
     public ResponseEntity<List<MapsDto>> getAllMaps() {
         List<MapsDto> dtos = mapsService.findAll().stream()
                 .map(MapsMapper::toDTO)
-                .toList();
+                .collect(Collectors.toList()); 
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MapsDto> getMapById(@PathVariable("id")  int id) {
+    public ResponseEntity<MapsDto> getMapById(@PathVariable("id") int id) {  
         return mapsService.findById(id)
                 .map(MapsMapper::toDTO)
                 .map(ResponseEntity::ok)
@@ -44,9 +45,14 @@ public class MapsController {
     }
 
     @PostMapping
-    public ResponseEntity<MapsDto> createMap(@RequestBody MapsDto dto) {
-        Maps saved = mapsService.save(MapsMapper.toEntity(dto));
-        return ResponseEntity.ok(MapsMapper.toDTO(saved));
+    public ResponseEntity<MapsDto> createMap(@RequestBody MapsDto mapDto) {  
+        try {
+            Maps map = MapsMapper.toEntity(mapDto);
+            Maps savedMap = mapsService.save(map);
+            return ResponseEntity.ok(MapsMapper.toDTO(savedMap));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/{id}")
@@ -107,7 +113,7 @@ public class MapsController {
             try {
                 List<Zombies> zombiesAssocies = zombiesService.findByMapId(id);
                 for (Zombies zombie : zombiesAssocies) {
-                    zombiesService.deleteZombie(zombie.getIdZombie());
+                    zombiesService.delete(zombie.getIdZombie());
                 }
 
                 mapsService.delete(id);

@@ -36,7 +36,7 @@ public class ZombiesRepository implements ZombiesDao {
     }
 
     @Override
-    public Zombies createZombie(Zombies zombie) {
+    public Zombies save(Zombies zombie) {
         String sql = "INSERT INTO zombie (nom, point_de_vie, degat_attaque, attaque_par_seconde, vitesse_de_deplacement, chemin_image, id_map) VALUES (?, ?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -60,7 +60,7 @@ public class ZombiesRepository implements ZombiesDao {
     }
 
     @Override
-    public Zombies updateZombie(Zombies zombie) {
+    public Zombies update(Zombies zombie) {
         String sql = "UPDATE zombie SET nom = ?, point_de_vie = ?, degat_attaque = ?, attaque_par_seconde = ?, vitesse_de_deplacement = ?, chemin_image = ?, id_map = ? WHERE id_zombie = ?";
         jdbcTemplate.update(sql,
             zombie.getNom(),
@@ -76,7 +76,7 @@ public class ZombiesRepository implements ZombiesDao {
     }
 
     @Override
-    public void deleteZombie(int id) {
+    public void delete(int id) {
         String sql = "DELETE FROM zombie WHERE id_zombie = ?";
         jdbcTemplate.update(sql, id);
     }

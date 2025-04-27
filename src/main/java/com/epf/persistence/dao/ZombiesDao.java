@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ZombiesDao {
-    Zombies createZombie(Zombies zombie);
+    Zombies save(Zombies zombie);
     Optional<Zombies> findById(int id);
     List<Zombies> findAll();
     List<Zombies> findByMapId(int mapId);
-    Zombies updateZombie(Zombies zombie);
-    void deleteZombie(int id);
+    Zombies update(Zombies zombie);
+    void delete(int id);
 }
 

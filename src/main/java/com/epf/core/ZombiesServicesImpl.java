@@ -22,7 +22,7 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
-    public Zombies createZombie(Zombies zombie) {
+    public Zombies save(Zombies zombie) {
         validateZombie(zombie);
         
         if (zombie.getIdMap() != null) {
@@ -30,7 +30,7 @@ public class ZombiesServicesImpl implements ZombiesServices {
                 .orElseThrow(() -> new RuntimeException("Map non trouvée avec l'ID: " + zombie.getIdMap()));
         }
         
-        return zombiesDao.createZombie(zombie);
+        return zombiesDao.save(zombie);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ZombiesServicesImpl implements ZombiesServices {
     }
 
     @Override
-    public Zombies updateZombie(Zombies zombie) {
+    public Zombies update(Zombies zombie) {
 
         zombiesDao.findById(zombie.getId())
             .orElseThrow(() -> new RuntimeException("Zombie non trouvé avec l'ID: " + zombie.getId()));
@@ -63,15 +63,15 @@ public class ZombiesServicesImpl implements ZombiesServices {
                 .orElseThrow(() -> new RuntimeException("Map non trouvée avec l'ID: " + zombie.getIdMap()));
         }
         
-        zombiesDao.updateZombie(zombie);
+        zombiesDao.update(zombie);
         return zombie;
     }
 
     @Override
-    public void deleteZombie(int id) {
+    public void delete(int id) {
         zombiesDao.findById(id)
             .orElseThrow(() -> new RuntimeException("Zombie non trouvé avec l'ID: " + id));
-        zombiesDao.deleteZombie(id);
+        zombiesDao.delete(id);
     }
 
     private void validateZombie(Zombies zombie) {
