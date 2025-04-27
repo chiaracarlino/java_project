@@ -1,63 +1,171 @@
-/*package persistence.dao;
-import com.epf.persistence.dao.MapsDao;
+package persistence.dao;
+
+ 
+
 import com.epf.persistence.model.Maps;
-import org.junit.Before;
+
+import com.epf.persistence.model.Zombies;
+
 import org.junit.Test;
-import java.util.Arrays;
+
+import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Optional;
+
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+
+ 
 
 public class MapsDaoTest {
 
-    private MapsDao mapsDao;
-
-    @Before
-    public void setUp() {
-        mapsDao = mock(MapsDao.class);
-    }
+ 
 
     @Test
-    public void testCreate() {
-        Maps map = new Maps(1L, 3, 4, "dao.png");
-        when(mapsDao.create(map)).thenReturn(map);
-        Maps result = mapsDao.create(map);
-        assertEquals(Long.valueOf(1), result.getIdMap());
+
+    public void testMapsConstructorAndGetters() {
+
+        // Arrange
+
+        Integer id = 1;
+
+        Integer ligne = 5;
+
+        Integer colonne = 7;
+
+        String cheminImage = "path/to/image.png";
+
+ 
+
+        // Act
+
+        Maps map = new Maps(id, ligne, colonne, cheminImage);
+
+ 
+
+        // Assert
+
+        assertEquals(id, map.getIdMap());
+
+        assertEquals(ligne, map.getLigne());
+
+        assertEquals(colonne, map.getColonne());
+
+        assertEquals(cheminImage, map.getCheminImage());
+
     }
+
+ 
 
     @Test
-    public void testFindById() {
-        Maps map = new Maps(2L, 5, 6, "find.png");
-        when(mapsDao.findById(2L)).thenReturn(Optional.of(map));
-        Optional<Maps> result = mapsDao.findById(2L);
-        assertTrue(result.isPresent());
+
+    public void testMapsEmptyConstructor() {
+
+        // Act
+
+        Maps map = new Maps();
+
+ 
+
+        // Assert
+
+        assertNull(map.getIdMap());
+
+        assertNull(map.getLigne());
+
+        assertNull(map.getColonne());
+
+        assertNull(map.getCheminImage());
+
+        assertNull(map.getZombies());
+
     }
+
+ 
 
     @Test
-    public void testFindAll() {
-        List<Maps> maps = Arrays.asList(
-                new Maps(1L, 1, 1, "a.png"),
-                new Maps(2L, 2, 2, "b.png")
-        );
-        when(mapsDao.findAll()).thenReturn(maps);
-        List<Maps> result = mapsDao.findAll();
-        assertEquals(2, result.size());
+
+    public void testMapsSetters() {
+
+        // Arrange
+
+        Maps map = new Maps();
+
+        Integer id = 1;
+
+        Integer ligne = 5;
+
+        Integer colonne = 7;
+
+        String cheminImage = "path/to/image.png";
+
+ 
+
+        // Act
+
+        map.setIdMap(id);
+
+        map.setLigne(ligne);
+
+        map.setColonne(colonne);
+
+        map.setCheminImage(cheminImage);
+
+ 
+
+        // Assert
+
+        assertEquals(id, map.getIdMap());
+
+        assertEquals(ligne, map.getLigne());
+
+        assertEquals(colonne, map.getColonne());
+
+        assertEquals(cheminImage, map.getCheminImage());
+
     }
+
+ 
 
     @Test
-    public void testUpdate() {
-        Maps map = new Maps(3L, 7, 8, "updated.png");
-        doNothing().when(mapsDao).update(map);
-        mapsDao.update(map);
-        verify(mapsDao).update(map);
+
+    public void testZombiesList() {
+
+        // Arrange
+
+        Maps map = new Maps();
+
+        List<Zombies> zombies = new ArrayList<>();
+
+        Zombies zombie1 = new Zombies();
+
+        zombie1.setId(1);
+
+        Zombies zombie2 = new Zombies();
+
+        zombie2.setId(2);
+
+        zombies.add(zombie1);
+
+        zombies.add(zombie2);
+
+ 
+
+        // Act
+
+        map.setZombies(zombies);
+
+ 
+
+        // Assert
+
+        assertNotNull(map.getZombies());
+
+        assertEquals(2, map.getZombies().size());
+
+        assertEquals(Integer.valueOf(1), map.getZombies().get(0).getId());
+
+        assertEquals(Integer.valueOf(2), map.getZombies().get(1).getId());
+
     }
 
-    @Test
-    public void testDelete() {
-        doNothing().when(mapsDao).delete(4L);
-        mapsDao.delete(4L);
-        verify(mapsDao).delete(4L);
-    }
-} */
-
+}

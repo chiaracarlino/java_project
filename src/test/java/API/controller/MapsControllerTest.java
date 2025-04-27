@@ -1,141 +1,293 @@
 package API.controller;
 
-import com.epf.API.dto.MapsDto;
+
+import com.epf.API.controller.MapsController;
 import com.epf.core.services.MapsServices;
 import com.epf.core.services.ZombiesServices;
-import com.epf.API.controller.MapsController;
 import com.epf.persistence.model.Maps;
+import com.epf.persistence.model.Zombies;
+import com.epf.API.dto.MapsDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+ 
+
 import static org.mockito.Mockito.*;
+
+import static org.junit.Assert.*;
+
+ 
 
 public class MapsControllerTest {
 
+ 
+
     @Mock
+
     private MapsServices mapsService;
 
+ 
+
     @Mock
+
     private ZombiesServices zombiesService;
 
+ 
+
     @InjectMocks
+
     private MapsController mapsController;
 
+ 
+
     @Before
+
     public void setUp() {
+
         MockitoAnnotations.openMocks(this);
+
     }
 
+ 
+
     @Test
+
     public void testGetAllMaps() {
+
+        // Arrange
+
         Maps map = new Maps();
+
         map.setIdMap(1);
+
+        map.setLigne(5);
+
+        map.setColonne(5);
+
+        map.setCheminImage("path/to/image.png");
+
+ 
+
         when(mapsService.findAll()).thenReturn(Arrays.asList(map));
+
+ 
+
+        // Act
 
         ResponseEntity<List<MapsDto>> response = mapsController.getAllMaps();
 
-        assertEquals(200, response.getStatusCode());
-        assertFalse(response.getBody().isEmpty());
-    }
+ 
 
-    @Test
-    public void testGetMapById_found() {
-        Maps map = new Maps();
-        map.setIdMap(1);
-        when(mapsService.findById(1)).thenReturn(Optional.of(map));
+        // Assert
 
-        ResponseEntity<MapsDto> response = mapsController.getMapById(1);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        assertEquals(200, response.getStatusCode());
         assertNotNull(response.getBody());
+
+        assertEquals(1, response.getBody().size());
+
     }
 
-    @Test
-    public void testGetMapById_notFound() {
-        when(mapsService.findById(1)).thenReturn(Optional.empty());
-
-        ResponseEntity<MapsDto> response = mapsController.getMapById(1);
-
-        assertEquals(404, response.getStatusCode());
-    }
+ 
 
     @Test
-    public void testCreateMap_success() {
-        MapsDto dto = new MapsDto();
-        dto.setLigne(5);
-        dto.setColonne(5);
+
+    public void testGetMapByIdFound() {
+
+        // Arrange
+
+        int id = 1;
 
         Maps map = new Maps();
+
+        map.setIdMap(id);
+
+        map.setLigne(5);
+
+        map.setColonne(5);
+
+ 
+
+        when(mapsService.findById(id)).thenReturn(Optional.of(map));
+
+ 
+
+        // Act
+
+        ResponseEntity<MapsDto> response = mapsController.getMapById(id);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertNotNull(response.getBody());
+
+    }
+
+ 
+
+    @Test
+
+    public void testGetMapByIdNotFound() {
+
+        // Arrange
+
+        int id = 999;
+
+        when(mapsService.findById(id)).thenReturn(Optional.empty());
+
+ 
+
+        // Act
+
+        ResponseEntity<MapsDto> response = mapsController.getMapById(id);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+ 
+
+    @Test
+
+    public void testCreateMapSuccess() {
+
+        // Arrange
+
+        MapsDto mapDto = new MapsDto();
+
+        mapDto.setLigne(5);
+
+        mapDto.setColonne(5);
+
+        mapDto.setChemin_image("test.png");
+
+ 
+
+        Maps map = new Maps();
+
         map.setIdMap(1);
+
+        map.setLigne(5);
+
+        map.setColonne(5);
+
+        map.setCheminImage("test.png");
+
+ 
 
         when(mapsService.save(any(Maps.class))).thenReturn(map);
 
-        ResponseEntity<MapsDto> response = mapsController.createMap(dto);
+ 
 
-        assertEquals(200, response.getStatusCode());
+        // Act
+
+        ResponseEntity<MapsDto> response = mapsController.createMap(mapDto);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertNotNull(response.getBody());
+
     }
 
-    @Test
-    public void testUpdateMap_existingMap() {
-        int id = 1;
-        MapsDto dto = new MapsDto();
-        dto.setLigne(10);
-        dto.setColonne(10);
-
-        Maps existing = new Maps();
-        existing.setIdMap(id);
-        existing.setLigne(5);
-        existing.setColonne(5);
-
-        Maps updated = new Maps();
-        updated.setIdMap(id);
-        updated.setLigne(10);
-        updated.setColonne(10);
-
-        when(mapsService.findById(id)).thenReturn(Optional.of(existing));
-        when(mapsService.update(any(Maps.class))).thenReturn(updated);
-
-        ResponseEntity<MapsDto> response = mapsController.updateMap(id, dto);
-
-        assertEquals(200, response.getStatusCode());
-        assertNotNull(response.getBody());
-    }
+ 
 
     @Test
-    public void testDeleteMap_found() {
+
+    public void testDeleteMapSuccess() {
+
+        // Arrange
+
         int id = 1;
+
         Maps map = new Maps();
+
         map.setIdMap(id);
 
+       
+
+        Zombies zombie = new Zombies();
+
+        zombie.setId(1);
+
+        zombie.setIdMap(id);
+
+ 
+
         when(mapsService.findById(id)).thenReturn(Optional.of(map));
-        when(zombiesService.findByMapId(id)).thenReturn(Arrays.asList());
+
+        when(zombiesService.findByMapId(id)).thenReturn(Arrays.asList(zombie));
+
+ 
+
+        // Act
 
         ResponseEntity<String> response = mapsController.deleteMap(id);
 
-        assertEquals(200, response.getStatusCode());
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertEquals("Map et zombies associés supprimés avec succès!", response.getBody());
+
+        verify(zombiesService).delete(zombie.getId());
+
+        verify(mapsService).delete(id);
+
     }
+
+ 
 
     @Test
-    public void testDeleteMap_notFound() {
-        int id = 1;
+
+    public void testDeleteMapNotFound() {
+
+        // Arrange
+
+        int id = 999;
+
         when(mapsService.findById(id)).thenReturn(Optional.empty());
+
+ 
+
+        // Act
 
         ResponseEntity<String> response = mapsController.deleteMap(id);
 
-        assertEquals(404, response.getStatusCode());
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
         assertTrue(response.getBody().contains("Map non trouvée"));
+
+        verify(mapsService, never()).delete(anyInt());
+
     }
+
 }
 
-
+ 

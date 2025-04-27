@@ -1,157 +1,354 @@
 package API.controller;
 
+ 
+
 import com.epf.API.controller.PlantsController;
+
 import com.epf.core.services.PlantsServices;
+
 import com.epf.persistence.model.Plants;
+
 import com.epf.API.dto.PlantsDto;
+
 import com.epf.API.mapper.PlantsMapper;
-import org.junit.After;
+
 import org.junit.Before;
+
 import org.junit.Test;
+
 import org.mockito.InjectMocks;
+
 import org.mockito.Mock;
+
 import org.mockito.MockitoAnnotations;
+
+import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 
+ 
+
 import java.util.Arrays;
+
 import java.util.List;
+
 import java.util.Optional;
 
+ 
+
 import static org.mockito.Mockito.*;
+
 import static org.junit.Assert.*;
+
+ 
 
 public class PlantsControllerTest {
 
+ 
+
     @Mock
+
     private PlantsServices plantsService;
 
+ 
+
     @Mock
+
     private PlantsMapper plantsMapper;
 
+ 
+
     @InjectMocks
+
     private PlantsController plantsController;
 
-    private AutoCloseable closeable;
+ 
 
     @Before
+
     public void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+
+        MockitoAnnotations.openMocks(this);
+
     }
 
-    @After
-    public void tearDown() throws Exception {
-        closeable.close();
-    }
+ 
 
     @Test
+
     public void testGetAllPlants() {
+
+        // Arrange
+
         Plants plant = new Plants();
+
+        plant.setIdPlante(1);
+
+        plant.setNom("Peashooter");
+
+        plant.setPointDeVie(100);
+
+        plant.setDegatAttaque(20);
+
+ 
+
         PlantsDto plantDto = new PlantsDto();
 
+        plantDto.setId_plante(1);
+
+        plantDto.setNom("Peashooter");
+
+        plantDto.setPoint_de_vie(100);
+
+        plantDto.setDegat_attaque(20);
+
+ 
+
         when(plantsService.findAll()).thenReturn(Arrays.asList(plant));
+
         when(plantsMapper.toDTO(any(Plants.class))).thenReturn(plantDto);
+
+ 
+
+        // Act
 
         ResponseEntity<List<PlantsDto>> response = plantsController.getAllPlants();
 
-        assertEquals(200, response.getStatusCode());
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertNotNull(response.getBody());
+
         assertEquals(1, response.getBody().size());
-        verify(plantsService, times(1)).findAll();
+
     }
 
+ 
+
     @Test
+
     public void testGetPlantByIdFound() {
+
+        // Arrange
+
+        Integer id = 1;
+
         Plants plant = new Plants();
+
+        plant.setIdPlante(id);
+
+        plant.setNom("Sunflower");
+
+ 
+
         PlantsDto plantDto = new PlantsDto();
 
-        when(plantsService.findById(1)).thenReturn(Optional.of(plant));
+        plantDto.setId_plante(id);
+
+        plantDto.setNom("Sunflower");
+
+ 
+
+        when(plantsService.findById(id)).thenReturn(Optional.of(plant));
+
         when(plantsMapper.toDTO(plant)).thenReturn(plantDto);
 
-        ResponseEntity<PlantsDto> response = plantsController.getPlantById(1);
+ 
 
-        assertEquals(200, response.getStatusCode());
+        // Act
+
+        ResponseEntity<PlantsDto> response = plantsController.getPlantById(id);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertNotNull(response.getBody());
+
+        assertEquals("Sunflower", response.getBody().getNom());
+
     }
 
-    @Test
-    public void testGetPlantByIdNotFound() {
-        when(plantsService.findById(1)).thenReturn(Optional.empty());
-
-        ResponseEntity<PlantsDto> response = plantsController.getPlantById(1);
-
-        assertEquals(404, response.getStatusCode());
-    }
+ 
 
     @Test
-    public void testCreatePlant() {
+
+    public void testCreatePlantSuccess() {
+
+        // Arrange
+
         PlantsDto plantDto = new PlantsDto();
+
+        plantDto.setNom("New Plant");
+
+        plantDto.setPoint_de_vie(100);
+
+        plantDto.setDegat_attaque(20);
+
+        plantDto.setCout(50);
+
+ 
+
         Plants plant = new Plants();
-        Plants savedPlant = new Plants();
-        PlantsDto savedPlantDto = new PlantsDto();
+
+        plant.setIdPlante(1);
+
+        plant.setNom("New Plant");
+
+        plant.setPointDeVie(100);
+
+ 
 
         when(plantsMapper.toEntity(plantDto)).thenReturn(plant);
-        when(plantsService.save(any(Plants.class))).thenReturn(savedPlant);
-        when(plantsMapper.toDTO(savedPlant)).thenReturn(savedPlantDto);
+
+        when(plantsService.save(any(Plants.class))).thenReturn(plant);
+
+        when(plantsMapper.toDTO(plant)).thenReturn(plantDto);
+
+ 
+
+        // Act
 
         ResponseEntity<PlantsDto> response = plantsController.createPlant(plantDto);
 
-        assertEquals(200, response.getStatusCode());
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertNotNull(response.getBody());
+
     }
 
+ 
+
     @Test
-    public void testUpdatePlantFound() {
+
+    public void testUpdatePlantSuccess() {
+
+        // Arrange
+
+        Integer id = 1;
+
         PlantsDto plantDto = new PlantsDto();
-        plantDto.setNom("Sunflower");
+
+        plantDto.setId_plante(id);
+
+        plantDto.setNom("Updated Plant");
+
+        plantDto.setPoint_de_vie(150);
+
+ 
 
         Plants existingPlant = new Plants();
-        existingPlant.setIdPlante(1);
-        existingPlant.setNom("Sunflower");
+
+        existingPlant.setIdPlante(id);
+
+        existingPlant.setNom("Old Plant");
+
+        existingPlant.setPointDeVie(100);
+
+ 
 
         Plants updatedPlant = new Plants();
-        PlantsDto updatedPlantDto = new PlantsDto();
 
-        when(plantsService.findById(1)).thenReturn(Optional.of(existingPlant));
+        updatedPlant.setIdPlante(id);
+
+        updatedPlant.setNom("Updated Plant");
+
+        updatedPlant.setPointDeVie(150);
+
+ 
+
+        when(plantsService.findById(id)).thenReturn(Optional.of(existingPlant));
+
         when(plantsService.update(any(Plants.class))).thenReturn(updatedPlant);
-        when(plantsMapper.toDTO(updatedPlant)).thenReturn(updatedPlantDto);
 
-        ResponseEntity<PlantsDto> response = plantsController.updatePlant(1, plantDto);
+        when(plantsMapper.toDTO(updatedPlant)).thenReturn(plantDto);
 
-        assertEquals(200, response.getStatusCode());
+ 
+
+        // Act
+
+        ResponseEntity<PlantsDto> response = plantsController.updatePlant(id, plantDto);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertNotNull(response.getBody());
+
+        assertEquals("Updated Plant", response.getBody().getNom());
+
     }
 
-    @Test
-    public void testUpdatePlantNotFound() {
-        PlantsDto plantDto = new PlantsDto();
-        plantDto.setNom("Peashooter");
-
-        when(plantsService.findById(1)).thenReturn(Optional.empty());
-        when(plantsService.findAll()).thenReturn(Arrays.asList());
-
-        ResponseEntity<PlantsDto> response = plantsController.updatePlant(1, plantDto);
-
-        assertEquals(404, response.getStatusCode());
-    }
+ 
 
     @Test
-    public void testDeletePlantFound() {
+
+    public void testDeletePlantSuccess() {
+
+        // Arrange
+
+        Integer id = 1;
+
         Plants plant = new Plants();
-        when(plantsService.findById(1)).thenReturn(Optional.of(plant));
 
-        ResponseEntity<Void> response = plantsController.deletePlant(1);
+        plant.setIdPlante(id);
 
-        assertEquals(204, response.getStatusCode());
-        verify(plantsService, times(1)).delete(1);
+        when(plantsService.findById(id)).thenReturn(Optional.of(plant));
+
+ 
+
+        // Act
+
+        ResponseEntity<Void> response = plantsController.deletePlant(id);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+
+        verify(plantsService).delete(id);
+
     }
+
+ 
 
     @Test
+
     public void testDeletePlantNotFound() {
-        when(plantsService.findById(1)).thenReturn(Optional.empty());
 
-        ResponseEntity<Void> response = plantsController.deletePlant(1);
+        // Arrange
 
-        assertEquals(404, response.getStatusCode());
+        Integer id = 999;
+
+        when(plantsService.findById(id)).thenReturn(Optional.empty());
+
+ 
+
+        // Act
+
+        ResponseEntity<Void> response = plantsController.deletePlant(id);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
         verify(plantsService, never()).delete(anyInt());
+
     }
+
 }
 

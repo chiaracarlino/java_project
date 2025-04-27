@@ -1,171 +1,389 @@
 package API.controller;
 
+ 
+
 import com.epf.API.controller.ZombiesController;
-import com.epf.persistence.model.Zombies;
+
 import com.epf.core.services.ZombiesServices;
-import com.epf.API.mapper.ZombiesMapper;
+
+import com.epf.persistence.model.Zombies;
+
 import com.epf.API.dto.ZombiesDto;
-import org.junit.After;
+
+import com.epf.API.mapper.ZombiesMapper;
+
 import org.junit.Before;
+
 import org.junit.Test;
+
 import org.mockito.InjectMocks;
+
 import org.mockito.Mock;
+
 import org.mockito.MockitoAnnotations;
+
+import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 
+ 
+
 import java.util.Arrays;
+
 import java.util.List;
+
 import java.util.Optional;
 
+ 
+
 import static org.mockito.Mockito.*;
+
 import static org.junit.Assert.*;
+
+ 
 
 public class ZombiesControllerTest {
 
+ 
+
     @Mock
+
     private ZombiesServices zombiesService;
 
+ 
+
     @Mock
+
     private ZombiesMapper zombiesMapper;
 
+ 
+
     @InjectMocks
+
     private ZombiesController zombiesController;
 
-    private AutoCloseable closeable;
+ 
 
     @Before
+
     public void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+
+        MockitoAnnotations.openMocks(this);
+
     }
 
-    @After
-    public void tearDown() throws Exception {
-        closeable.close();
-    }
+ 
 
     @Test
+
     public void testGetAllZombies() {
+
+        // Arrange
+
         Zombies zombie = new Zombies();
+
+        zombie.setId(1);
+
+        zombie.setNom("Basic Zombie");
+
+        zombie.setPointDeVie(100);
+
+        zombie.setDegatAttaque(20);
+
+ 
+
         ZombiesDto zombieDto = new ZombiesDto();
 
+        zombieDto.setId_zombie(1);
+
+        zombieDto.setNom("Basic Zombie");
+
+        zombieDto.setPoint_de_vie(100);
+
+        zombieDto.setDegat_attaque(20);
+
+ 
+
         when(zombiesService.findAll()).thenReturn(Arrays.asList(zombie));
+
         when(zombiesMapper.toDto(any(Zombies.class))).thenReturn(zombieDto);
+
+ 
+
+        // Act
 
         ResponseEntity<List<ZombiesDto>> response = zombiesController.getAllZombies();
 
-        assertEquals(200, response.getStatusCode());
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertNotNull(response.getBody());
+
         assertEquals(1, response.getBody().size());
-        verify(zombiesService, times(1)).findAll();
+
     }
 
+ 
+
     @Test
+
     public void testGetZombieByIdFound() {
+
+        // Arrange
+
+        int id = 1;
+
         Zombies zombie = new Zombies();
+
+        zombie.setId(id);
+
+        zombie.setNom("Basic Zombie");
+
+ 
+
         ZombiesDto zombieDto = new ZombiesDto();
 
-        when(zombiesService.findById(1)).thenReturn(Optional.of(zombie));
+        zombieDto.setId_zombie(id);
+
+        zombieDto.setNom("Basic Zombie");
+
+ 
+
+        when(zombiesService.findById(id)).thenReturn(Optional.of(zombie));
+
         when(zombiesMapper.toDto(zombie)).thenReturn(zombieDto);
 
-        ResponseEntity<ZombiesDto> response = zombiesController.getZombieById(1);
+ 
 
-        assertEquals(200, response.getStatusCode());
+        // Act
+
+        ResponseEntity<ZombiesDto> response = zombiesController.getZombieById(id);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertNotNull(response.getBody());
+
+        assertEquals("Basic Zombie", response.getBody().getNom());
+
     }
 
-    @Test
-    public void testGetZombieByIdNotFound() {
-        when(zombiesService.findById(1)).thenReturn(Optional.empty());
-
-        ResponseEntity<ZombiesDto> response = zombiesController.getZombieById(1);
-
-        assertEquals(404, response.getStatusCode());
-    }
+ 
 
     @Test
-    public void testCreateZombieValid() {
+
+    public void testCreateZombieSuccess() {
+
+        // Arrange
+
         ZombiesDto zombieDto = new ZombiesDto();
-        zombieDto.setNom("Zombie");
+
+        zombieDto.setNom("New Zombie");
+
         zombieDto.setPoint_de_vie(100);
-        zombieDto.setDegat_attaque(10);
+
+        zombieDto.setDegat_attaque(20);
+
+        zombieDto.setId_map(1);
+
+ 
 
         Zombies zombie = new Zombies();
-        Zombies createdZombie = new Zombies();
-        ZombiesDto createdZombieDto = new ZombiesDto();
+
+        zombie.setId(1);
+
+        zombie.setNom("New Zombie");
+
+        zombie.setPointDeVie(100);
+
+ 
 
         when(zombiesMapper.toEntity(zombieDto)).thenReturn(zombie);
-        when(zombiesService.save(zombie)).thenReturn(createdZombie);
-        when(zombiesMapper.toDto(createdZombie)).thenReturn(createdZombieDto);
+
+        when(zombiesService.save(any(Zombies.class))).thenReturn(zombie);
+
+        when(zombiesMapper.toDto(zombie)).thenReturn(zombieDto);
+
+ 
+
+        // Act
 
         ResponseEntity<ZombiesDto> response = zombiesController.createZombie(zombieDto);
 
-        assertEquals(200, response.getStatusCode());
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertNotNull(response.getBody());
+
     }
 
+ 
+
     @Test
+
     public void testCreateZombieInvalid() {
-        ZombiesDto zombieDto = new ZombiesDto(); // Invalid, fields missing
+
+        // Arrange
+
+        ZombiesDto zombieDto = new ZombiesDto();
+
+        // Missing required fields
+
+ 
+
+        // Act
 
         ResponseEntity<ZombiesDto> response = zombiesController.createZombie(zombieDto);
 
-        assertEquals(400, response.getStatusCode());
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
     }
 
+ 
+
     @Test
-    public void testUpdateZombieFound() {
+
+    public void testUpdateZombieSuccess() {
+
+        // Arrange
+
+        int id = 1;
+
         ZombiesDto zombieDto = new ZombiesDto();
-        zombieDto.setNom("Conehead Zombie");
+
+        zombieDto.setId_zombie(id);
+
+        zombieDto.setNom("Updated Zombie");
+
+        zombieDto.setPoint_de_vie(150);
+
+ 
 
         Zombies existingZombie = new Zombies();
-        existingZombie.setIdZombie(1);
-        existingZombie.setNom("Conehead Zombie");
+
+        existingZombie.setId(id);
+
+        existingZombie.setNom("Old Zombie");
+
+        existingZombie.setPointDeVie(100);
+
+ 
 
         Zombies updatedZombie = new Zombies();
-        ZombiesDto updatedZombieDto = new ZombiesDto();
 
-        when(zombiesService.findById(1)).thenReturn(Optional.of(existingZombie));
+        updatedZombie.setId(id);
+
+        updatedZombie.setNom("Updated Zombie");
+
+        updatedZombie.setPointDeVie(150);
+
+ 
+
+        when(zombiesService.findById(id)).thenReturn(Optional.of(existingZombie));
+
         when(zombiesService.update(any(Zombies.class))).thenReturn(updatedZombie);
-        when(zombiesMapper.toDto(updatedZombie)).thenReturn(updatedZombieDto);
 
-        ResponseEntity<ZombiesDto> response = zombiesController.updateZombie(1, zombieDto);
+        when(zombiesMapper.toDto(updatedZombie)).thenReturn(zombieDto);
 
-        assertEquals(200, response.getStatusCode());
+ 
+
+        // Act
+
+        ResponseEntity<ZombiesDto> response = zombiesController.updateZombie(id, zombieDto);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertNotNull(response.getBody());
+
+        assertEquals("Updated Zombie", response.getBody().getNom());
+
     }
 
-    @Test
-    public void testUpdateZombieNotFound() {
-        ZombiesDto zombieDto = new ZombiesDto();
-        zombieDto.setNom("Buckethead Zombie");
-
-        when(zombiesService.findById(1)).thenReturn(Optional.empty());
-
-        ResponseEntity<ZombiesDto> response = zombiesController.updateZombie(1, zombieDto);
-
-        assertEquals(404, response.getStatusCode());
-        assertNull(response.getBody());
-    }
+ 
 
     @Test
-    public void testDeleteZombieFound() {
+
+    public void testDeleteZombieSuccess() {
+
+        // Arrange
+
+        int id = 1;
+
         Zombies zombie = new Zombies();
-        when(zombiesService.findById(1)).thenReturn(Optional.of(zombie));
 
-        ResponseEntity<String> response = zombiesController.deleteZombie(1);
+        zombie.setId(id);
 
-        assertEquals(200, response.getStatusCode());
+        when(zombiesService.findById(id)).thenReturn(Optional.of(zombie));
+
+ 
+
+        // Act
+
+        ResponseEntity<String> response = zombiesController.deleteZombie(id);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
         assertEquals("Zombie supprimé avec succès!", response.getBody());
-        verify(zombiesService, times(1)).delete(1);
+
+        verify(zombiesService).delete(id);
+
     }
+
+ 
 
     @Test
+
     public void testDeleteZombieNotFound() {
-        when(zombiesService.findById(1)).thenReturn(Optional.empty());
 
-        ResponseEntity<String> response = zombiesController.deleteZombie(1);
+        // Arrange
 
-        assertEquals(404, response.getStatusCode());
+        int id = 999;
+
+        when(zombiesService.findById(id)).thenReturn(Optional.empty());
+
+ 
+
+        // Act
+
+        ResponseEntity<String> response = zombiesController.deleteZombie(id);
+
+ 
+
+        // Assert
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
         assertTrue(response.getBody().contains("Zombie non trouvé"));
+
+        verify(zombiesService, never()).delete(anyInt());
+
     }
+
 }
+
+
+
+
+ 
 

@@ -1,79 +1,171 @@
-/*package API.dto;
+package API.dto;
+
+ 
 
 import com.epf.API.dto.ZombiesDto;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class ZombiesDtoTest {
-    
-    private ZombiesDto zombiesDto;
+ 
 
-    @BeforeEach
-    void setUp() {
-        zombiesDto = new ZombiesDto();
-        zombiesDto.setId_zombie(1);
-        zombiesDto.setNom("Test Zombie");
-        zombiesDto.setPoint_de_vie(100);
-        zombiesDto.setAttaque_par_seconde(new BigDecimal("1.5"));
-        zombiesDto.setDegat_attaque(25);
-        zombiesDto.setVitesse_de_deplacement(new BigDecimal("0.5"));
-        zombiesDto.setChemin_image("zombie.png");
-        zombiesDto.setId_map(1);
-    }
+public class ZombiesDtoTest {
+
+ 
 
     @Test
-    void gettersAndSetters_ShouldWorkCorrectly() {
-        assertEquals(1, zombiesDto.getId_zombie());
-        assertEquals("Test Zombie", zombiesDto.getNom());
-        assertEquals(100, zombiesDto.getPoint_de_vie());
-        assertEquals(new BigDecimal("1.5"), zombiesDto.getAttaque_par_seconde());
-        assertEquals(25, zombiesDto.getDegat_attaque());
-        assertEquals(new BigDecimal("0.5"), zombiesDto.getVitesse_de_deplacement());
-        assertEquals("zombie.png", zombiesDto.getChemin_image());
-        assertEquals(1, zombiesDto.getId_map());
+
+    public void testZombiesDtoConstructorAndGetters() {
+
+        // Arrange
+
+        Integer id = 1;
+
+        String nom = "Basic Zombie";
+
+        Integer pointDeVie = 100;
+
+        Integer degatAttaque = 20;
+
+        Integer idMap = 1;
+
+        Double attaqueParSeconde = 1.0;
+
+        Double vitesseDeDeplacement = 0.5;
+
+        String cheminImage = "path/to/zombie.png";
+
+ 
+
+        // Act
+
+        ZombiesDto zombiesDto = new ZombiesDto(id, nom, pointDeVie, degatAttaque,
+
+                idMap, attaqueParSeconde, vitesseDeDeplacement, cheminImage);
+
+ 
+
+        // Assert
+
+        assertEquals(id, zombiesDto.getId_zombie());
+
+        assertEquals(nom, zombiesDto.getNom());
+
+        assertEquals(pointDeVie, zombiesDto.getPoint_de_vie());
+
+        assertEquals(degatAttaque, zombiesDto.getDegat_attaque());
+
+        assertEquals(idMap, zombiesDto.getId_map());
+
+        assertEquals(attaqueParSeconde, zombiesDto.getAttaque_par_seconde());
+
+        assertEquals(vitesseDeDeplacement, zombiesDto.getVitesse_de_deplacement());
+
+        assertEquals(cheminImage, zombiesDto.getChemin_image());
+
     }
+
+ 
 
     @Test
-    void equals_ShouldReturnTrue_WhenObjectsAreEqual() {
-        ZombiesDto otherDto = new ZombiesDto();
-        otherDto.setId_zombie(1);
-        otherDto.setNom("Test Zombie");
-        otherDto.setPoint_de_vie(100);
-        otherDto.setAttaque_par_seconde(new BigDecimal("1.5"));
-        otherDto.setDegat_attaque(25);
-        otherDto.setVitesse_de_deplacement(new BigDecimal("0.5"));
-        otherDto.setChemin_image("zombie.png");
-        otherDto.setId_map(1);
 
-        assertEquals(zombiesDto, otherDto);
-        assertEquals(zombiesDto.hashCode(), otherDto.hashCode());
+    public void testZombiesDtoEmptyConstructor() {
+
+        // Act
+
+        ZombiesDto zombiesDto = new ZombiesDto();
+
+ 
+
+        // Assert
+
+        assertNull(zombiesDto.getId_zombie());
+
+        assertNull(zombiesDto.getNom());
+
+        assertNull(zombiesDto.getPoint_de_vie());
+
+        assertNull(zombiesDto.getDegat_attaque());
+
+        assertNull(zombiesDto.getId_map());
+
+        assertNull(zombiesDto.getAttaque_par_seconde());
+
+        assertNull(zombiesDto.getVitesse_de_deplacement());
+
+        assertNull(zombiesDto.getChemin_image());
+
     }
+
+ 
 
     @Test
-    void equals_ShouldReturnFalse_WhenObjectsAreDifferent() {
-        ZombiesDto otherDto = new ZombiesDto();
-        otherDto.setId_zombie(2);
-        otherDto.setNom("Different Zombie");
 
-        assertNotEquals(zombiesDto, otherDto);
-        assertNotEquals(zombiesDto.hashCode(), otherDto.hashCode());
+    public void testZombiesDtoSetters() {
+
+        // Arrange
+
+        ZombiesDto zombiesDto = new ZombiesDto();
+
+        Integer id = 1;
+
+        String nom = "Fast Zombie";
+
+        Integer pointDeVie = 80;
+
+        Integer degatAttaque = 15;
+
+        Integer idMap = 2;
+
+        Double attaqueParSeconde = 2.0;
+
+        Double vitesseDeDeplacement = 1.0;
+
+        String cheminImage = "path/to/fast_zombie.png";
+
+ 
+
+        // Act
+
+        zombiesDto.setId_zombie(id);
+
+        zombiesDto.setNom(nom);
+
+        zombiesDto.setPoint_de_vie(pointDeVie);
+
+        zombiesDto.setDegat_attaque(degatAttaque);
+
+        zombiesDto.setId_map(idMap);
+
+        zombiesDto.setAttaque_par_seconde(attaqueParSeconde);
+
+        zombiesDto.setVitesse_de_deplacement(vitesseDeDeplacement);
+
+        zombiesDto.setChemin_image(cheminImage);
+
+ 
+
+        // Assert
+
+        assertEquals(id, zombiesDto.getId_zombie());
+
+        assertEquals(nom, zombiesDto.getNom());
+
+        assertEquals(pointDeVie, zombiesDto.getPoint_de_vie());
+
+        assertEquals(degatAttaque, zombiesDto.getDegat_attaque());
+
+        assertEquals(idMap, zombiesDto.getId_map());
+
+        assertEquals(attaqueParSeconde, zombiesDto.getAttaque_par_seconde());
+
+        assertEquals(vitesseDeDeplacement, zombiesDto.getVitesse_de_deplacement());
+
+        assertEquals(cheminImage, zombiesDto.getChemin_image());
+
     }
 
-    @Test
-    void toString_ShouldContainAllFields() {
-        String toString = zombiesDto.toString();
-        
-        assertTrue(toString.contains("id_zombie=1"));
-        assertTrue(toString.contains("nom=Test Zombie"));
-        assertTrue(toString.contains("point_de_vie=100"));
-        assertTrue(toString.contains("attaque_par_seconde=1.5"));
-        assertTrue(toString.contains("degat_attaque=25"));
-        assertTrue(toString.contains("vitesse_de_deplacement=0.5"));
-        assertTrue(toString.contains("chemin_image=zombie.png"));
-        assertTrue(toString.contains("id_map=1"));
-    }
-} */
+}
+
+ 

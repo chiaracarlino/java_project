@@ -1,127 +1,237 @@
-/*package persistence.dao;
+package persistence.dao;
 
-import com.epf.persistence.dao.ZombiesDao;
+ 
+
 import com.epf.persistence.model.Zombies;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
+import com.epf.persistence.model.Maps;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
-@SpringBootTest
-@Transactional
-class ZombiesDaoTest {
+import static org.junit.Assert.*;
 
-    @Autowired
-    private ZombiesDao zombiesDao;
+ 
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+public class ZombiesDaoTest {
 
-    private Zombies testZombie;
-
-    @BeforeEach
-    void setUp() {
-        // Clear the table before each test
-        jdbcTemplate.update("DELETE FROM zombie");
-        
-        testZombie = new Zombies();
-        testZombie.setNom("Test Zombie");
-        testZombie.setPointDeVie(100);
-        testZombie.setAttaqueParSeconde(new BigDecimal("1.5"));
-        testZombie.setDegatAttaque(25);
-        testZombie.setVitesseDeDeplacement(new BigDecimal("0.5"));
-        testZombie.setCheminImage("zombie.png");
-        testZombie.setIdMap(1);
-    }
+ 
 
     @Test
-    void findAll_ShouldReturnEmptyList_WhenTableIsEmpty() {
-        List<Zombies> zombies = zombiesDao.findAll();
-        assertTrue(zombies.isEmpty());
-    }
 
-    @Test
-    void findAll_ShouldReturnList_WhenTableHasData() {
+    public void testZombiesConstructorAndGetters() {
+
         // Arrange
-        Zombies saved = zombiesDao.save(testZombie);
-        
+
+        Integer id = 1;
+
+        String nom = "Basic Zombie";
+
+        Integer pointDeVie = 100;
+
+        Integer degatAttaque = 20;
+
+        Integer idMap = 1;
+
+        Double attaqueParSeconde = 1.0;
+
+        Double vitesseDeDeplacement = 0.5;
+
+        String cheminImage = "path/to/zombie.png";
+
+ 
+
         // Act
-        List<Zombies> zombies = zombiesDao.findAll();
-        
+
+        Zombies zombie = new Zombies(id, nom, pointDeVie, degatAttaque, idMap,
+
+                attaqueParSeconde, vitesseDeDeplacement, cheminImage);
+
+ 
+
         // Assert
-        assertEquals(1, zombies.size());
-        assertEquals(saved.getIdZombie(), zombies.get(0).getIdZombie());
-        assertEquals(saved.getNom(), zombies.get(0).getNom());
+
+        assertEquals(id, zombie.getId());
+
+        assertEquals(nom, zombie.getNom());
+
+        assertEquals(pointDeVie, zombie.getPointDeVie());
+
+        assertEquals(degatAttaque, zombie.getDegatAttaque());
+
+        assertEquals(idMap, zombie.getIdMap());
+
+        assertEquals(attaqueParSeconde, zombie.getAttaqueParSeconde());
+
+        assertEquals(vitesseDeDeplacement, zombie.getVitesseDeDeplacement());
+
+        assertEquals(cheminImage, zombie.getCheminImage());
+
     }
 
-    @Test
-    void findById_ShouldReturnEmpty_WhenIdDoesNotExist() {
-        Optional<Zombies> result = zombiesDao.findById(999);
-        assertTrue(result.isEmpty());
-    }
+ 
 
     @Test
-    void findById_ShouldReturnZombie_WhenIdExists() {
+
+    public void testZombiesEmptyConstructor() {
+
+        // Act
+
+        Zombies zombie = new Zombies();
+
+ 
+
+        // Assert
+
+        assertNull(zombie.getId());
+
+        assertNull(zombie.getNom());
+
+        assertNull(zombie.getPointDeVie());
+
+        assertNull(zombie.getDegatAttaque());
+
+        assertNull(zombie.getIdMap());
+
+        assertNull(zombie.getAttaqueParSeconde());
+
+        assertNull(zombie.getVitesseDeDeplacement());
+
+        assertNull(zombie.getCheminImage());
+
+        assertNull(zombie.getMap());
+
+    }
+
+ 
+
+    @Test
+
+    public void testZombiesSetters() {
+
         // Arrange
-        Zombies saved = zombiesDao.save(testZombie);
-        
+
+        Zombies zombie = new Zombies();
+
+        Integer id = 1;
+
+        String nom = "Fast Zombie";
+
+        Integer pointDeVie = 80;
+
+        Integer degatAttaque = 15;
+
+        Integer idMap = 2;
+
+        Double attaqueParSeconde = 2.0;
+
+        Double vitesseDeDeplacement = 1.0;
+
+        String cheminImage = "path/to/fast_zombie.png";
+
+ 
+
         // Act
-        Optional<Zombies> result = zombiesDao.findById(saved.getIdZombie());
-        
+
+        zombie.setId(id);
+
+        zombie.setNom(nom);
+
+        zombie.setPointDeVie(pointDeVie);
+
+        zombie.setDegatAttaque(degatAttaque);
+
+        zombie.setIdMap(idMap);
+
+        zombie.setAttaqueParSeconde(attaqueParSeconde);
+
+        zombie.setVitesseDeDeplacement(vitesseDeDeplacement);
+
+        zombie.setCheminImage(cheminImage);
+
+ 
+
         // Assert
-        assertTrue(result.isPresent());
-        assertEquals(saved.getIdZombie(), result.get().getIdZombie());
-        assertEquals(saved.getNom(), result.get().getNom());
+
+        assertEquals(id, zombie.getId());
+
+        assertEquals(nom, zombie.getNom());
+
+        assertEquals(pointDeVie, zombie.getPointDeVie());
+
+        assertEquals(degatAttaque, zombie.getDegatAttaque());
+
+        assertEquals(idMap, zombie.getIdMap());
+
+        assertEquals(attaqueParSeconde, zombie.getAttaqueParSeconde());
+
+        assertEquals(vitesseDeDeplacement, zombie.getVitesseDeDeplacement());
+
+        assertEquals(cheminImage, zombie.getCheminImage());
+
     }
 
-    @Test
-    void save_ShouldPersistZombie() {
-        // Act
-        Zombies saved = zombiesDao.save(testZombie);
-        
-        // Assert
-        assertNotNull(saved.getIdZombie());
-        assertEquals(testZombie.getNom(), saved.getNom());
-        assertEquals(testZombie.getPointDeVie(), saved.getPointDeVie());
-    }
+ 
 
     @Test
-    void update_ShouldModifyExistingZombie() {
+
+    public void testMapAssociation() {
+
         // Arrange
-        Zombies saved = zombiesDao.save(testZombie);
-        saved.setNom("Updated Zombie");
-        saved.setPointDeVie(200);
-        
+
+        Zombies zombie = new Zombies();
+
+        Maps map = new Maps();
+
+        map.setIdMap(1);
+
+ 
+
         // Act
-        zombiesDao.update(saved);
-        Optional<Zombies> updated = zombiesDao.findById(saved.getIdZombie());
-        
+
+        zombie.setMap(map);
+
+ 
+
         // Assert
-        assertTrue(updated.isPresent());
-        assertEquals("Updated Zombie", updated.get().getNom());
-        assertEquals(200, updated.get().getPointDeVie());
+
+        assertNotNull(zombie.getMap());
+
+        assertEquals(Integer.valueOf(1), zombie.getMap().getIdMap());
+
     }
 
+ 
+
     @Test
-    void delete_ShouldRemoveZombie() {
+
+    public void testToString() {
+
         // Arrange
-        Zombies saved = zombiesDao.save(testZombie);
-        
+
+        Zombies zombie = new Zombies(1, "Test Zombie", 100, 20, 1, 1.0, 0.5, "test.png");
+
+ 
+
         // Act
-        zombiesDao.delete(saved.getIdZombie());
-        
+
+        String result = zombie.toString();
+
+ 
+
         // Assert
-        Optional<Zombies> deleted = zombiesDao.findById(saved.getIdZombie());
-        assertTrue(deleted.isEmpty());
+
+        assertTrue(result.contains("id=1"));
+
+        assertTrue(result.contains("nom='Test Zombie'"));
+
+        assertTrue(result.contains("pointDeVie=100"));
+
+        assertTrue(result.contains("degatAttaque=20"));
+
+        assertTrue(result.contains("idMap=1"));
+
     }
-} 
-*/
+
+}
+
+ 

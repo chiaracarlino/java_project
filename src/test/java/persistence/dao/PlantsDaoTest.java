@@ -1,92 +1,182 @@
-/* 
-        
-        
 package persistence.dao;
 
-import com.epf.persistence.dao.PlantsDao;
+ 
+
 import com.epf.persistence.model.Plants;
-import org.junit.Before;
+
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
-
-
+ 
 
 public class PlantsDaoTest {
 
-    @Mock
-    private PlantsDao plantsDao;
-
-    private Plants plant;
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        plant = new Plants();
-        plant.setIdPlante(1);
-        plant.setNom("Peashooter");
-    }
+ 
 
     @Test
-    public void testFindAll() {
-        List<Plants> expectedPlants = Arrays.asList(plant);
-        when(plantsDao.findAll()).thenReturn(expectedPlants);
 
-        List<Plants> actualPlants = plantsDao.findAll();
+    public void testPlantsConstructorAndGetters() {
 
-        assertEquals(expectedPlants, actualPlants);
-        verify(plantsDao).findAll();
+        // Arrange
+
+        int id = 1;
+
+        String nom = "Peashooter";
+
+        int pointDeVie = 100;
+
+        Double attaqueParSeconde = 1.5;
+
+        int degatAttaque = 20;
+
+        int cout = 100;
+
+        Double soleilParSeconde = 0.0;
+
+        String effet = "Basic attack";
+
+        String cheminImage = "path/to/image.png";
+
+ 
+
+        // Act
+
+        Plants plant = new Plants(id, nom, pointDeVie, attaqueParSeconde,
+
+            degatAttaque, cout, soleilParSeconde, effet, cheminImage);
+
+ 
+
+        // Assert
+
+        assertEquals(id, plant.getIdPlante());
+
+        assertEquals(nom, plant.getNom());
+
+        assertEquals(pointDeVie, plant.getPointDeVie());
+
+        assertEquals(attaqueParSeconde, plant.getAttaqueParSeconde());
+
+        assertEquals(degatAttaque, plant.getDegatAttaque());
+
+        assertEquals(cout, plant.getCout());
+
+        assertEquals(soleilParSeconde, plant.getSoleilParSeconde());
+
+        assertEquals(effet, plant.getEffet());
+
+        assertEquals(cheminImage, plant.getCheminImage());
+
     }
+
+ 
 
     @Test
-    public void testFindById() {
-        when(plantsDao.findById(1)).thenReturn(Optional.of(plant));
 
-        Optional<Plants> foundPlant = plantsDao.findById(1);
+    public void testPlantsEmptyConstructor() {
 
-        assertTrue(foundPlant.isPresent());
-        assertEquals(plant, foundPlant.get());
-        verify(plantsDao).findById(1);
+        // Act
+
+        Plants plant = new Plants();
+
+ 
+
+        // Assert
+
+        assertEquals(0, plant.getIdPlante());
+
+        assertNull(plant.getNom());
+
+        assertEquals(0, plant.getPointDeVie());
+
+        assertNull(plant.getAttaqueParSeconde());
+
+        assertEquals(0, plant.getDegatAttaque());
+
+        assertEquals(0, plant.getCout());
+
+        assertNull(plant.getSoleilParSeconde());
+
+        assertNull(plant.getEffet());
+
+        assertNull(plant.getCheminImage());
+
     }
+
+ 
 
     @Test
-    public void testSave() {
-        when(plantsDao.save(plant)).thenReturn(plant);
 
-        Plants savedPlant = plantsDao.save(plant);
+    public void testPlantsSetters() {
 
-        assertEquals(plant, savedPlant);
-        verify(plantsDao).save(plant);
+        // Arrange
+
+        Plants plant = new Plants();
+
+        int id = 1;
+
+        String nom = "Sunflower";
+
+        int pointDeVie = 50;
+
+        Double attaqueParSeconde = 0.0;
+
+        int degatAttaque = 0;
+
+        int cout = 50;
+
+        Double soleilParSeconde = 1.0;
+
+        String effet = "Produces sun";
+
+        String cheminImage = "path/to/sunflower.png";
+
+ 
+
+        // Act
+
+        plant.setIdPlante(id);
+
+        plant.setNom(nom);
+
+        plant.setPointDeVie(pointDeVie);
+
+        plant.setAttaqueParSeconde(attaqueParSeconde);
+
+        plant.setDegatAttaque(degatAttaque);
+
+        plant.setCout(cout);
+
+        plant.setSoleilParSeconde(soleilParSeconde);
+
+        plant.setEffet(effet);
+
+        plant.setCheminImage(cheminImage);
+
+ 
+
+        // Assert
+
+        assertEquals(id, plant.getIdPlante());
+
+        assertEquals(nom, plant.getNom());
+
+        assertEquals(pointDeVie, plant.getPointDeVie());
+
+        assertEquals(attaqueParSeconde, plant.getAttaqueParSeconde());
+
+        assertEquals(degatAttaque, plant.getDegatAttaque());
+
+        assertEquals(cout, plant.getCout());
+
+        assertEquals(soleilParSeconde, plant.getSoleilParSeconde());
+
+        assertEquals(effet, plant.getEffet());
+
+        assertEquals(cheminImage, plant.getCheminImage());
+
     }
 
-    @Test
-    public void testUpdate() {
-        plantsDao.update(plant);
-        verify(plantsDao).update(plant);
-    }
-
-    @Test
-    public void testDelete() {
-        plantsDao.delete(1);
-        verify(plantsDao).delete(1);
-    }
-
-    @Test
-    public void testFindByIdNotFound() {
-        when(plantsDao.findById(999)).thenReturn(Optional.empty());
-
-        Optional<Plants> foundPlant = plantsDao.findById(999);
-
-        assertFalse(foundPlant.isPresent());
-        verify(plantsDao).findById(999);
-    }
 }
-*/
-        
-        
+
