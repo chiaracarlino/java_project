@@ -69,37 +69,27 @@ public class ZombiesController {
             Optional<Zombies> existingZombie = zombiesService.findById(id);
             Zombies currentZombie;
             if (existingZombie.isEmpty()) {
-                // 2. Si non trouvé, rechercher par nom pour gérer la réinitialisation de la BDD
-                List<Zombies> zombies = zombiesService.findAll();
-                Optional<Zombies> zombieByName = zombies.stream()
-                    .filter(z -> z.getNom().equals(zombieDto.getNom()))
-                    .findFirst();
-                
-                if (zombieByName.isPresent()) {
-                    // Utiliser le nouvel ID si trouvé par nom
-                    currentZombie = zombieByName.get();
-                    id = currentZombie.getIdZombie();
-                    System.out.println("DEBUG - Found zombie by name with new id: " + id);
-                } else {
-                    System.out.println("DEBUG - Zombie not found by id or name");
-                    return ResponseEntity.notFound().build();
-                }
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(null); // Return 404 if the zombie does not exist
             } else {
                 currentZombie = existingZombie.get();
             }
 
-            // Mise à jour avec le nouvel ID si nécessaire
-            Zombies zombie = zombiesMapper.toEntity(zombieDto);
+            // Créer un nouveau zombie avec conservation des valeurs existantes
+            Zombies zombie = new Zombies();
             zombie.setIdZombie(id);
             
-            // Conserver les valeurs existantes si les nouvelles sont null
-            if (zombieDto.getNom() == null) zombie.setNom(currentZombie.getNom());
-            if (zombieDto.getPoint_de_vie() == null) zombie.setPointDeVie(currentZombie.getPointDeVie());
-            if (zombieDto.getDegat_attaque() == null) zombie.setDegatAttaque(currentZombie.getDegatAttaque());
-            if (zombieDto.getId_map() == null) zombie.setIdMap(currentZombie.getIdMap());
-            if (zombieDto.getChemin_image() == null) zombie.setCheminImage(currentZombie.getCheminImage());
+            // Mettre à jour seulement les champs non-null du DTO
+            zombie.setNom(zombieDto.getNom() != null ? zombieDto.getNom() : currentZombie.getNom());
+            zombie.setPointDeVie(zombieDto.getPoint_de_vie() != null ? zombieDto.getPoint_de_vie() : currentZombie.getPointDeVie());
+            zombie.setDegatAttaque(zombieDto.getDegat_attaque() != null ? zombieDto.getDegat_attaque() : currentZombie.getDegatAttaque());
+            zombie.setIdMap(zombieDto.getId_map() != null ? zombieDto.getId_map() : currentZombie.getIdMap());
+            zombie.setCheminImage(zombieDto.getChemin_image() != null ? zombieDto.getChemin_image() : currentZombie.getCheminImage());
+            
+            // Conserver les valeurs avancées du zombie existant
+            zombie.setAttaqueParSeconde(currentZombie.getAttaqueParSeconde());
+            zombie.setVitesseDeDeplacement(currentZombie.getVitesseDeDeplacement());
 
-            // Log pour debug
             System.out.println("DEBUG - Updating zombie with final data: " + zombie);
             
             Zombies updatedZombie = zombiesService.updateZombie(zombie);
