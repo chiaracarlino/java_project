@@ -104,16 +104,21 @@ public class PlantsController {
                 currentPlant = existingPlant.get();
             }
 
-            // Mise à jour avec le nouvel ID
-            Plants plant = plantsMapper.toEntity(plantDto);
-            plant.setIdPlante(id);
+            // Mise à jour avec conservation des valeurs existantes
+            Plants plant = new Plants();
+            plant.setIdPlante(id); // Utiliser l'ID du path
             
             // Conserver les valeurs existantes si nulles
-            if (plantDto.getNom() == null) plant.setNom(currentPlant.getNom());
-            if (plantDto.getPoint_de_vie() == null) plant.setPointDeVie(currentPlant.getPointDeVie());
-            if (plantDto.getDegat_attaque() == null) plant.setDegatAttaque(currentPlant.getDegatAttaque());
-            if (plantDto.getCout() == null) plant.setCout(currentPlant.getCout());
-            if (plantDto.getChemin_image() == null) plant.setCheminImage(currentPlant.getCheminImage());
+            plant.setNom(plantDto.getNom() != null ? plantDto.getNom() : currentPlant.getNom());
+            plant.setPointDeVie(plantDto.getPoint_de_vie() != null ? plantDto.getPoint_de_vie() : currentPlant.getPointDeVie());
+            plant.setDegatAttaque(plantDto.getDegat_attaque() != null ? plantDto.getDegat_attaque() : currentPlant.getDegatAttaque());
+            plant.setCout(plantDto.getCout() != null ? plantDto.getCout() : currentPlant.getCout());
+            plant.setCheminImage(plantDto.getChemin_image() != null ? plantDto.getChemin_image() : currentPlant.getCheminImage());
+            
+            // Conserver les valeurs avancées
+            plant.setAttaqueParSeconde(currentPlant.getAttaqueParSeconde());
+            plant.setSoleilParSeconde(currentPlant.getSoleilParSeconde());
+            plant.setEffet(currentPlant.getEffet());
 
             System.out.println("DEBUG - Updating plant with final data: " + plant);
             

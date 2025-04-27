@@ -64,7 +64,21 @@ public class PlantsServicesImpl implements PlantsServices {
         if (findById(plant.getIdPlante()).isEmpty()) {
             throw new IllegalArgumentException("Plant with id " + plant.getIdPlante() + " not found");
         }
-        
+
+        // Validate required fields
+        if (plant.getNom() == null || plant.getNom().trim().isEmpty()) {
+            throw new IllegalArgumentException("Le nom de la plante est obligatoire");
+        }
+        if (plant.getPointDeVie() <= 0) {
+            throw new IllegalArgumentException("Les points de vie doivent être positifs");
+        }
+        if (plant.getDegatAttaque() < 0) {
+            throw new IllegalArgumentException("Les dégâts d'attaque ne peuvent pas être négatifs");
+        }
+        if (plant.getCout() < 0) {
+            throw new IllegalArgumentException("Le coût ne peut pas être négatif");
+        }
+
         // Handle optional fields with default values
         if (plant.getAttaqueParSeconde() == null) {
             plant.setAttaqueParSeconde(0.0);
@@ -72,9 +86,18 @@ public class PlantsServicesImpl implements PlantsServices {
         if (plant.getSoleilParSeconde() == null) {
             plant.setSoleilParSeconde(0.0);
         }
+        if (plant.getEffet() == null) {
+            plant.setEffet("");
+        }
+        if (plant.getCheminImage() == null) {
+            plant.setCheminImage("");
+        }
         
         plantsRepository.update(plant);
-        return plant; // Return the updated plant
+        
+        // Return the updated plant from database to ensure we have the latest state
+        return findById(plant.getIdPlante())
+            .orElseThrow(() -> new RuntimeException("Failed to retrieve updated plant"));
     }
 
     @Override

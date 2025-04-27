@@ -15,10 +15,10 @@ public class PlantsMapper {
         dto.setId_plante(plant.getIdPlante());
         dto.setNom(plant.getNom());
         dto.setPoint_de_vie(plant.getPointDeVie());
-        dto.setAttaque_par_seconde(plant.getAttaqueParSeconde());  // No conversion needed
+        dto.setAttaque_par_seconde(plant.getAttaqueParSeconde());
         dto.setDegat_attaque(plant.getDegatAttaque());
         dto.setCout(plant.getCout());
-        dto.setSoleil_par_seconde(plant.getSoleilParSeconde());    // No conversion needed
+        dto.setSoleil_par_seconde(plant.getSoleilParSeconde());
         dto.setEffet(plant.getEffet());
         dto.setChemin_image(plant.getCheminImage());
         return dto;
@@ -28,13 +28,13 @@ public class PlantsMapper {
         if (dto == null) return null;
         
         Plants plant = new Plants();
-        plant.setIdPlante(dto.getId_plante());
+        // Ne pas setter l'ID - il sera géré par le controller
         plant.setNom(dto.getNom());
         plant.setPointDeVie(dto.getPoint_de_vie());
-        plant.setAttaqueParSeconde(dto.getAttaque_par_seconde());  // No conversion needed
+        plant.setAttaqueParSeconde(dto.getAttaque_par_seconde());
         plant.setDegatAttaque(dto.getDegat_attaque());
         plant.setCout(dto.getCout());
-        plant.setSoleilParSeconde(dto.getSoleil_par_seconde());    // No conversion needed
+        plant.setSoleilParSeconde(dto.getSoleil_par_seconde());
         plant.setEffet(dto.getEffet());
         plant.setCheminImage(dto.getChemin_image());
         return plant;
