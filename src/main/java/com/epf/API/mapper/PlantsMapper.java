@@ -10,7 +10,7 @@ public class PlantsMapper {
 
     public PlantsDto toDTO(Plants plant) {
         if (plant == null) return null;
-        
+
         PlantsDto dto = new PlantsDto();
         dto.setId_plante(plant.getIdPlante());
         dto.setNom(plant.getNom());

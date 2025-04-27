@@ -1,151 +1,171 @@
-/*package API.controller;
+package API.controller;
 
 import com.epf.API.controller.ZombiesController;
-import com.epf.API.dto.ZombiesDto;
-import com.epf.API.mapper.ZombiesMapper;
-import com.epf.core.services.ZombiesServices;
 import com.epf.persistence.model.Zombies;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import com.epf.core.services.ZombiesServices;
+import com.epf.API.mapper.ZombiesMapper;
+import com.epf.API.dto.ZombiesDto;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.Assert.*;
 
-@WebMvcTest(ZombiesController.class)
-class ZombiesControllerTest {
+public class ZombiesControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private ZombiesServices zombiesService;
 
-    @MockBean
+    @Mock
     private ZombiesMapper zombiesMapper;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @InjectMocks
+    private ZombiesController zombiesController;
 
-    private Zombies testZombie;
-    private ZombiesDto testZombieDto;
+    private AutoCloseable closeable;
 
-    @BeforeEach
-    void setUp() {
-        testZombie = new Zombies();
-        testZombie.setIdZombie(1);
-        testZombie.setNom("Test Zombie");
-        testZombie.setPointDeVie(100);
-        testZombie.setAttaqueParSeconde(new BigDecimal("1.5"));
-        testZombie.setDegatAttaque(25);
-        testZombie.setVitesseDeDeplacement(new BigDecimal("0.5"));
-        testZombie.setCheminImage("zombie.png");
-        testZombie.setIdMap(1);
+    @Before
+    public void setUp() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
 
-        testZombieDto = new ZombiesDto();
-        testZombieDto.setId_zombie(1);
-        testZombieDto.setNom("Test Zombie");
-        testZombieDto.setPoint_de_vie(100);
-        testZombieDto.setAttaque_par_seconde(new BigDecimal("1.5"));
-        testZombieDto.setDegat_attaque(25);
-        testZombieDto.setVitesse_de_deplacement(new BigDecimal("0.5"));
-        testZombieDto.setChemin_image("zombie.png");
-        testZombieDto.setId_map(1);
+    @After
+    public void tearDown() throws Exception {
+        closeable.close();
     }
 
     @Test
-    void getAllZombies_ShouldReturnList() throws Exception {
-        when(zombiesService.findAll()).thenReturn(Arrays.asList(testZombie));
-        when(zombiesMapper.toDto(any(Zombies.class))).thenReturn(testZombieDto);
+    public void testGetAllZombies() {
+        Zombies zombie = new Zombies();
+        ZombiesDto zombieDto = new ZombiesDto();
 
-        mockMvc.perform(get("/zombies"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].id_zombie").value(1))
-                .andExpect(jsonPath("$[0].nom").value("Test Zombie"));
+        when(zombiesService.findAll()).thenReturn(Arrays.asList(zombie));
+        when(zombiesMapper.toDto(any(Zombies.class))).thenReturn(zombieDto);
+
+        ResponseEntity<List<ZombiesDto>> response = zombiesController.getAllZombies();
+
+        assertEquals(200, response.getStatusCode());
+        assertEquals(1, response.getBody().size());
+        verify(zombiesService, times(1)).findAll();
     }
 
     @Test
-    void getZombieById_WhenExists_ShouldReturnZombie() throws Exception {
-        when(zombiesService.findById(1)).thenReturn(Optional.of(testZombie));
-        when(zombiesMapper.toDto(any(Zombies.class))).thenReturn(testZombieDto);
+    public void testGetZombieByIdFound() {
+        Zombies zombie = new Zombies();
+        ZombiesDto zombieDto = new ZombiesDto();
 
-        mockMvc.perform(get("/zombies/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id_zombie").value(1));
+        when(zombiesService.findById(1)).thenReturn(Optional.of(zombie));
+        when(zombiesMapper.toDto(zombie)).thenReturn(zombieDto);
+
+        ResponseEntity<ZombiesDto> response = zombiesController.getZombieById(1);
+
+        assertEquals(200, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test
-    void getZombieById_WhenNotExists_ShouldReturn404() throws Exception {
-        when(zombiesService.findById(999)).thenReturn(Optional.empty());
+    public void testGetZombieByIdNotFound() {
+        when(zombiesService.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/zombies/999"))
-                .andExpect(status().isNotFound());
+        ResponseEntity<ZombiesDto> response = zombiesController.getZombieById(1);
+
+        assertEquals(404, response.getStatusCode());
     }
 
     @Test
-    void createZombie_ShouldReturnCreatedZombie() throws Exception {
-        when(zombiesMapper.toModel(any(ZombiesDto.class))).thenReturn(testZombie);
-        when(zombiesService.save(any(Zombies.class))).thenReturn(testZombie);
-        when(zombiesMapper.toDto(any(Zombies.class))).thenReturn(testZombieDto);
+    public void testCreateZombieValid() {
+        ZombiesDto zombieDto = new ZombiesDto();
+        zombieDto.setNom("Zombie");
+        zombieDto.setPoint_de_vie(100);
+        zombieDto.setDegat_attaque(10);
 
-        mockMvc.perform(post("/zombies")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testZombieDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id_zombie").value(1));
+        Zombies zombie = new Zombies();
+        Zombies createdZombie = new Zombies();
+        ZombiesDto createdZombieDto = new ZombiesDto();
+
+        when(zombiesMapper.toEntity(zombieDto)).thenReturn(zombie);
+        when(zombiesService.save(zombie)).thenReturn(createdZombie);
+        when(zombiesMapper.toDto(createdZombie)).thenReturn(createdZombieDto);
+
+        ResponseEntity<ZombiesDto> response = zombiesController.createZombie(zombieDto);
+
+        assertEquals(200, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test
-    void updateZombie_WhenExists_ShouldReturnUpdatedZombie() throws Exception {
-        when(zombiesService.findById(1)).thenReturn(Optional.of(testZombie));
-        when(zombiesMapper.toModel(any(ZombiesDto.class))).thenReturn(testZombie);
-        when(zombiesService.save(any(Zombies.class))).thenReturn(testZombie);
-        when(zombiesMapper.toDto(any(Zombies.class))).thenReturn(testZombieDto);
+    public void testCreateZombieInvalid() {
+        ZombiesDto zombieDto = new ZombiesDto(); // Invalid, fields missing
 
-        mockMvc.perform(put("/zombies/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testZombieDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id_zombie").value(1));
+        ResponseEntity<ZombiesDto> response = zombiesController.createZombie(zombieDto);
+
+        assertEquals(400, response.getStatusCode());
     }
 
     @Test
-    void updateZombie_WhenNotExists_ShouldReturn404() throws Exception {
-        when(zombiesService.findById(999)).thenReturn(Optional.empty());
+    public void testUpdateZombieFound() {
+        ZombiesDto zombieDto = new ZombiesDto();
+        zombieDto.setNom("Conehead Zombie");
 
-        mockMvc.perform(put("/zombies/999")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testZombieDto)))
-                .andExpect(status().isNotFound());
+        Zombies existingZombie = new Zombies();
+        existingZombie.setIdZombie(1);
+        existingZombie.setNom("Conehead Zombie");
+
+        Zombies updatedZombie = new Zombies();
+        ZombiesDto updatedZombieDto = new ZombiesDto();
+
+        when(zombiesService.findById(1)).thenReturn(Optional.of(existingZombie));
+        when(zombiesService.update(any(Zombies.class))).thenReturn(updatedZombie);
+        when(zombiesMapper.toDto(updatedZombie)).thenReturn(updatedZombieDto);
+
+        ResponseEntity<ZombiesDto> response = zombiesController.updateZombie(1, zombieDto);
+
+        assertEquals(200, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test
-    void deleteZombie_WhenExists_ShouldReturn200() throws Exception {
-        when(zombiesService.findById(1)).thenReturn(Optional.of(testZombie));
-        doNothing().when(zombiesService).deleteById(1);
+    public void testUpdateZombieNotFound() {
+        ZombiesDto zombieDto = new ZombiesDto();
+        zombieDto.setNom("Buckethead Zombie");
 
-        mockMvc.perform(delete("/zombies/1"))
-                .andExpect(status().isOk());
+        when(zombiesService.findById(1)).thenReturn(Optional.empty());
+
+        ResponseEntity<ZombiesDto> response = zombiesController.updateZombie(1, zombieDto);
+
+        assertEquals(404, response.getStatusCode());
+        assertNull(response.getBody());
     }
 
     @Test
-    void deleteZombie_WhenNotExists_ShouldReturn404() throws Exception {
-        when(zombiesService.findById(999)).thenReturn(Optional.empty());
+    public void testDeleteZombieFound() {
+        Zombies zombie = new Zombies();
+        when(zombiesService.findById(1)).thenReturn(Optional.of(zombie));
 
-        mockMvc.perform(delete("/zombies/999"))
-                .andExpect(status().isNotFound());
+        ResponseEntity<String> response = zombiesController.deleteZombie(1);
+
+        assertEquals(200, response.getStatusCode());
+        assertEquals("Zombie supprimé avec succès!", response.getBody());
+        verify(zombiesService, times(1)).delete(1);
     }
-} */
+
+    @Test
+    public void testDeleteZombieNotFound() {
+        when(zombiesService.findById(1)).thenReturn(Optional.empty());
+
+        ResponseEntity<String> response = zombiesController.deleteZombie(1);
+
+        assertEquals(404, response.getStatusCode());
+        assertTrue(response.getBody().contains("Zombie non trouvé"));
+    }
+}
+

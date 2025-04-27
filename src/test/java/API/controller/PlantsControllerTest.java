@@ -1,156 +1,157 @@
-/*package API.controller;
+package API.controller;
 
 import com.epf.API.controller.PlantsController;
-import com.epf.API.dto.PlantsDto;
-import com.epf.API.mapper.PlantsMapper;
 import com.epf.core.services.PlantsServices;
 import com.epf.persistence.model.Plants;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import com.epf.API.dto.PlantsDto;
+import com.epf.API.mapper.PlantsMapper;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.Assert.*;
 
-@WebMvcTest(PlantsController.class)
-class PlantsControllerTest {
+public class PlantsControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private PlantsServices plantsService;
 
-    @MockBean
+    @Mock
     private PlantsMapper plantsMapper;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @InjectMocks
+    private PlantsController plantsController;
 
-    private Plants testPlant;
-    private PlantsDto testPlantDto;
+    private AutoCloseable closeable;
 
-    @BeforeEach
-    void setUp() {
-        testPlant = new Plants();
-        testPlant.setIdPlante(1);
-        testPlant.setNom("Test Plant");
-        testPlant.setPointDeVie(100);
-        testPlant.setAttaqueParSeconde(new BigDecimal("1.5"));
-        testPlant.setDegatAttaque(25);
-        testPlant.setCout(100);
-        testPlant.setSoleilParSeconde(new BigDecimal("0.5"));
-        testPlant.setEffet("normal");
-        testPlant.setCheminImage("test.png");
+    @Before
+    public void setUp() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
 
-        testPlantDto = new PlantsDto();
-        testPlantDto.setId_plante(1);
-        testPlantDto.setNom("Test Plant");
-        testPlantDto.setPoint_de_vie(100);
-        testPlantDto.setAttaque_par_seconde(new BigDecimal("1.5"));
-        testPlantDto.setDegat_attaque(25);
-        testPlantDto.setCout(100);
-        testPlantDto.setSoleil_par_seconde(new BigDecimal("0.5"));
-        testPlantDto.setEffet("normal");
-        testPlantDto.setChemin_image("test.png");
+    @After
+    public void tearDown() throws Exception {
+        closeable.close();
     }
 
     @Test
-    void getAllPlants_ShouldReturnList() throws Exception {
-        when(plantsService.findAll()).thenReturn(Arrays.asList(testPlant));
-        when(plantsMapper.toDTO(any(Plants.class))).thenReturn(testPlantDto);
+    public void testGetAllPlants() {
+        Plants plant = new Plants();
+        PlantsDto plantDto = new PlantsDto();
 
-        mockMvc.perform(get("/plantes"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].id_plante").value(1))
-                .andExpect(jsonPath("$[0].nom").value("Test Plant"));
+        when(plantsService.findAll()).thenReturn(Arrays.asList(plant));
+        when(plantsMapper.toDTO(any(Plants.class))).thenReturn(plantDto);
+
+        ResponseEntity<List<PlantsDto>> response = plantsController.getAllPlants();
+
+        assertEquals(200, response.getStatusCode());
+        assertEquals(1, response.getBody().size());
+        verify(plantsService, times(1)).findAll();
     }
 
     @Test
-    void getPlantById_WhenExists_ShouldReturnPlant() throws Exception {
-        when(plantsService.findById(1)).thenReturn(Optional.of(testPlant));
-        when(plantsMapper.toDTO(any(Plants.class))).thenReturn(testPlantDto);
+    public void testGetPlantByIdFound() {
+        Plants plant = new Plants();
+        PlantsDto plantDto = new PlantsDto();
 
-        mockMvc.perform(get("/plantes/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id_plante").value(1));
+        when(plantsService.findById(1)).thenReturn(Optional.of(plant));
+        when(plantsMapper.toDTO(plant)).thenReturn(plantDto);
+
+        ResponseEntity<PlantsDto> response = plantsController.getPlantById(1);
+
+        assertEquals(200, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test
-    void getPlantById_WhenNotExists_ShouldReturn404() throws Exception {
-        when(plantsService.findById(999)).thenReturn(Optional.empty());
+    public void testGetPlantByIdNotFound() {
+        when(plantsService.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/plantes/999"))
-                .andExpect(status().isNotFound());
+        ResponseEntity<PlantsDto> response = plantsController.getPlantById(1);
+
+        assertEquals(404, response.getStatusCode());
     }
 
     @Test
-    void createPlant_ShouldReturnCreatedPlant() throws Exception {
-        when(plantsMapper.toEntity(any(PlantsDto.class))).thenReturn(testPlant);
-        when(plantsService.save(any(Plants.class))).thenReturn(testPlant);
-        when(plantsMapper.toDTO(any(Plants.class))).thenReturn(testPlantDto);
+    public void testCreatePlant() {
+        PlantsDto plantDto = new PlantsDto();
+        Plants plant = new Plants();
+        Plants savedPlant = new Plants();
+        PlantsDto savedPlantDto = new PlantsDto();
 
-        mockMvc.perform(post("/plantes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testPlantDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id_plante").value(1));
+        when(plantsMapper.toEntity(plantDto)).thenReturn(plant);
+        when(plantsService.save(any(Plants.class))).thenReturn(savedPlant);
+        when(plantsMapper.toDTO(savedPlant)).thenReturn(savedPlantDto);
+
+        ResponseEntity<PlantsDto> response = plantsController.createPlant(plantDto);
+
+        assertEquals(200, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test
-    void updatePlant_WhenExists_ShouldReturnUpdatedPlant() throws Exception {
-        when(plantsService.findById(1)).thenReturn(Optional.of(testPlant));
-        when(plantsMapper.toEntity(any(PlantsDto.class))).thenReturn(testPlant);
-        when(plantsMapper.toDTO(any(Plants.class))).thenReturn(testPlantDto);
+    public void testUpdatePlantFound() {
+        PlantsDto plantDto = new PlantsDto();
+        plantDto.setNom("Sunflower");
 
-        mockMvc.perform(put("/plantes/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testPlantDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id_plante").value(1));
+        Plants existingPlant = new Plants();
+        existingPlant.setIdPlante(1);
+        existingPlant.setNom("Sunflower");
+
+        Plants updatedPlant = new Plants();
+        PlantsDto updatedPlantDto = new PlantsDto();
+
+        when(plantsService.findById(1)).thenReturn(Optional.of(existingPlant));
+        when(plantsService.update(any(Plants.class))).thenReturn(updatedPlant);
+        when(plantsMapper.toDTO(updatedPlant)).thenReturn(updatedPlantDto);
+
+        ResponseEntity<PlantsDto> response = plantsController.updatePlant(1, plantDto);
+
+        assertEquals(200, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test
-    void updatePlant_WhenNotExists_ShouldReturn404() throws Exception {
-        when(plantsService.findById(999)).thenReturn(Optional.empty());
+    public void testUpdatePlantNotFound() {
+        PlantsDto plantDto = new PlantsDto();
+        plantDto.setNom("Peashooter");
 
-        mockMvc.perform(put("/plantes/999")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testPlantDto)))
-                .andExpect(status().isNotFound());
+        when(plantsService.findById(1)).thenReturn(Optional.empty());
+        when(plantsService.findAll()).thenReturn(Arrays.asList());
+
+        ResponseEntity<PlantsDto> response = plantsController.updatePlant(1, plantDto);
+
+        assertEquals(404, response.getStatusCode());
     }
 
     @Test
-    void deletePlant_WhenExists_ShouldReturn204() throws Exception {
-        when(plantsService.findById(1)).thenReturn(Optional.of(testPlant));
+    public void testDeletePlantFound() {
+        Plants plant = new Plants();
+        when(plantsService.findById(1)).thenReturn(Optional.of(plant));
 
-        mockMvc.perform(delete("/plantes/1"))
-                .andExpect(status().isNoContent());
+        ResponseEntity<Void> response = plantsController.deletePlant(1);
 
-        verify(plantsService).delete(1);
+        assertEquals(204, response.getStatusCode());
+        verify(plantsService, times(1)).delete(1);
     }
 
     @Test
-    void deletePlant_WhenNotExists_ShouldReturn404() throws Exception {
-        when(plantsService.findById(999)).thenReturn(Optional.empty());
+    public void testDeletePlantNotFound() {
+        when(plantsService.findById(1)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete("/plantes/999"))
-                .andExpect(status().isNotFound());
+        ResponseEntity<Void> response = plantsController.deletePlant(1);
 
-        verify(plantsService, never()).delete(999);
+        assertEquals(404, response.getStatusCode());
+        verify(plantsService, never()).delete(anyInt());
     }
 }
-*/
+
