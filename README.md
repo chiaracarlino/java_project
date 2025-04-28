@@ -34,6 +34,7 @@ java_project-main/
 │   │   └── webapp/
 │   │       └── WEB-INF/
 │   │           └── web.xml
+|   |           └── spring-config
 │   └── test/
 │       └── java/
 └── pom.xml
@@ -41,29 +42,28 @@ java_project-main/
 
 ## Configuration Maven (pom.xml)
 
-Le projet est configuré pour générer un fichier WAR (Web Archive) qui peut être déployé sur un serveur d'application:
+Le projet est configuré pour générer un fichier WAR (Web Archive) qui peut être déployé sur Tomcat:
 ```
-<project>
+    <groupId>com</groupId>
+    <artifactId>CoursEpfBack</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-    </properties>
-</project>
 ```
 
 ## Installation et démarrage
 
 Cloner le projet :
 ```
-git clone <url-du-projet>
+git clone git@github.com:chiaracarlino/java_project.git
 ```
 
 Compiler et créer le WAR :
 ```
 mvn clean package
 ```
-Déployer le fichier WAR généré (target/CoursEpfBack-1.0-SNAPSHOT.war) sur votre serveur d'application
+Déployer le fichier WAR généré (target/CoursEpfBack.war) sur Tomcat
+
+**Important :** avant de pouvoir tester les endpoints de l'API, assurez-vous que la base de données MySQL est correctement créée et initialisée.
 
 ## Tests
 
@@ -73,7 +73,7 @@ mvn test
 ```
 ## Documentation API
 
-### Maps API
+### Maps 
 
 `GET /CoursEpfBack/maps` - Récupère toutes les maps
 
@@ -85,7 +85,7 @@ mvn test
 
 `DELETE /CoursEpfBack/maps/{id}` - Supprime une map et ses zombies associés
 
-### Plants API
+### Plants 
 
 `GET /CoursEpfBack/plants` - Récupère toutes les plantes
 
@@ -97,7 +97,7 @@ mvn test
 
 `DELETE /CoursEpfBack/plants/{id}` - Supprime une plante
 
-### Zombies API
+### Zombies 
 
 `GET /CoursEpfBack/zombies` - Récupère tous les zombies
 
